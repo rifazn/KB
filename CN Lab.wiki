@@ -1,0 +1,307 @@
+= Contents =
+    - [[#About next exam|About next exam]]
+    - [[#Class, 04-28|Class, 04-28]]
+    - [[#Lecture 3|Lecture 3]]
+        - [[#Lecture 3#Binary Calculation|Binary Calculation]]
+        - [[#Lecture 3#IP Adrress|IP Adrress]]
+            - [[#Lecture 3#IP Adrress#Network Address|Network Address]]
+        - [[#Lecture 3#Subnet Mask(Default)|Subnet Mask(Default)]]
+        - [[#Lecture 3#Network IP|Network IP]]
+        - [[#Lecture 3#Broadcast IP|Broadcast IP]]
+        - [[#Lecture 3#Questions|Questions]]
+    - [[#Last lecture - NAT|Last lecture - NAT]]
+        - [[#Last lecture - NAT#Private IPv4 Address|Private IPv4 Address]]
+        - [[#Last lecture - NAT#NAT Pre-requisite|NAT Pre-requisite]]
+            - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING|LAN ROUTING]]
+                - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING#RIP er jonno|RIP er jonno]]
+                    - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING#RIP er jonno#First set up routing|First set up routing]]
+                - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING#Now setup NAT|Now setup NAT]]
+                    - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING#Now setup NAT#Static NAT|Static NAT]]
+                    - [[#Last lecture - NAT#NAT Pre-requisite#LAN ROUTING#Now setup NAT#Dynamic NAT|Dynamic NAT]]
+            - [[#Last lecture - NAT#NAT Pre-requisite#Now applu the NAT on R1|Now applu the NAT on R1]]
+            - [[#Last lecture - NAT#NAT Pre-requisite#Show the NAT table|Show the NAT table]]
+                - [[#Last lecture - NAT#NAT Pre-requisite#Show the NAT table#R1 theke default routing to internet|R1 theke default routing to internet]]
+                - [[#Last lecture - NAT#NAT Pre-requisite#Show the NAT table#Default Routing using Dynamic Routing|Default Routing using Dynamic Routing]]
+            - [[#Last lecture - NAT#NAT Pre-requisite#ISP Routing|ISP Routing]]
+        - [[#Last lecture - NAT#Access Control|Access Control]]
+
+CN Lab uses lab manual that can be found in lms.
+
+= About next exam =
+
+1. Routing
+2. DHCP
+3. Standard ACL
+4. Socket
+5. NAT
+
+Sill pkt exam
+1. Routing
+2. DHCP
+3. Standard ACL
+4. NAT
+
+24th may on DHCP, ACL, NAT
+
+2nd June, Final Assn, on all 5 topics
+
+= Class, 04-28 =
+
+Socket programming er upor quiz. Questions is, amader use kora function gula ki bujhay amader code e.
+
+AF_INET:: Use IPv4 with 32 bit ip address, 16 bit port.
+SOCK_STREAM:: for tcp socket
+SOCK_DGRAM:: for udp socket
+
+*Project* is creating a web server using Python. *Submit* by 17th May. *Exam* on 19th May.
+
+Search "Python Web Server" on the internet.
+
+*Quiz* on next class on "Assignment?" (I don't know which).
+
+
+
+= Lecture 3 =
+
+* A PC needs 3 types of addresses: IP, MAC and Subnet Mask, Gateway.
+* Shudu 'IP' bolle, dui dhoroner. IP and MAC.
+* Ar logical bolle, IP, subnet mask, default gateway.
+
+== Binary Calculation ==
+
+*Very important*
+
+Number System
+| 2⁷  | 2⁶  | 2⁵  | 2⁴  | 2³  | 2²  | 2¹  | 2⁰  |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 128 | 64  | 32  | 16  |  8  |  4  |  2  |  1  |
+| 128 | 192 | 224 | 240 | 248 | 252 | 254 | 255 |
+
+Using this table:
+
+100d:: 01100100b
+200d:: 11001000b _(Just right shifted)_
+ 25d:: 00011001b
+250d:: 111111010b (Using the bottom row! \m/)
+
+
+== IP Adrress ==
+
+IP Address version 4 (IPv4) is of 32 bits.
+
+| Class | Start IP  | End IP          |          Network Part           | Host Part | Default Subnet Mask |
+|-------|-----------|-----------------|:-------------------------------:|:---------:|:-------------------:|
+| *A*   | 0.0.0.0   | 127.255.255.255 |                8                |    24     |      255.0.0.0      |
+| *B*   | 128.0.0.0 | 191.255.255.255 |               16                |    16     |     255.255.0.0     |
+| *C*   | 192.0.0.0 | 223.255.255.255 |               24                |     8     |    255.255.255.0    |
+| *D*   | 224.0.0.0 | 239.255.255.255 |    Reserved for Multicasting    |     >     |          >          |
+| E     | 240.0.0.0 | 255.255.255.254 | Experimental: Used for research |     >     |          >          |
+
+Notice from the above table that Subnet Mask is derived by using the 'Network Part' and 'Host Part'.
+
+For example, a class A IP `125.10.100.25`'s network part is `10.100.25` (24 bits) and host part is `125` (8 bits).
+
+Will (for now) consist of two parts: 
+    1. Network part (defines the group)
+    2. Host part ()
+
+Later we got to know, the IP has 3 parts:
+    1. Network Address: All host bits are `0`
+    2. Subnet Mask: All host bits are `1`
+    3. Broadcast Address: All Network bits are `1` and all host bits are `0`
+
+=== Network Address ===
+Gives us an idea of the device. Tells us which _group_ it belongs to.
+
+== Subnet Mask(Default) ==
+Is derived from Network bits of the IP. Using Subnet Mask we derive the network IP.
+
+* Subnet Mask varies depending on local IP.
+* Subnet Mask (for now) is also divided in to two parts. Same as IP.
+* 
+
+Default boltesi karon it's derived using the Class thingy.
+
+== Network IP ==
+Derived by performing IP && Subnet Mask.
+
+== Broadcast IP ==
+Network part pura same thakbe as Network IP, and remaining bits are all `1`.
+
+== Questions ==
+
+Lab Manual Page no. 10
+
+[[CN Lab Examples]]
+
+TODO:
+At around 1 hr, example ta likho edike vimwiki te.
+
+DONE:
+Q1. What address to set if I want to communicate to all devices under the same logical group?
+A1: Use the broadcast address.
+
+= Lecture 4 -- Subnets and IPs contd. =
+
+== Examples ==
+
+Lab Manual Page 10 C(ii)
+
+| Address     | Subnet Mask   |
+| 60.41.211.5 | 255.255.255.0 |
+
+*Important note: Jodi kono subnet mask, ip er class ke follow na kore, then 
+jototuk bit er difference thake, otake subnet bit bole.*
+
+Now we know that IP has 3 parts (not 2 as previously shown).
+
+IP is made up of Network Part, Subnet Part, and Host Part.
+
+Answer
+
+| Class | Network Add. | Broadcast Addr. | IP range        | Total subnet |
+| A     | 60.41.211.0  | 60.41.211.255   | $2^8 - 2 = 254$ | $2^16=65536$ |
+
+= Last lecture - NAT =
+
+| Class | IP Range | Network Bit |
+| A     | 0-127    | /8          |
+| B     | 128-191  | /16         |
+| C     | 192-224  | /24         |
+
+== Private IPv4 Address ==
+
+10.0.0.0 extending to 10.255.255.255  /8
+
+this range is given to us.
+
+172.16.0.0 extending to 172.32.0.0  /12
+
+192.168.0.0 extending to 192.168.255.255  /16
+
+16:: 00010000
+31:: 00011111
+
+Private Address uses the NAT Table to
+convert to Public IP before going to the
+internet, and vice versa.
+
+== NAT Pre-requisite ==
+
+1. LAN Routing
+2. ISP Routing
+
+=== LAN ROUTING ===
+
+* Use Dynamic Routing (RIP) in LAN Router
+* Static Routing to ISP
+* Default routing using Dynamic Routing
+
+==== RIP er jonno ====
+
+===== First set up routing =====
+
+On R1 router
+
+{{{
+show ip route
+router rip
+version 2
+network 192.168.12.0  # ekhane shudhu 'C' gula nibo except ISP er ta (last e)
+network 192.168.220.0
+network 192.168.221.0
+exit
+  }}}
+
+Same for R2 router
+
+==== Now setup NAT ====
+
+There are two types of NAT:
+1. Static NAT
+2. Dynamic NAT
+
+Arekta ase... PAT, but very similar to NAT, so arekta extra type bola hoy na.
+
+PAT te matro aktai public IP, NAT te multiple public IP.
+
+===== Static NAT =====
+Kno router ke bairer theke access dite chaile
+
+for r1
+{{{
+# For UCAM
+ip nat inside source static 192.168.12.12 209.165.200.241 
+# For Game server
+ip nat inside source static 192.168.11.11 209.165.200.242 
+  }}}
+
+===== Dynamic NAT =====
+
+Steps
+1. LAN Address List (Standard ACL)
+2. Create a Public IP Pool
+3. List -> Pool -> Internet
+
+Access List
+{{{
+access-list 1 permit 192.168.10.0 0.0.0.255
+access-list 1 permit 192.168.11.0 0.0.0.255
+access-list 1 permit 192.168.12.0 0.0.0.255
+  }}}
+
+Public IP Pool
+R1 select kore
+{{{
+ip nat pool NAT-POOL 209.165.200.243 209.165.200.245 netmask 255.255.255.248
+# 'NAT-POOL' is a name heere arbitrary
+  }}}
+
+List
+{{{
+ip nat inside source list 1 pool NAT-POOL overload
+  }}}
+
+=== Now applu the NAT on R1 ===
+2 parts, inside and outside
+{{{
+interface 0/1/1
+ip nat outside exit
+}}}
+aro ki jano likse check dat
+{{{
+interface 0/1/1
+ip nat outside exit
+}}}
+{{{
+interface 0/1/1
+ip nat outside exit
+}}}
+=== Show the NAT table ===
+`show ip nat translations`
+==== R1 theke default routing to internet ====
+
+`ip route 0.0.0.0 0.0.0.0 200.165.200.193`
+
+`show ip route`
+
+`S*` mane static er maddhome default
+
+==== Default Routing using Dynamic Routing ====
+{{{
+router rip
+default-information originate
+  }}}
+
+
+`show ip route`
+
+dekhabe `R*` (RIP er maddhome default)
+=== ISP Routing ===
+
+* Create Static Routing using Public Network Address
+
+host isp
+ip route 209.165.200.240 255.255.255.248 200.165.200.194
+
+== Access Control ==

@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Git SCM Book</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="1.1 Getting Started"><h1 id="1.1 Getting Started" class="header"><a href="#1.1 Getting Started">1.1 Getting Started</a></h1></div>
+
+<div id="1.1 Getting Started-Local Version Control Systems"><h2 id="Local Version Control Systems" class="header"><a href="#1.1 Getting Started-Local Version Control Systems">Local Version Control Systems</a></h2></div>
+
+<p>
+RCS:
+	works by keeping patch sets in a special format on disk; it can then recreate what any file looked like at any opint in time by adding up the patches.
+</p>
+
+<p>
+	Is under the GNU project (probly).
+</p>
+
+<div id="1.1 Getting Started-Centralized Version Control Systems (CVCSs)"><h2 id="Centralized Version Control Systems (CVCSs)" class="header"><a href="#1.1 Getting Started-Centralized Version Control Systems (CVCSs)">Centralized Version Control Systems (CVCSs)</a></h2></div>
+
+<p>
+Examples: CVS, Subversion, Perforce
+</p>
+
+<p>
+Has a single server that contains all the versioned files. Much easier for adminitrators to manage clients than controlling local databases on every client (as is in case of RCS).
+</p>
+
+<div id="1.1 Getting Started-Distributed Version Control Systems (DVCSs)"><h2 id="Distributed Version Control Systems (DVCSs)" class="header"><a href="#1.1 Getting Started-Distributed Version Control Systems (DVCSs)">Distributed Version Control Systems (DVCSs)</a></h2></div>
+
+<p>
+Examples: Git, Mercurial, Bazaar, Darcs)
+</p>
+
+<p>
+Clients fully mirror the repository including the full history, instead of having the latest snapshot of the files.
+</p>
+
+<p>
+Every clone is a full backup of the data.
+</p>
+
+<p>
+Easily workable with multiple remote repositories. Easier to collaborate with different groups of people. Several type of workflow are possible (that are not possible in centralized systems) sych as hierarchical models (don't know what whis is).
+</p>
+
+
+<div id="1.2 A Short History of Git"><h1 id="1.2 A Short History of Git" class="header"><a href="#1.2 A Short History of Git">1.2 A Short History of Git</a></h1></div>
+
+<p>
+_(Copied Verbatim from <a href="https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git)_">https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git)_</a>
+</p>
+
+<p>
+A Short History of Git
+</p>
+
+<p>
+As with many great things in life, Git began with a bit of creative destruction and fiery controversy.
+</p>
+
+<p>
+The Linux kernel is an open source software project of fairly large scope. During the early years of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS called BitKeeper.
+</p>
+
+<p>
+In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+</p>
+<pre><code>Speed
+</code></pre>
+<pre><code>Simple design
+</code></pre>
+<pre><code>Strong support for non-linear development (thousands of parallel branches)
+</code></pre>
+<pre><code>Fully distributed
+</code></pre>
+<pre><code>Able to handle large projects like the Linux kernel efficiently (speed and data size)
+</code></pre>
+
+<p>
+Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s amazingly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See [Git Branching](<a href="https://git-scm.com/book/en/v2/ch00/ch03-git-branching)).">https://git-scm.com/book/en/v2/ch00/ch03-git-branching)).</a>
+</p>
+
+
+
+
+
+<div id="1.3 What is Git ?"><h1 id="1.3 What is Git ?" class="header"><a href="#1.3 What is Git ?">1.3 What is Git ?</a></h1></div>
+
+<p>
+Git stores and thinks about information in a different way than most other VCS programs.
+</p>
+
+
+<p>
+Other VCSs use the 'delta-based' version control. That is, they store information as a set of files and just the changes to each file made over time.
+</p>
+
+<p>
+![Storing data as changes to a base version of each file](images/other-vcs-delta.png)
+</p>
+
+<p>
+With Git, every time you commit, or save the state of your project, Git stores a reference to the exact snapshot of the file.
+</p>
+
+<p>
+![Storing data as snapshots of the project over time](images/git-vcs-snapshot.png)
+</p>
+
+<p>
+Nearly every operation in Git is local.
+</p>
+
+<p>
+Git has integrity:
+</p>
+
+<p>
+Everything in Git is checksummed. The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters.
+</p>
+
+<p>
+When you commit changes to the Git database, it's not easy to lose that data. Git also, allows you to undo changes so using Git is a joy.
+</p>
+
+<p>
+The Three States
+</p>
+
+<ol>
+<li>
+Modified:
+	File changed but not commited to database yet.
+
+<li>
+Staged:
+	Marked a modified file in its current version to go into your next commit snapshot.
+
+<li>
+Commited:
+	Data is safely stored in your local database.
+
+</ol>
+<p>
+This leads us to the three main sections of a Git project: the working tree, the staging area, and the Git directory.
+</p>
+
+<p>
+![Working tree, staging area, and Git directory](images/git-three-states.png)
+</p>
+
+
+
+<p>
+The working tree is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+</p>
+
+<p>
+The staging area is a file, generally contained in your Git directory, that stores information about what will go into your next commit. Its technical name in Git parlance is the “index”, but the phrase “staging area” works just as well.
+</p>
+
+<p>
+The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+</p>
+
+<p>
+The basic Git workflow goes something like this:
+</p>
+
+<ol>
+<li>
+You modify files in your working tree.
+
+<li>
+You selectively stage just those changes you want to be part of your next commit, which adds only those changes to the staging area.
+
+<li>
+You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+
+</ol>
+<p>
+If a particular version of a file is in the Git directory, it’s considered committed. If it has been modified and was added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Git Basics, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+</p>
+
+
+
+<div id="1.6 First-Time Git Setup"><h1 id="1.6 First-Time Git Setup" class="header"><a href="#1.6 First-Time Git Setup">1.6 First-Time Git Setup</a></h1></div>
+
+<p>
+<em>Only quick short notes from this point on</em>
+</p>
+
+<p>
+The <code>git config</code> tool lets you set configuration variables that control all aspects of Git.
+</p>
+
+<p>
+Passing the <code>--system</code> option will modify the config file at <code>/etc/gitconfig</code>.
+</p>
+
+<p>
+Passing the <code>--global</code> option will modify the config file at <code>~/.gitcong</code> or <code>~/.config/git/config</code>.
+</p>
+
+<p>
+Passing the <code>--local</code> option will modify the config file at the local repository; that is, <code>.git/config</code>. A git repo needs to exist of course.
+</p>
+
+
+<p>
+Each level overrides values in the previous level.
+</p>
+
+<p>
+View all of the settings and where they are coming from: <code>git config --list --show-origin</code>
+</p>
+
+<p>
+Set-up at least the user name and email
+</p>
+
+<p>
+```
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+```
+</p>
+
+<p>
+Additionally, set the editor. Linux users also just have the <code>EDITOR</code> env variable set.
+</p>
+
+<p>
+```
+git config --global core.editor vim
+```
+</p>
+
+<p>
+The default branch name is 'master'. I like it this way. But to change it:
+</p>
+
+<p>
+```
+git config --global init.defaultBranch main
+```
+</p>
+
+<p>
+<code>git config --list</code> lists all the config variables. Or, just check one key: <code>git config user.name</code>.
+</p>
+
+
+<div id="1.7 Getting Help"><h1 id="1.7 Getting Help" class="header"><a href="#1.7 Getting Help">1.7 Getting Help</a></h1></div>
+
+<p>
+<code>git help &lt;verb&gt;</code> or <code>man git-&lt;verb&gt;</code>, or <code>git &lt;verb&gt; --help</code> are equivalent. All open the man page for that Git tool.
+</p>
+
+<p>
+Shorter help with <code>git &lt;verb&gt; -h</code>.
+</p>
+
+<p>
+For online help, use the irc channels <code>#git</code>, <code>#github</code>, or <code>#gitlab</code> on <a href="https://libera.chat/">https://libera.chat/</a>
+</p>
+
+
+<div id="Chapter 2 - Only Quick Short Notes from this point on"><h1 id="Chapter 2 - Only Quick Short Notes from this point on" class="header"><a href="#Chapter 2 - Only Quick Short Notes from this point on">Chapter 2 - Only Quick Short Notes from this point on</a></h1></div>
+
+<p>
+Tracked files:
+</p>
+<pre><code>Files that Git knows about. Such as files were in the last snapshot (commit), newly staged files. They can be unmodified, modified, or staged.
+</code></pre>
+
+<p>
+Untracked:
+</p>
+<pre><code>Literally everything else. (Adding a new file to the working tree)
+</code></pre>
+
+<p>
+Working tree:
+</p>
+<pre><code>Is probably the directory, and its files and sub-directories, of the current Git repository.
+</code></pre>
+
+<p>
+git add:
+</p>
+<pre><code>Think more like, "add precisely this content to the next commit", instead of "add this file to the project." Adds those files to the staging area. These files are now being 'tracked'.
+</code></pre>
+
+<p>
+As you edit files, Git sees them as modified, because you’ve changed them since your last commit. As you work, you selectively stage these modified files and then commit all those staged changes, and the cycle repeats.
+</p>
+
+<p>
+![The lifecycle of the status of your files](images/git-files-lifecycle.png)
+</p>
+
+
+<p>
+<code>git status</code> to check the status of the current working tree.
+</p>
+
+<p>
+The same file may show under 'Changes to be commited' and also 'Changes not staged for commit'. This file is both <code>staged</code> and <code>unstaged</code>. This happens when you have made changes to the file, <em>after</em> already staging it (git add-ing) it.
+</p>
+
+<p>
+Short Status
+</p>
+
+<p>
+<code>git status -s</code>
+</p>
+
+<p>
+```
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt
+```
+</p>
+
+<p>
+New files that aren’t tracked have a <code>??</code> next to them, new files that have been added to the staging area have an <code>A</code>, modified files have an <code>M</code> and so on. There are two columns to the output — the left-hand column indicates the status of the staging area and the right-hand column indicates the status of the working tree. So for example in that output, the README file is modified in the working directory but not yet staged, while the lib/simplegit.rb file is modified and staged. The Rakefile was modified, staged and then modified again, so there are changes to it that are both staged and unstaged.
+</p>
+
+
+<p>
+A git ignore example
+</p>
+
+<p>
+```
+</p>
+<ul>
+<li>
+ignore all .a files
+
+</ul>
+<p>
+*.a
+</p>
+
+<ul>
+<li>
+but do track lib.a, even though you're ignoring .a files above
+
+</ul>
+<p>
+!lib.a
+</p>
+
+<ul>
+<li>
+only ignore the <span class="todo">TODO</span> file in the current directory, not subdir/<span class="todo">TODO</span>
+
+</ul>
+<p>
+/<span class="todo">TODO</span>
+</p>
+
+<ul>
+<li>
+ignore all files in any directory named build
+
+</ul>
+<p>
+build/
+</p>
+
+<ul>
+<li>
+ignore doc/notes.txt, but not doc/server/arch.txt
+
+</ul>
+<p>
+doc/*.txt
+</p>
+
+<ul>
+<li>
+ignore all .pdf files in the doc/ directory and any of its subdirectories
+
+</ul>
+<p>
+doc/*<span id="Chapter 2 - Only Quick Short Notes from this point on-/"></span><strong id="/">/</strong>.pdf
+```
+</p>
+
+<p>
+Diffing
+</p>
+
+<p>
+To see what you've changed but not yet staged:
+</p>
+
+<p>
+<code>git diff</code>
+</p>
+
+<p>
+To see what's staged (that will go in the next commit):
+</p>
+
+<p>
+<code>git diff --staged|--cached</code>
+</p>
+
+
+<p>
+Commiting:
+</p>
+
+<p>
+Besides usual commiting, you can also store the <code>git status</code> output in a commit message by just doing <code>git commit</code> and keeping all the lines that are commented out.
+</p>
+
+<p>
+<code>git commit -a</code> will skip the staging area. This automatically stages all the files that are being tracked.
+</p>
+
+
+<p>
+Removing files:
+</p>
+
+<p>
+<code>git rm</code> removes the file from the staging area (tracked files) and also removes it from the working directory.
+</p>
+
+<p>
+If you only remove it from the working directory using <code>rm</code>, it shows up in the <code>unstaged</code> area of <code>git status</code> output (under 'Changes not staged for commit: deleted &lt;file&gt;'). Then <code>git rm</code> stages the file's removal.
+</p>
+
+<p>
+<code>git rm log/*.log</code> to unstage and <code>rm</code> from working directory according to a glob pattern.
+</p>
+
+<p>
+To keep the file in the working directory, but only remove it from the staging, <code>git rm --cached &lt;file&gt;</code>.
+</p>
+
+
+<p>
+Renaming files:
+</p>
+
+<p>
+<code>git mv file_from file_to</code>.
+</p>
+
+<p>
+This is the same as doing:
+</p>
+
+<p>
+<code>mv &lt;src&gt; &lt;dest&gt;</code>
+<code>git rm &lt;src&gt;</code>
+<code>git add &lt;dest&gt;</code>
+</p>
+
+
+
+<div id="2.3 Git Basics - Viewing the Commit History"><h1 id="2.3 Git Basics - Viewing the Commit History" class="header"><a href="#2.3 Git Basics - Viewing the Commit History">2.3 Git Basics - Viewing the Commit History</a></h1></div>
+
+<p>
+By default, <code>git log</code> shows the commit history below the branch that is checked out.
+</p>
+
+<p>
+<code>checkout</code> moves the HEAD to the commit number that was passed to it. ALSO, it makes the working tree, AND the index as it was in that commit. The branch pointer stays the same.
+</p>
+
+<p>
+<code>git log -p -2</code> to show the last two commits along with the diff in that commit.
+</p>
+
+<p>
+Also add <code>--stat</code> to show how many lines in each file was changed.
+</p>
+
+<p>
+Try <code>--pretty</code> with values <code>oneline</code>, <code>short</code>, <code>full</code>, <code>fuller</code>.
+</p>
+
+<p>
+<code>--pretty=oneline</code> shows every commit on one line but shows the full commit hash unlike like <code>--oneline</code> which trims the commit hashes too.
+</p>
+
+<p>
+Manually formatting log output: <code>git log --pretty=format:"%h - %an, %ar : %s"</code> prints abbreviated hash, author's name, authored date (relative), commit message.
+</p>
+
+
+<p>
+Add an ascii graph to the log that shows the merge history in a graphical way:
+</p>
+
+<p>
+<code>git log --pretty=format:"%h %s" --graph</code>
+</p>
+
+
+<p>
+Limiting log output
+</p>
+
+<p>
+Pass <code>--since=2.weeks</code> to only show logs from 2 weeks ago. Specific date like "2008-01-15", or a relative date such as "2 years 1 day 3 minutes ago" is also possible.
+</p>
+
+
+<p>
+Filtering log output
+</p>
+
+<p>
+<code>--author</code> option takes arguments to show commits made by a specific author. <code>--grep</code> search for any pattern in the logs.
+</p>
+
+<p>
+The <code>-S</code> option (colloquially known as Git's "pickaxe" option) is used to show only those commits where the search term has changed in the number of its occurrences. Example: <code>git log -S &lt;function_name&gt;</code>
+</p>
+
+<p>
+Show only those commits that changed a certain, or a set of, files: <code>git log -- path/to/file</code>
+</p>
+
+<p>
+For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and are not merge commits, you can run something like this:
+</p>
+
+<p>
+```
+$ git log --pretty="%h - %s" --author='Junio C Hamano' --since="2008-10-01" \
+   --before="2008-11-01" --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD
+b0ad11e - pull: allow "git pull origin \(something:\)current_branch" into an unborn branch
+```
+</p>
+
+<p>
+Of the nearly 40,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+</p>
+
+
+
+<div id="2.4 Git Basics - Undoing Things"><h1 id="2.4 Git Basics - Undoing Things" class="header"><a href="#2.4 Git Basics - Undoing Things">2.4 Git Basics - Undoing Things</a></h1></div>
+
+<p>
+Amending the previous commit
+</p>
+
+<p>
+Just <code>git commit --amend</code>. This will replace the previous commit with the commit you make now.
+</p>
+
+<p>
+You can stage any new file, modify a staged file and stage it again, unstage a file, and just use <code>--amend</code>; then provide a commit message in your editor. If no files were changed, <code>--amend</code> will just <em>amend</em> the commit message.
+</p>
+
+<p>
+An example:
+</p>
+
+<p>
+```
+git commit -m 'init'
+</p>
+<ul>
+<li>
+Oops, forgot something
+
+</ul>
+<p>
+git add forgotten_file
+git commit --amend
+```
+</p>
+
+<p>
+You end up with a single commit -- the second one replaces the first.
+</p>
+
+<p>
+A big Gotcha: Only do this to local history. DO NOT amend things once they pushed to a remote.
+</p>
+
+
+<p>
+Unstaging a staged file
+</p>
+
+<p>
+<code>git reset HEAD &lt;file&gt;</code>
+</p>
+
+<p>
+<code>git restore</code> was added in Git version 2.23 onwards. So same effect:
+</p>
+
+<p>
+<code>git restore --staged &lt;file&gt;</code>
+</p>
+
+<p>
+Also, remove the file from staging has the same effect:
+</p>
+
+<p>
+<code>git rm --cached &lt;file&gt;</code>
+</p>
+
+
+<p>
+Unmodifying a modified file
+</p>
+
+<p>
+Revert a file back to how it was on previous commit even if it was staged (discards changes in working directory, duh):
+</p>
+
+<p>
+<code>git checkout -- &lt;file&gt;</code>
+</p>
+
+<p>
+discard changes to a file in working directory with:
+</p>
+
+<p>
+<code>git restore &lt;file&gt;</code>
+</p>
+
+<p>
+With <code>reset</code>:
+</p>
+<pre><code>git reset --hard -- &lt;file&gt; # equivalently: git reset --hard HEAD &lt;file&gt;
+</code></pre>
+
+<p>
+Think soo.... Finish reading the reset part
+</p>
+
+<div id="2.5 Git Basics - Working with Remotes"><h1 id="2.5 Git Basics - Working with Remotes" class="header"><a href="#2.5 Git Basics - Working with Remotes">2.5 Git Basics - Working with Remotes</a></h1></div>
+
+<p>
+<code>git remote</code> to list all remotes.
+</p>
+
+<p>
+<code>git remote -v</code> to also show the URLs associated for reading and writing with that remote.
+</p>
+
+
+<p>
+Add a new remote repository
+</p>
+
+<p>
+<code>git remote add &lt;shortname&gt; &lt;url&gt;</code>
+</p>
+
+<p>
+Suppose you add a new remote that has changes from a particular user:
+</p>
+
+<p>
+<code>git remote add user1 url</code>.
+</p>
+
+<p>
+To download all changes from user1's: <code>git fetch user1</code>
+</p>
+
+<p>
+Now you will get a new branch: <code>user1/master</code>. You can now merge it into one of your branches, or check out a local branch at that point.
+</p>
+
+<p>
+(Git fetch downloads the data into the local repository -- it does not merge it with any of the local work. You have to merge it manually when you're ready)
+</p>
+
+
+<p>
+Pushing to Remotes:
+</p>
+
+<p>
+<code>git push &lt;remote&gt; &lt;branch&gt;</code> -- I guess this is equivalent to <code>git push &lt;remote&gt; &lt;local_branch&gt;:&lt;remote_branch&gt;</code> where branch name is same on both local and remote.
+</p>
+
+
+<p>
+Inspect a Remote:
+</p>
+
+<p>
+<code>git remote show &lt;remote&gt;</code>
+</p>
+
+
+<div id="2.6 Git Basics - Tagging"><h1 id="2.6 Git Basics - Tagging" class="header"><a href="#2.6 Git Basics - Tagging">2.6 Git Basics - Tagging</a></h1></div>
+
+<p>
+Listing all tags:
+</p>
+
+<p>
+<code>git tags</code>
+</p>
+
+<p>
+List tags matching a pattern:
+</p>
+
+<p>
+<code>git tag -l "v1.8.5*"</code>
+</p>
+
+
+<p>
+Create annotated tags:
+</p>
+
+<p>
+Annotated tags have a schecksum, contain the tagges name, email and date; along with a tagging message. They can be signed and verified with GNU Privacy Guiard (GPG).
+</p>
+
+<p>
+<code>git tag -a &lt;tag_name&gt; -m "a message"</code>
+</p>
+
+<p>
+Ex: <code>git tag -a v1.4 -m "my version 1.4"</code>
+</p>
+
+
+<p>
+Lightweight tags:
+</p>
+
+<p>
+This is basically the commit checksum stored in a file -- no other information is kept:
+</p>
+
+<p>
+Create thus: <code>git tab v1.4-lw</code>
+</p>
+
+
+<p>
+Show a tag:
+</p>
+
+<p>
+<code>git show v1.4</code>
+</p>
+
+
+<p>
+Tagging Later:
+</p>
+
+<p>
+Show the log:
+</p>
+
+<p>
+<code>git log --pretty=oneline</code>
+</p>
+
+<p>
+Suppose you forgot to tag the project at, v1.2, for example, which was on a certain commit. This is how you tag that commit:
+</p>
+
+<p>
+<code>git tag -a v1.2 9fceb02</code>
+</p>
+
+<p>
+Done!
+</p>
+
+
+<p>
+Sharing Tags
+</p>
+
+<p>
+By default, <code>git push</code> does not transfer tags to the remote servers. You can push them this way:
+</p>
+
+<p>
+<code>git push &lt;remote&gt; &lt;tagname&gt;</code>
+</p>
+
+<p>
+To push a lot of tags at once,
+</p>
+
+<p>
+   <code>git push &lt;remote&gt; --tags</code>
+</p>
+
+<p>
+When someone pulls or clones the repo, they will get all the tags as well.
+</p>
+
+
+<p>
+Deleting Tags
+</p>
+
+<p>
+Delete a tag in the local repo:
+</p>
+<pre><code>
+git tad -d v1.something
+</code></pre>
+
+<p>
+Delete on remote server:
+</p>
+<pre><code>git push &lt;remote&gt; --delete &lt;tagname&gt;
+</code></pre>
+
+
+<p>
+Checking out Tags
+</p>
+
+<p>
+You can checkout a tag, the usual way you checkout to a commit.
+</p>
+<pre><code>git checkout &lt;tagname&gt;
+</code></pre>
+
+<p>
+This puts you in "detached HEAD" state. Any commits made on this state will not be reachable apart from the exact commit hash. Thus, if a change needs to be made here -- to fix a bug on an older version perhaps -- a new branch will need to be created:
+</p>
+<pre><code>git checkout -b v2-fix v2.0.0
+</code></pre>
+
+
+
+
+
+<div id="2.7 Git Basics - Git Aliases"><h1 id="2.7 Git Basics - Git Aliases" class="header"><a href="#2.7 Git Basics - Git Aliases">2.7 Git Basics - Git Aliases</a></h1></div>
+
+<p>
+Some common aliases you can add:
+</p>
+<pre><code>git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status 
+git config --global alias.last 'log -1 HEAD'
+</code></pre>
+
+<p>
+Unstage a file
+</p>
+<pre><code>git config --global alias.unstage 'reset HEAD --'
+</code></pre>
+
+
+
+
+
+<div id="3.1 Git Branching - Branches in a Nutshell"><h1 id="3.1 Git Branching - Branches in a Nutshell" class="header"><a href="#3.1 Git Branching - Branches in a Nutshell">3.1 Git Branching - Branches in a Nutshell</a></h1></div>
+
+
+
+
+
+
+
+
+<div id="3.6 Git Rebasing"><h1 id="3.6 Git Rebasing" class="header"><a href="#3.6 Git Rebasing">3.6 Git Rebasing</a></h1></div>
+
+<p>
+Instead of <em>merging</em> back to the base branch from a topic branch that diverged from the main commit path, they changes in the topic branch can be "rebased" (alsa called "replayed") on to the base branch.
+</p>
+
+<p>
+The resulting source content is the same in both <code>merge</code> and <code>rebase</code>.
+</p>
+
+<p>
+Why <code>rebase</code> instead of <code>merge</code>?
+</p>
+
+<ol>
+<li>
+<code>rebase</code> shows the commit log as if all code done on a divergent branch had happened in the <code>main</code> branch. After merging two branches, <code>git log --graph</code> will still show that some divergent commits had rejoined with the base branch's commits. But rebasing will not.
+
+<li>
+When merge conflicts happen, an additional commit is created that show that two branches have been merged. But in case of <code>rebase</code> no additional commit is displayed in the history.
+
+<li>
+Also, <code>git author-log</code>.
+
+</ol>
+<p>
+How to <code>rebase</code>
+</p>
+
+<ol>
+<li>
+Checkout the topic branch.
+
+<li>
+<code>git rebase &lt;targetbranch&gt;</code>. &lt;targetbranch&gt; is the branch where the code in the divergent branch (also the current branch in this case) will be rebased on to.
+
+<li>
+Checkout to the base branch.
+
+<li>
+git merge topic branch.
+
+</ol>
+<p>
+A more interesting and deeper rebase
+</p>
+
+<p>
+Suppose, you have a more interesting scenario where you have a <code>sever</code> branch that deviates from the <code>master</code> branch, and then a <code>client</code> branch which diverges off from <code>server</code>. Like below:
+</p>
+
+<p>
+![Server branching off from master, client branching off from server](images/git-interesting-rebase-1.png)
+</p>
+
+<p>
+Now, you want to rebase your <code>client</code> side changes onto the <code>master</code> branch. How do you do it? Do you just <code>git rebase master</code>? No... For reasons unknown (I'll have to test it manually). What you do is <code>git rebase --onto master server client</code>, maybe because you also want the code snapshot in <code>server</code> branch that <code>client</code> branched off from. To get:
+</p>
+
+<p>
+![Client side code rebased onto master](images/git-interesting-rebase-2.png)
+</p>
+
+<p>
+After running the rebase above, you just checkout to <code>master</code> and perform a <code>merge</code> that simply, and beautifully, fast-forwards the <code>master</code> branch. Like so:
+</p>
+
+<p>
+![Master branch now has client branch's code](images/git-interesting-rebase-3.png)
+</p>
+
+
+<p>
+Now suppose you want to incorporate the changes of <code>server</code> branch to the <code>master</code> branch. You can do that without having to checkout any branch by: <code>git rebase &lt;to_branch&gt; &lt;from_branch&gt;</code>. Then simple checkout to <code>master</code> and merge <code>server</code>.
+</p>
+
+<p>
+After running <code>git rebase master server</code>:
+</p>
+
+<p>
+![Server rebased onto master](images/git-interesting-rebase-4.png)
+</p>
+
+<p>
+After <code>git checkout master</code> and <code>git merge server</code>, and deleting the <code>client</code> and <code>server</code> branches:
+</p>
+
+<p>
+![Server rebased onto master](images/git-interesting-rebase-5.png)
+</p>
+
+
+<p>
+The Perils of Rebasing
+</p>
+
+<p>
+Can be summed up in a single line:
+</p>
+
+<p>
+*<span id="3.6 Git Rebasing-Do not rebase commits that exist outside your repository and that people may have based work on."></span><strong id="Do not rebase commits that exist outside your repository and that people may have based work on.">Do not rebase commits that exist outside your repository and that people may have based work on.</strong>*
+</p>
+
+
+<p>
+More rebasing examples like, editing commits, squashing, reordering, deleting can be found on chapter 7 below.
+</p>
+
+
+<div id="7.6 Git Tools - Rewriting History"><h1 id="7.6 Git Tools - Rewriting History" class="header"><a href="#7.6 Git Tools - Rewriting History">7.6 Git Tools - Rewriting History</a></h1></div>
+
+<p>
+Really excellent, short, succinct read about:
+</p>
+
+<ul>
+<li>
+Changing multiple commit messages
+
+<li>
+Reordering commits
+
+<li>
+Squashing commits
+
+<li>
+Splitting a commit
+
+<li>
+Deleting a commit
+
+</ul>
+<p>
+Can be found here: <a href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History</a> (05-02-2022)
+</p>
+
+<p>
+Next up, resetting -- a deep dive.
+</p>
+
+
+<div id="7.7 Git Tools - Reset Demystified"><h1 id="7.7 Git Tools - Reset Demystified" class="header"><a href="#7.7 Git Tools - Reset Demystified">7.7 Git Tools - Reset Demystified</a></h1></div>
+
+<p>
+Reset moves what commit the HEAD points to. This isn't the same as <code>checkout</code> which moves the branch pointer to the passed commit as well.
+</p>
+
+<p>
+Note that: the branch pointer always points to the latest commit of that branch.
+</p>
+
+<p>
+There are three types of reset that you can do: <code>--soft|mixed|hard</code>
+</p>
+
+<p>
+<code>--soft</code>:
+</p>
+<pre><code>Only moves the branch pointer to the specified commit. The Index and the working tree are unchanged.
+</code></pre>
+<pre><code>If you <code>git reset --soft HEAD~</code>, then make and <em>stage</em> the changes (or not), then commit, it is essentially the same as amending a commit.
+</code></pre>
+
+<p>
+<code>--mixed</code>:
+</p>
+<pre><code>Perform <code>--soft</code> AND update the index as it was when that commit was made. So, this modifies the snapshot of the commit AND changes the index.
+</code></pre>
+<pre><code>In other words, <code>git reset --mixed HEAD~</code> undoes the last commit and also <em>unstages</em> everything. You are rolled back to before you ran your <code>git add</code> and <code>git commit</code> commands.
+</code></pre>
+
+<p>
+<code>--hard</code>:
+</p>
+<pre><code>This makes the working directory look like the index.
+</code></pre>
+<pre><code>On top of what <code>--mixed</code> does, it also undoes all the work you did in your working tree.
+</code></pre>
+
+
+<p>
+Recap from the book:
+</p>
+
+<p>
+The reset command overwrites these three trees in a specific order, stopping when you tell it to:
+</p>
+<pre><code>Move the branch HEAD points to (stop here if --soft).
+</code></pre>
+<pre><code>Make the index look like HEAD (stop here unless --hard).
+</code></pre>
+<pre><code>Make the working directory look like the index.
+</code></pre>
+
+<p>
+Unstage a file with reset:
+</p>
+<pre><code>git reset &lt;file&gt;
+</code></pre>
+
+<p>
+Reset can also unstage a file on a hunk-by-hunk, part-by-part, basis as it supports the <code>--patch</code> option too.
+</p>
+
+
+<p>
+Squash commits with reset:
+</p>
+
+<p>
+To squash a few commits, you want your working directory and the staged files (aka the index) to stay the same. So to squash, choose the commit you would like squashed upto. And just do:
+</p>
+<pre><code>git reset --soft &lt;commit&gt;
+</code></pre>
+
+<p>
+or, to squash two commits (including the latest one, one that branch is pointing to):
+</p>
+<pre><code>git reset --soft HEAD~2
+</code></pre>
+
+<p>
+And then just commit!
+</p>
+
+
+<p>
+And again, the difference of <code>reset</code> with <code>checkout</code>?
+</p>
+
+<p>
+<code>checkout</code> detaches the HEAD, man. Well... unless you are pointing to another branch that is.
+</p>
+
+<p>
+Git reset vs. checkout on a branch:
+</p>
+
+<p>
+<code>git checkout &lt;branch&gt;</code> and <code>git reset --hard &lt;branch&gt;</code> are <em>~quite</em> the same. Both of these will update the three trees (HEAD, index, working) but there are still differences.
+</p>
+
+<p>
+First, unlike <code>reset --hard</code>, <code>checkout</code> is working-directory safe; it will check to make sure it’s not blowing away files that have changes to them. Actually, it’s a bit smarter than that — it tries to do a trivial merge in the working directory, so all of the files you haven’t changed will be updated. reset --hard, on the other hand, will simply replace everything across the board without checking.
+</p>
+
+<p>
+The second important difference is how <code>checkout</code> updates <code>HEAD</code>. Whereas <code>reset</code> will move the branch that <code>HEAD</code> points to, <code>checkout</code> will move <code>HEAD</code> itself to point to another branch.
+</p>
+
+<p>
+For instance, say we have master and develop branches which point at different commits, and we’re currently on develop (so HEAD points to it). If we run git reset master, develop itself will now point to the same commit that master does. If we instead run git checkout master, develop does not move, HEAD itself does. HEAD will now point to master.
+</p>
+
+<p>
+So, in both cases we’re moving HEAD to point to commit A, but how we do so is very different. reset will move the branch HEAD points to, checkout moves HEAD itself.
+</p>
+
+<p>
+![Git reset vs. checkout on a branch](images/git-reset-vs-checkout-branch.png)
+</p>
+
+<p>
+Git reset vs checkout on a file
+</p>
+
+<p>
+Makes the index to look like file. Oooooh, it practically unstages the file. Here is a nice diagram:
+</p>
+
+<p>
+![Git reset on a file](images/git-reset-path-1.png)
+</p>
+
+
+
+<p>
+With Paths
+</p>
+
+<p>
+The other way to run checkout is with a file path, which, like reset, does not move HEAD. It is just like git reset [branch] file in that it updates the index with that file at that commit, but it also overwrites the file in the working directory. It would be exactly like git reset --hard [branch] file (if reset would let you run that) — it’s not working-directory safe, and it does not move HEAD.
+</p>
+
+<p>
+Also, like git reset and git add, checkout will accept a --patch option to allow you to selectively revert file contents on a hunk-by-hunk basis.
+</p>
+
+
+
+
+<p>
+Here’s a cheat-sheet for which commands affect which trees. The “HEAD” column reads “REF” if that command moves the reference (branch) that HEAD points to, and “HEAD” if it moves HEAD itself. Pay especial attention to the 'WD Safe?' column — if it says NO, take a second to think before running that command.
+</p>
+<pre><code>| HEAD | Index | Workdir | WD Safe?
+</code></pre>
+<p>
+<span id="7.7 Git Tools - Reset Demystified-Commit Level"></span><strong id="Commit Level">Commit Level</strong>              |      |       |         | 
+<code>reset --soft [commit]</code>     | REF  | NO    | NO      | YES
+<code>reset [commit]</code>            | REF  | YES   | NO      | YES
+<code>reset --hard [commit]</code>     | REF  | YES   | YES     | NO
+<code>checkout &lt;commit&gt;</code>         | HEAD | YES   | YES     | YES
+<span id="7.7 Git Tools - Reset Demystified-File Level"></span><strong id="File Level">File Level</strong>                |      |       |         | 
+<code>reset [commit] &lt;paths&gt;</code>    | NO   | YES   | NO      | YES
+<code>checkout [commit] &lt;paths&gt;</code> | NO   | YES   | YES     | NO
+</p>
+
+
+
+<p>
+**This concludes my Git study for the time being. After getting back from my interview, I must finish reading Chapter 5 - Distributed Git.
+</p>
+
+<p>
+Ways to restore??
+</p>
+
+<p>
++ <code>git restore --staged &lt;file&gt;</code>
++ <code>git reset HEAD &lt;file&gt;</code>
+</p>
+
+</body>
+</html>

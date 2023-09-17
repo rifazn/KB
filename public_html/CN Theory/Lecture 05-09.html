@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Lecture 05-09</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+Network Layer
+</p>
+
+<div id="Routing Protocols"><h1 id="Routing Protocols" class="header"><a href="#Routing Protocols">Routing Protocols</a></h1></div>
+<p>
+goal: determines good paths (or routers) from sending hosts to receiving host, through network of routers
+</p>
+
+<p>
+path: sequence of routers packets traverse from given initial source host to final destination host.
+</p>
+
+<p>
+good: least "cost", "fastest", "least congested".
+</p>
+
+<div id="Routing Protocols-Algorithm"><h2 id="Algorithm" class="header"><a href="#Routing Protocols-Algorithm">Algorithm</a></h2></div>
+<p>
+<span id="Routing Protocols-Algorithm-We can think of routing problem as a graph problem"></span><strong id="We can think of routing problem as a graph problem">We can think of routing problem as a graph problem</strong>
+</p>
+
+<dl>
+<dt>graph</dt>
+<dd>\(G = (N, E)\)</dd>
+<dt>N</dt>
+<dd>set of routers = \({u, v, w, x, y, z}\)</dd>
+<dt>E</dt>
+<dd>set of links = \({(u, v), (u, x), (v, x)), (v, w), (x, w), ...}\)</dd>
+</dl>
+
+<div id="Routing Protocols-Routing algorithm classification"><h2 id="Routing algorithm classification" class="header"><a href="#Routing Protocols-Routing algorithm classification">Routing algorithm classification</a></h2></div>
+
+<dl>
+<dt>global</dt>
+<dd>all router have complete topology, link cost info. AKA "link state" algorithms</dd>
+</dl>
+
+<dl>
+<dt>decentralized</dt>
+<dd>iterative process of computation, exchange of info with neighbors. Routers initially only know link costs to attached neighbors. AKA "distance vector" algorithms.</dd>
+</dl>
+
+<dl>
+<dt>static</dt>
+<dt>dynamic</dt>
+</dl>
+
+<div id="Routing Protocols-Routing algorithm classification-Link State Algorithms"><h3 id="Link State Algorithms" class="header"><a href="#Routing Protocols-Routing algorithm classification-Link State Algorithms">Link State Algorithms</a></h3></div>
+
+<div id="Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm"><h4 id="Dijkstra's link-state routing algortihm" class="header"><a href="#Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm">Dijkstra's link-state routing algortihm</a></h4></div>
+
+<dl>
+<dt>centralized</dt>
+<dd>network topology, link costs are know to all nodes</dd>
+</dl>
+
+<p>
+It computes the least cost path fro mone node to all other nodes. ive forwadgin tablel for that node.
+</p>
+
+<p>
+It is iterative.
+</p>
+
+<div id="Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Notations"><h5 id="Notations" class="header"><a href="#Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Notations">Notations</a></h5></div>
+
+<div id="Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Algorithm"><h5 id="Algorithm" class="header"><a href="#Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Algorithm">Algorithm</a></h5></div>
+
+<div id="Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Example simulation"><h5 id="Example simulation" class="header"><a href="#Routing Protocols-Routing algorithm classification-Link State Algorithms-Dijkstra's link-state routing algortihm-Example simulation">Example simulation</a></h5></div>
+
+<p>
+Some step
+</p>
+
+<ol>
+<li>
+find <code>a</code> not in <code>N'</code> such that D(a) is a minimum
+
+<li>
+Add <code>a</code> to <code>N'</code>
+
+<li>
+update <code>D(b)</code> fpr all <code>b</code> adjacent to <code>a</code> and not in <code>N'</code>:
+
+<ol>
+<li>
+\(D(b) = min(D(b), D(a) + c_a,b_)\)
+
+</ol>
+</ol>
+
+<p>
+Step 1: Create dijkstra's table
+</p>
+<table>
+<tr>
+<td>
+n'
+</td>
+<td>
+u
+</td>
+<td>
+v
+</td>
+<td>
+w
+</td>
+<td>
+x
+</td>
+<td>
+y
+</td>
+<td>
+z
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+
+</body>
+</html>

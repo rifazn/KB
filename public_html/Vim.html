@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Vim</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Markup"><h1 id="Markup" class="header"><a href="#Markup">Markup</a></h1></div>
+
+<div id="Markup-Miscellaneous"><h2 id="Miscellaneous" class="header"><a href="#Markup-Miscellaneous">Miscellaneous</a></h2></div>
+
+<ol>
+<li>
+Enter date/time on cursor position: <code>^R=strftime("%Y-%m-%d")</code> in insert mode.
+
+<li>
+Search for current line under cursor: <code>:exec '/' . getline('.')</code>. Details: <a href="https://vi.stackexchange.com/questions/6208/how-to-search-for-lines-matching-current-line-in-vim">https://vi.stackexchange.com/questions/6208/how-to-search-for-lines-matching-current-line-in-vim</a>
+
+<li>
+Delete lines that match a pattern: <code>:g/pattern/d</code>. Details: <a href="https://vim.fandom.com/wiki/Delete_all_lines_containing_a_pattern">https://vim.fandom.com/wiki/Delete_all_lines_containing_a_pattern</a>
+
+<li>
+Read from an open buffer. First <code>:ls</code> and then, <code>:r #&lt;number&gt;</code>
+
+</ol>
+<div id="Tabstop, softtabstop, etc"><h1 id="Tabstop, softtabstop, etc" class="header"><a href="#Tabstop, softtabstop, etc">Tabstop, softtabstop, etc</a></h1></div>
+
+<p>
+<a href="https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990">https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990</a>
+</p>
+
+<div id="Digraphs"><h1 id="Digraphs" class="header"><a href="#Digraphs">Digraphs</a></h1></div>
+
+<p>
+Digraphs are symbols like: ¾, µ, ©, λ.
+</p>
+
+<p>
+You can access them using <code>:h dig</code>.
+</p>
+
+<p>
+Some common digraphs
+<table>
+<tr>
+<td>
+Digraph
+</td>
+<td>
+^K sequence
+</td>
+</tr>
+<tr>
+<td>
+¾
+</td>
+<td>
+34
+</td>
+</tr>
+<tr>
+<td>
+µ
+</td>
+<td>
+My
+</td>
+</tr>
+<tr>
+<td>
+©
+</td>
+<td>
+Co
+</td>
+</tr>
+<tr>
+<td>
+λ
+</td>
+<td>
+l*
+</td>
+</tr>
+<tr>
+<td>
+✓
+</td>
+<td>
+OK
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+You can find all the greek characters starting from serial no. 915 in the digraph list.
+</p>
+
+<p>
+A better more structured resource: <a href="http://www.alecjacobson.com/weblog/?p=443.">http://www.alecjacobson.com/weblog/?p=443.</a>
+</p>
+
+<p>
+Bro... use <code>:h digraph-table</code>.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Web Dev</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Common Questions"><h2 id="Common Questions" class="header"><a href="#Common Questions">Common Questions</a></h2></div>
+
+<ol>
+<li>
+What happens when you zoom a web page?
+
+</ol>
+<p>
+If the user zooms in, an element with width: 300px takes up more and more of the screen, and thus becomes wider and wider when measured in device (physical) pixels. In CSS pixels, however, the width remains 300px, and the zooming effect is created by expanding CSS pixels as much as is needed.
+</p>
+
+<ol>
+<li>
+What is "Webpack"? And why is it used?
+
+</ol>
+<p>
+Webpack is a <em>packer</em> of <em>web</em> files and modules. A project will make use of many internal (local, self-written) and external (from the Internet, that others wrote) files and modules and these will need to be loaded in the right order and with the write dependecies met. Sometimes, these files may also require some pre-processing before being deployed. Webpack will do all that processing and bundle (or, pack) all the files into a single file so that it becomes much more easier to deploy.
+</p>
+
+<p>
+This perhaps, doese make the deployed source harder to read.
+</p>
+
+<p>
+<a href="https://scribe.rip/js-imaginea/webpack-why-and-what-4948433cc2d3">https://scribe.rip/js-imaginea/webpack-why-and-what-4948433cc2d3</a>
+</p>
+
+<div id="Other stuff to get reminded of"><h2 id="Other stuff to get reminded of" class="header"><a href="#Other stuff to get reminded of">Other stuff to get reminded of</a></h2></div>
+
+<p>
+&lt;dl&gt;
+&lt;dt&gt;<code>rel="next"</code>&lt;/dt&gt;
+&lt;dd&gt;
+When used in <code>&lt;link&gt;</code>, <code>&lt;a&gt;</code>, etc., indicates what page (or, resource) is next in the stream of the current resource.
+</p>
+
+<p>
+Example: <code>&lt;a rel="next" href="first.html"&gt;More&lt;/a&gt;</code>
+</p>
+
+<p>
+*<span id="Other stuff to get reminded of-Also"></span><strong id="Also">Also</strong>*, works in Vimium's next and prev shortcuts!!
+&lt;/dd&gt;
+&lt;/dl&gt;
+</p>
+
+<div id="Other stuff to get reminded of-How to spread elements horizontally"><h3 id="How to spread elements horizontally" class="header"><a href="#Other stuff to get reminded of-How to spread elements horizontally">How to spread elements horizontally</a></h3></div>
+
+<p>
+Use flex:
+</p>
+
+<pre html>
+&lt;section&gt;
+    &lt;div class="elem"&gt;&lt;/div&gt;
+    &lt;div class="elem"&gt;&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;style&gt;
+    section {
+        display: flex;
+        justify-content: space-between;
+        /* you also want verically centered probably */
+        align-items: center;
+    }
+&lt;/style&gt;
+</pre>
+
+<div id="Other stuff to get reminded of-How to style list count markers"><h3 id="How to style list count markers" class="header"><a href="#Other stuff to get reminded of-How to style list count markers">How to style list count markers</a></h3></div>
+
+<p>
+<a href="https://css-tricks.com/css-counters-custom-list-number-styling/">https://css-tricks.com/css-counters-custom-list-number-styling/</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+= Initialize a Python class with arbitrary args =
+
+{{{class="brush: python3"
+class Model:
+	def __init__(self, **kwargs):
+		self.__dict__.update(kwargs)
+		
+	m = Model(title='hi', subtitle=False, ...)
+	print(m.title)
+}}}
+
+== Start a simple file server ==
+
+{{{class="brush: bash"
+$ python3 -m http.server
+}}}

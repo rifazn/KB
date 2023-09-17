@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Windows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+Resize the EFI partition before installing Windows
+</p>
+
+<p>
+The tutorial begins from the first step of the Custom installation screen in Windows Setup (screenshot of this screen at the end of the article):
+</p>
+<pre><code>Select your installation target and make sure it has no partitions (except unallocated space)
+Click the New and then the Apply button.
+</code></pre>
+
+<p>
+You should now have four partitions: Recovery, System (ESP), MSR, and Primary.
+</p>
+<pre><code>Select each of the System, MSR, and Primary partitions in turn and click the Delete button to delete these partitions. Leave the Recovery partition in place.
+Press Shift + F10 to open the Command Prompt
+Type diskpart.exe and press Enter to open the disk partitioning tool
+Type list disk and press Enter to list out your disks
+Type select disk n where n is the number for the disk you want to install to as identified by the above command and press Enter
+Type create partition efi size=550 where 550 is the desired size of the ESP in Mebibytes (MiB), and press Enter
+Type format quick fs=fat32 label=System and press Enter to format the ESP
+Type exit and press Enter to exit the disk partitioning tool
+Type exit and press Enter again to exit the Command Prompt
+</code></pre>
+<p>
+You should now be back in the graphical Windows Setup partitioning tool where nothing has changed since the last time you looked at it.
+</p>
+<pre><code>Click the Refresh button to detect your partition changes
+</code></pre>
+
+<p>
+You should now have a disk with a default Windows Recovery tools partition, a 500 MiB UEFI System Partition, and some unallocated space for your Windows installation.
+</p>
+<pre><code>Select the unallocated space from the disk list and click the New button to automatically recreate the MSR and System partition in the remaining space
+</code></pre>
+
+<p>
+Ref: <a href="https://www.ctrl.blog/entry/how-to-esp-windows-setup.html">https://www.ctrl.blog/entry/how-to-esp-windows-setup.html</a>
+</p>
+
+</body>
+</html>

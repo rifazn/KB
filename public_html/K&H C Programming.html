@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>K%title%H C Programming</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+The standard library is described in Chapter 7 and Appendix B.
+</p>
+
+<p>
+*<span id="-EOF"></span><strong id="EOF">EOF</strong>* is NOT a <code>char</code> value, but an <code>int</code>.
+</p>
+
+<p>
+In the test part of <code>if/else</code>, <code>while</code>, <code>for</code>, etc. any non-zero value is taken to be true.
+</p>
+
+<p>
+<code>\0</code> represents the character with value zero (<code>0</code>), the <code>null</code> character. <code>\0</code> is often written instead of <code>0</code> to emphasize the character nature of some expression.
+But the numeric value is just <code>0</code>.
+</p>
+
+<p>
+The standard library assumes text stream appears as a sequence of line, each terminated by a newline.
+</p>
+
+<p>
+<code>local</code> variables are also called <code>automatic</code> variables. These variables are brought into existence only when their enclosing function is called, and they disappear when the function exits.
+</p>
+
+
+<p>
+String constants can be concatenated at compile time. So <code>"hello," " world"</code> is the same as <code>"hello, world"</code>
+</p>
+
+<p>
+The <code>enumeration</code> is another type of constant. They are often better than using <code>#define</code>s as the debugger is able to print their information in their symbolic form.
+Also, <code>enum</code> types can generate their own values.
+</p>
+
+<p>
+```c
+enum months { Jan=1, FEB, MAR, ..., DEC };
+	/* FEB is 2, MAR is 3, etc. */
+</p>
+	
+<p>
+/* or, like this where NO is 0, YES is 1. */
+enum boolean { NO, YES };
+</p>
+
+<p>
+Arrays sizes are optional with an <code>extern</code> declaration.
+</p>
+
+<p>
+```
+</p>
+
+<p>
+The <code>const</code> modifier (aka qualifier, keyword) can also be used in function parameters to indicate that the function does not change the argument.
+</p>
+
+<p>
+The unary negation operator <code>!</code> converts a <em>non zero</em> operand into <code>0</code> and a zero operand into <code>1</code>. A common use of this operator is in constructions like:
+<code>if (!valid)</code> instead of <code>if (valid == 0)</code>.
+</p>
+
+
+<div id="??"><h1 id="??" class="header"><a href="#??">??</a></h1></div>
+
+<p>
+Were argument lists used in languages like Pascal and Fortran to communicate between functions before global variables and C was designed?
+</p>
+
+</body>
+</html>

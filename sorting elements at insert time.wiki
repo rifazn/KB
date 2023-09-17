@@ -1,0 +1,67 @@
+{{{class="brush: c"
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX_NUMS 26
+
+typedef struct {
+	int count;
+	int nums[MAX_NUMS];
+} roster_t;
+
+static int compare(int a, int b) {
+	int _a = a;
+	int _b = b;
+
+	return _a < _b ? -1 : (_a > _b ? 1 : 0);
+}
+
+bool add_num(roster_t* roster, int num) {
+	/* find the index where the new student should be put */
+	size_t i;
+	for (i = 0; i < roster->count && i < MAX_NUMS; i++)
+		if (compare(num, roster->nums[i]) < 0) /* The new student is less than current student */
+			break;
+
+	/* If new student should be inserted somewhere in the middle of the list */
+	if (i < roster->count) {
+		/* shift all the existing ones */
+		memmove(roster->nums + i+ 1, roster->nums + i, (roster->count - i) * sizeof(int));
+	}
+	/* Insert the new student */
+	roster->nums[i] = num;
+	roster->count++;
+}
+
+int main() {
+	roster_t roster;
+	roster = (roster_t) { .count = 5, .nums = {1, 4, 7, 11, 13} };
+
+	for (size_t i = 0; i < roster.count; i++)
+		printf("%d%s", roster.nums[i], i == roster.count - 1 ? "\n" : ", ");
+
+	add_num(&roster, 6);
+	add_num(&roster, 9);
+	add_num(&roster, 2);
+	add_num(&roster, 8);
+	add_num(&roster, 0);
+	add_num(&roster, 1);
+	add_num(&roster, 1);
+	add_num(&roster, 46);
+	add_num(&roster, 15);
+	add_num(&roster, 10);
+
+	for (size_t i = 0; i < roster.count; i++)
+		printf("%d%s", roster.nums[i], i == roster.count - 1 ? "\n" : ", ");
+
+	add_num(&roster, -4);
+	add_num(&roster, -99);
+	add_num(&roster, 241);
+	add_num(&roster, 77);
+	add_num(&roster, 34);
+
+	for (size_t i = 0; i < roster.count; i++)
+		printf("%d%s", roster.nums[i], i == roster.count - 1 ? "\n" : ", ");
+}
+}}}

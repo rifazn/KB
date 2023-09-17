@@ -1,0 +1,499 @@
+= Django User Authentication =
+
+Django Authentication System manages both authentication and authorization.
+
+Authentication:: Verify user is who they claim to be.
+
+Authorization:: Verify if the authenticated user is authorized to perform an action.
+
+The authentication system consists of:
+
+    1. User
+    2. Permissions: Binary (yes/no) flags designating whether a user may perform a certain task.
+    3. Groups: a generic way of applying labels and permissions to more than one user.
+    4. A configurable password hashing system.
+    5. Forms and view tools for logging in users, or restricting content.
+    6. A pluggable backend system.
+
+*Note: Make sure you know 1, 2, 3, and 4 properly.<br><br>And a basic concept of 6.*
+
+
+== Installation ==
+
+It gets pre-installed when `django-admin startproject` is used. These are listed (by default) under the `INSTALLED_APPS` list in `settings.py`.
+
+    1. `django.contrib.auth`: core of the authentication framework and its models.
+    2. `django.contrib.contenttypes`: allows permissions to be associated with models you create (among other things).
+
+Also relevant are these items in the `MIDDLEWARE` settings: 
+
+1. `SessionMiddleware`
+2. `AuthenticationMiddleware`
+
+Now, running `manage.py migrate` will create necessary models for the authentication system.
+
+
+== Usage ==
+
+Covers the basic use cases *excellently*. For more custom use cases, view later section (or maybe chapter). TODO:
+
+=== Creating users ===
+
+Just use `create_user()` helper function.
+
+{{{
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.create_user(
+        'john', 'email@domain.com', 'password')
+    )
+>>> # A user instance is already created. Only need to save if any value changed
+>>> user.last_name = 'Lennon'
+>>> user.save()
+}}}
+
+The primary (TODO: what does _primary_ mean here?) attributes of the default user are:
+
+    * `username`
+    * `password`
+    * `email`
+    * `last_name`
+    * `first_name`
+
+If Django Admin is set up, users can be created interactively. At least one superuser is required for using the Admin page.
+
+=== Creating superusers ===
+
+    `>>> python manage.py createsuperuser [--username=johnd] [--email=johnd@lostfound.com]`
+    
+Becomes interactive if the options are not passed.
+
+=== Passwords ===
+
+*DO NOT SET IT DIRECTLY*
+
+To change it, use:
+
+`>>> python manage.py changepassword <username>`
+
+==== Programmatically ====
+
+{{{
+>>> from django.auth.contrib.auth.models import User
+>>> user = User.objects.get(username=<username>)
+>>> user.set_password('drunkenMonologuesConfused?')
+>>> user.save()
+}}}
+
+Passwords can also be set (or changed) from the admin page.
+
+Also, check [[https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-views|authentication Views]] and [[https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-forms|forms]] that Django provides.
+
+The user will be auto-logged-out from the sessions after the password change.
+
+=== Authenticating users ===
+
+{{{
+>>> from django.contrib.auth import authenticate
+>>> user = authenticate(username='chicane', password='spiritOfTheHeart')
+>>> if user is not None:
+...     # successful authentication
+... else
+...     # Auth failed, or no auth backend set
+}}}
+
+
+`request` is an optional [[https://docs.djangoproject.com/en/4.1/ref/request-response/#django.http.HttpRequest|HttpRequest]] which is passed on the `authenticate()` method of the authentication backends.
+
+<div style="background:#98971a;">
+*Note*
+
+This is a low level way to authenticate a set of credentials; for example, it’s used by the `RemoteUserMiddleware`. Unless you are writing your own authentication system, you probably won’t use this. Rather if you’re looking for a way to login a user, use the `LoginView`.
+</div>
+
+TODO:
+
+Find akta user by default kon kon group e thake ar oi group gular permissions ki ki thakee
+
+Seems... akt auser by default belongs to no groups... And by default kono groups o exist kore na.
+
+{{{
+>>> from django.contrib.auth import Group, User
+>>> user = # ... create user
+>>> user.groups.all()
+>>> <QuerySet []> # ... is empty
+>>> Group.objects.all()
+>>> # is empty too
+}}}
+
+Seems like, by default, superuser o kno group e belong kore na.
+
+=== Authenticating users in web requests ===
+
+The `request.user` is set to the current logged in user or an instance of `AnonymousUser` if the user is not logged in.
+
+You can tell them apart using:
+
+{{{python
+if request.user.is_authenticated:
+    # user is logged in
+else:
+    # Anonymous User
+}}}
+
+==== Logging in a user ====
+
+This is basically setting the user value of the current session. This should be done with the `login` function.
+
+===== `login(request, user, backend=None)` =====
+
+Note that any data set during the anonymous session is retained in the session after the user logs in.
+
+Using `authenticate` then `login`:
+
+{{{
+from django.contrib.auth import authenticate, login
+
+def my_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    
+    user = authenticate(request, username=username, password=password)
+    
+    if user is not None:
+        login(request, user)
+        # Redirect to success page
+    else:
+        # Return 'invalid login' error message
+}}}
+
+===== Selecting an authentication backend =====
+
+Read this from the docs: https://docs.djangoproject.com/en/4.1/topics/auth/default/#selecting-the-authentication-backend
+
+
+==== How to log a user out ====
+
+{{{python
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+}}}
+
+
+==== Limiting access to logged in users ====
+
+===== The raw way =====
+
+Just check `request.user.is_authenticated`. Redirect to a login page maybe:
+
+{{{python
+from django.conf import settings
+from django.shortcuts import redirect
+
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.login_URL, request.path))
+        
+        # Or display an error message
+        return render(request, 'myapp/login_error.html')
+}}}
+
+Below however, are more "appropriate" ways (my opinion).
+
+
+===== The `login_required` decorator =====
+
+====== `login_required(redirect_field_name='next', login_url=None)` ======
+
+It's a really nice shorcut. Example:
+
+{{{python
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def my_view(request):
+    ...
+}}}
+
+
+===== The LoginRequiredMixin mixin =====
+
+There's also this mixin for Class based views:
+
+{{{python
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class MyView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+}}}
+
+`LoginRequiredMixin` needs to be on the leftmost side in the inheritance list.
+
+
+More examples and documentation: https://docs.djangoproject.com/en/4.1/topics/auth/default/#limiting-access-to-logged-in-users
+
+
+=== Authentication Views ===
+
+Django's built-in views make it super easy to handle authentication pages. The simplest way is just to include the `urlconf`.
+
+{{{python
+urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls'))
+]
+}}}
+
+The name of the included urls are: `login`, `logout`, etc. So each of these url request will call the associated views automatically.
+
+The default views will use the [[https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-forms|stock auth forms]]. These views also look for predefined template names and pass the respective form context.
+
+The context passed to these templates are:
+
+  1. `form`
+  2. `next`
+  3. `site`
+  4. `site_name`
+
+To override the url (and also the template name), this example can be followed:
+
+{{{python
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path('change-password', auth_views.PasswordChageView.as_view(
+        template_name='...',
+    ))
+    ]
+}}}
+
+
+[[https://docs.djangoproject.com/en/4.1/topics/auth/default/#all-authentication-views|All authentication views]] also shows the attributes each view can take along with the url they are assigned to.
+
+==== Using the authentication form in templates ====
+
+Built-in Forms
+
+Works best with default `User` model for [[https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#auth-custom-user|custom user model]], see [[https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#custom-users-and-the-built-in-auth-forms|using the built-in auth forms with custom user models.]]
+
+Ref: https://docs.djangoproject.com/en/4.1/topics/auth/default/#module-django.contrib.auth.views
+
+
+== Permissions and Authorization ==
+
+=== Modify permissions of a user ===
+
+{{{python
+user.user_permissions.set([permissions])
+user.user_permissions.add(perm)
+user.user_permissions.remove(perm, ...)
+user.user_permissions.clear()
+}}}
+
+Where `permission` is (probly):
+    `foo.add_bar, foo.delete_bar, etc`
+    
+Where `foo` is `app_label` and `bar` is model named `Bar`.
+
+=== Modify permissions on a group ===
+
+Add a Group instance ust like any other model creation, like:
+
+{{{python
+special_users = Group.objects.create('Special Users')
+}}}
+
+=== Changing permissions on whole group ===
+
+
+{{{python
+group.permissions.set([...])
+group.permissions.add(...)
+group.permissions.remove(...)
+group.permissions.clear()
+}}}
+
+=== Add/remove user to/from group ===
+
+{{{python
+user.groups.set([group_list])
+user.groups.add(g1, g2, ...)
+user.groups.remove(g1, g2, ...)
+user.groups.clear()
+}}}
+
+
+=== Check for permissions ===
+
+On a user:
+
+{{{python
+user.has_perm('foo.add_bar')
+}}}
+
+On a group:
+
+TODO: Got to find out.
+
+Inside a template for the current logged in user:
+
+The currently logged-in user’s permissions are stored in the template variable `{{ perms }}`. This is an instance of `django.contrib.auth.context_processors.PermWrapper`, which is a template-friendly proxy of permissions.
+
+Evaluating a single-attribute lookup of `{{ perms }}` as a boolean is a proxy to `User.has_module_perms()`. For example, to check if the logged-in user has any permissions in the `foo` app:
+
+`{% if perms.foo %}`
+
+Evaluating a two-level-attribute lookup as a boolean is a proxy to `User.has_perm()`. For example, to check if the logged-in user has the permission `foo.add_vote`:
+
+`{% if perms.foo.add_vote %}`
+
+Here’s a more complete example of checking permissions in a template:
+
+{{{
+{% if perms.foo %}
+    <p>You have permission to do something in the foo app.</p>
+    {% if perms.foo.add_vote %}
+        <p>You can vote!</p>
+    {% endif %}
+    {% if perms.foo.add_driving %}
+        <p>You can drive!</p>
+    {% endif %}
+{% else %}
+    <p>You don't have permission to do anything in the foo app.</p>
+{% endif %}
+}}}
+
+It is possible to also look permissions up by `{% if in %}` statements. For example:
+
+{{{
+{% if 'foo' in perms %}
+    {% if 'foo.add_vote' in perms %}
+        <p>In lookup works, too.</p>
+    {% endif %}
+{% endif %}
+}}}
+
+
+=== Programmatically creating permissions ===
+
+While custom permissions can be defined within a model’s `Meta` class (as shown below), you can also create permissions directly. For example, you can create the `can_publish` permission for a `BlogPost` model in `myapp`:
+
+{{{python
+from myapp.models import BlogPost
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+content_type = ContentType.objects.get_for_model(BlogPost)
+permission = Permission.objects.create(
+    codename='can_publish',
+    name='Can Publish Posts',
+    content_type=content_type,
+)
+}}}
+
+The permission can then be assigned to a `User` via its `user_permissions` attribute or to a `Group` via its permissions attribute.
+
+<div style="background-color: #F1FFF7">
+*Proxy models need their own content type*
+
+If you want to [[https://docs.djangoproject.com/en/4.1/topics/auth/default/#proxy-models-permissions-topic|create permissions for a proxy model]], pass `for_concrete_model=False` to `ContentTypeManager.get_for_model()` to get the appropriate `ContentType`:
+
+{{{python
+content_type = ContentType.objects.get_for_model(
+    BlogPostProxy, for_concrete_model=False,
+)
+}}}
+</div>
+
+
+=== Permission caching ===
+
+The `ModelBackend` caches permissions on the user object after the first time they need to be fetched for a permissions check. This is typically fine for the request-response cycle since permissions aren’t typically checked immediately after they are added (in the admin, for example). If you are adding permissions and checking them immediately afterward, in a test or view for example, the easiest solution is to re-fetch the user from the database. For example:
+
+{{{python
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
+
+from myapp.models import BlogPost
+
+def user_gains_perms(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    # any permission check will cache the current set of permissions
+    user.has_perm('myapp.change_blogpost')
+
+    content_type = ContentType.objects.get_for_model(BlogPost)
+    permission = Permission.objects.get(
+        codename='change_blogpost',
+        content_type=content_type,
+    )
+    user.user_permissions.add(permission)
+
+    # Checking the cached permission set
+    user.has_perm('myapp.change_blogpost')  # False
+
+    # Request new instance of User
+    # Be aware that user.refresh_from_db() won't clear the cache.
+    user = get_object_or_404(User, pk=user_id)
+
+    # Permission cache is repopulated from the database
+    user.has_perm('myapp.change_blogpost')  # True
+
+    ...
+}}}
+
+
+=== Proxy models ===
+
+Proxy models work exactly the same way as concrete models. Permissions are created using the own content type of the proxy model. Proxy models don’t inherit the permissions of the concrete model they subclass:
+
+{{{python
+class Person(models.Model):
+    class Meta:
+        permissions = [('can_eat_pizzas', 'Can eat pizzas')]
+
+class Student(Person):
+    class Meta:
+        proxy = True
+        permissions = [('can_deliver_pizzas', 'Can deliver pizzas')]
+
+>>> # Fetch the content type for the proxy model.
+>>> content_type = ContentType.objects.get_for_model(Student, for_concrete_model=False)
+>>> student_permissions = Permission.objects.filter(content_type=content_type)
+>>> [p.codename for p in student_permissions]
+['add_student', 'change_student', 'delete_student', 'view_student',
+'can_deliver_pizzas']
+>>> for permission in student_permissions:
+...     user.user_permissions.add(permission)
+>>> user.has_perm('app.add_person')
+False
+>>> user.has_perm('app.can_eat_pizzas')
+False
+>>> user.has_perms(('app.add_student', 'app.can_deliver_pizzas'))
+True
+}}}
+
+=== Custom permissions using `Meta` class ===
+
+To create custom permissions for a given model object, use the `permissions` [[https://docs.djangoproject.com/en/4.1/topics/db/models/#meta-options|model Meta attribute]].
+
+This example `Task` model creates two custom permissions, i.e., actions users can or cannot do with `Task` instances, specific to your application:
+
+{{{python
+class Task(models.Model):
+    ...
+    class Meta:
+        permissions = [
+            ("change_task_status", "Can change the status of tasks"),
+            ("close_task", "Can remove a task by setting its status as closed"),
+        ]
+}}}
+
+The only thing this does is create those extra permissions when you run `manage.py migrate` (the function that creates permissions is connected to the `post_migrate` signal). Your code is in charge of checking the value of these permissions when a user is trying to access the functionality provided by the application (changing the status of tasks or closing tasks.) Continuing the above example, the following checks if a user may close tasks:
+
+{{{python
+user.has_perm('app.close_task')
+}}}
+
+While a nice run-down of permissions is written here, an also nice quick read can be found here: https://medium.com/djangotube/django-roles-groups-and-permissions-introduction-a54d1070544

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Django</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Chapters"><h1 id="Chapters" class="header"><a href="#Chapters">Chapters</a></h1></div>
+
+<ul>
+<li>
+<a href="Django User Authentication.html">Django User Authentication</a>
+
+<li>
+<a href="Setting up with PostgreSQL.html">Setting up with PostgreSQL</a>
+
+</ul>
+<div id="Stuff"><h1 id="Stuff" class="header"><a href="#Stuff">Stuff</a></h1></div>
+
+<ul>
+<li>
+<a href="https://djangopy.org/how-to/how-to-implement-categories-in-django/">Categories in Django (Also shows disallowing duplicate entries)</a> [Models related]
+
+</ul>
+<div id="Stuff-Other short stuff that are easy to forget"><h2 id="Other short stuff that are easy to forget" class="header"><a href="#Stuff-Other short stuff that are easy to forget">Other short stuff that are easy to forget</a></h2></div>
+
+<div id="Stuff-Other short stuff that are easy to forget-How to load templates from the root dir"><h3 id="How to load templates from the root dir" class="header"><a href="#Stuff-Other short stuff that are easy to forget-How to load templates from the root dir">How to load templates from the root dir</a></h3></div>
+
+<p>
+Also known as the "Project-Level Templates". Just change this line in <code>project_name/settings.py</code>.
+</p>
+
+<pre python>
+# settings.py
+TEMPLATES = [
+	{
+		# ...,
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		# ...
+	}
+]
+</pre>
+
+<p>
+Then create a <code>templates</code> directory in the root level of the project. Example:
+</p>
+
+<pre>
+├── example_project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│   └── pages
+│      ├── __init__.py
+│      ├── admin.py
+│      ├── apps.py
+│      ├── models.py
+│      ├── tests.py
+│      └── views.py
+├── templates  &lt;-- Like this
+│   ├── home.html
+└── manage.py
+</pre>
+
+<p>
+An existing template for an app can also be overridden this way just by namespacing the template with the app's name in the root <code>templates</code> directory.
+</p>
+
+<pre>
+├── example_project
+│   ├── ...
+│   ├── ...
+│   ├── ...
+├── templates
+│   ├── app_name  &lt;-- Like this
+│   │   ├── home.html
+</pre>
+
+<p>
+Maybe more info: <a href="https://learndjango.com/tutorials/template-structure">https://learndjango.com/tutorials/template-structure</a>
+</p>
+
+<div id="Read Later"><h1 id="Read Later" class="header"><a href="#Read Later">Read Later</a></h1></div>
+
+<ol>
+<li>
+Read the official tutorial (DOING)
+
+<li>
+Read up on <a href="https://docs.djangoproject.com/en/3.2/ref/django-admin/">Django Admin &amp; manage.py</a>
+
+<li>
+
+</ol>
+
+</body>
+</html>

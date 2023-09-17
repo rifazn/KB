@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>Termux</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Apache server on Termux"><h1 id="Apache server on Termux" class="header"><a href="#Apache server on Termux">Apache server on Termux</a></h1></div>
+
+<ol>
+<li>
+Install <code>apache2</code> and <code>termux-services</code>.
+
+<li>
+Start the apache server: <code>sv up httpd</code>
+
+<li>
+Browse to the device's localhost. Voila!
+
+</ol>
+
+<p>
+To <em>stop</em> the server: <code>sv down httpd</code>. To auto-start the server upon login: <code>sv-enable httpd</code>. More on <em>termux-services</em>: <a href="https://wiki.termux.com/wiki/Termux-services.">https://wiki.termux.com/wiki/Termux-services.</a>
+</p>
+
+<div id="Apache server on Termux-Apache configs"><h2 id="Apache configs" class="header"><a href="#Apache server on Termux-Apache configs">Apache configs</a></h2></div>
+
+<p>
+Config directory: <code>$PREFIX/etc/apache2</code>.
+</p>
+
+<p>
+Directory that gets served by default: <code>$PREFIX/share/apache2/default-site/htdocs</code>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+= Chapters =
+
+* [[Django User Authentication]]
+* [[Setting up with PostgreSQL]]
+
+= Stuff =
+
+* [[https://djangopy.org/how-to/how-to-implement-categories-in-django/|Categories in Django (Also shows disallowing duplicate entries)]] [Models related]
+
+== Other short stuff that are easy to forget ==
+
+=== How to load templates from the root dir ===
+
+Also known as the "Project-Level Templates". Just change this line in `project_name/settings.py`.
+
+{{{python
+# settings.py
+TEMPLATES = [
+	{
+		# ...,
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		# ...
+	}
+]
+}}}
+
+Then create a `templates` directory in the root level of the project. Example:
+
+{{{
+├── example_project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│   └── pages
+│      ├── __init__.py
+│      ├── admin.py
+│      ├── apps.py
+│      ├── models.py
+│      ├── tests.py
+│      └── views.py
+├── templates  <-- Like this
+│   ├── home.html
+└── manage.py
+}}}
+
+An existing template for an app can also be overridden this way just by namespacing the template with the app's name in the root `templates` directory.
+
+{{{
+├── example_project
+│   ├── ...
+│   ├── ...
+│   ├── ...
+├── templates
+│   ├── app_name  <-- Like this
+│   │   ├── home.html
+}}}
+
+Maybe more info: https://learndjango.com/tutorials/template-structure
+
+= Read Later =
+
+1. Read the official tutorial (DOING)
+2. Read up on [[https://docs.djangoproject.com/en/3.2/ref/django-admin/|Django Admin & manage.py]]
+3. 

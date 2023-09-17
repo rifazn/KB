@@ -1,0 +1,33 @@
+= Markup =
+
+== Miscellaneous ==
+
+1. Enter date/time on cursor position: `^R=strftime("%Y-%m-%d")` in insert mode.
+2. Search for current line under cursor: `:exec '/' . getline('.')`. Details: https://vi.stackexchange.com/questions/6208/how-to-search-for-lines-matching-current-line-in-vim
+3. Delete lines that match a pattern: `:g/pattern/d`. Details: https://vim.fandom.com/wiki/Delete_all_lines_containing_a_pattern
+4. Read from an open buffer. First `:ls` and then, `:r #<number>`
+
+= Tabstop, softtabstop, etc =
+
+https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990
+
+= Digraphs =
+
+Digraphs are symbols like: ¾, µ, ©, λ.
+
+You can access them using `:h dig`.
+
+Some common digraphs
+| Digraph | ^K sequence |
+| ¾       | 34          |
+| µ       | My          |
+| ©       | Co          |
+| λ       | l*          |
+| ✓       | OK          |
+
+You can find all the greek characters starting from serial no. 915 in the digraph list.
+
+A better more structured resource: http://www.alecjacobson.com/weblog/?p=443.
+
+Bro... use `:h digraph-table`.
+

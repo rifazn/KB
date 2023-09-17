@@ -1,0 +1,7 @@
+= Calc =
+
+== Copy values down a column ==
+
+Hold Ctrl while dragging down
+
+Ref: https://ask.libreoffice.org/t/how-to-copy-a-number-down-the-column/70594

@@ -1,0 +1,6 @@
+= Outworld Destroyer =
+
+== Counters ==
+
+* Make _Orchid Malevolence_ against OD to silence him and deal bonus damage for that silence.
+* Making _Diffusal Blade_ is useless against him as he gets mana for every hit of his `Q`.

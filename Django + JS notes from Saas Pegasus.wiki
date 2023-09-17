@@ -1,0 +1,29 @@
+= Contents =
+
+* [[Part 1: Organizing your Front-End Codebase in a Django Project]]
+* [[Part 2: A Crash Course in Modern JavaScript Tooling]]
+* [[Part 3: Integrating a Modern JavaScript Pipeline into a Django Application]]
+* [[Part 4: How to build a React application in a Django project]]
+* [[Part 5: Django, HTMX and Alpine.js: Modern websites, JavaScript optional]]
+* [[Part 6: Django and OpenAPI: Front end the better way.]]
+
+= Overview =
+
+| Start time | 16th Jan, 2023 - 11:32 AM |
+| End time   | Ongoing                   |
+
+The guide is broad in scope and so it's broken into several parts. Parts 1-4 are best read together, but Part 5 can be read on its own—and if you know you don't want to use JavaScript you should start there!
+
+*Part 1 covers our big-picture setup.* We'll discuss two common ways of organizing front-end code in a Django project—which we'll call server-first, and client-first. Then we'll outline why neither of these are perfect, and learn how a hybrid architecture can help provide us with the best of both worlds.
+
+*In Part 2 we'll shift gears to the fundamentals of modern JavaScript tooling.* The aim here is to demystify terms like "yarn", "webpack" and "babel". We're not trying to present the entire JavaScript ecosystem—that would be impossible (not to mention out of date the moment it was published)—but instead provide enough practical knowledge to make good choices and understand Parts 3 and 4.
+
+{{https://www.saaspegasus.com/static/images/web/modern-javascript/2008-vs-2021.c8b5395d6a17.png|JS Meme}}
+
+In case you hadn't noticed, things have gotten complicated in the JavaScript world in the decade since Django 1.0 was released.
+
+*In Part 3 we'll start putting things together—setting up a JavaScript build pipeline inside a Django project.* We'll use the information we learned in Part 2 to start building out the hybrid architecture from Part 1, and go through a few "hello world" examples in Django using React and Vue.
+
+*In Part 4 we'll cover the real-world scenario of building hybrid React app in a Django project.* We'll discuss many of the common issues that come up and offer patterns and code that help address them. And in Part 6, dive deeper into working with APIs in your front end using modern standards like OpenAPI, filling in some gaps left in Part 4.
+
+*Finally, in Part 5, we throw everything out the window and talk about when you might not need JavaScript at all.* We'll cover two of the most popular low-JavaScript frameworks out there: Alpine.js and HTMX—and you'll learn how you can use them to build modern websites in a Django project without writing JavaScript at all.

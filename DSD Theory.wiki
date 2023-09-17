@@ -1,0 +1,66 @@
+= Class tests And Assignments =
+
+Assn shob count hobe. total 2 ta hoise. 
+
+within next robibar raater 11 tar moddhe hocche missing gula submit kora jabe. lms e. las chance for assignment.
+
+In class Assn: After Eid first saturday. SAP-1 and SAP-2 (Not sap 2 probly).
+
+= Missed a class before 05-18 =
+
+= Chapter 2 - ALU =
+
+== Adder ==
+
+=== Truth Table of Sum === 
+| A | B | C,,in,, | Sum | C,,out,, |
+|:-:|:-:|:-------:|:---:|:--------:|
+| 0 | 0 |    0    |  0  |    0     |
+| 0 | 0 |    1    |  1  |    0     |
+| 0 | 1 |    0    |  1  |    0     |
+| 0 | 1 |    1    |  0  |    1     |
+| 1 | 0 |    0    |  1  |    0     |
+| 1 | 0 |    1    |  0  |    1     |
+| 1 | 1 |    0    |  0  |    1     |
+| 1 | 1 |    1    |  1  |    0     |
+
+=== K-Map of Sum ===
+
+| *A\BC* | *00* | *01* | *11* | *10* |
+| *0*    | 0    | 1    | 0    | 1    |
+| *1*    | 1    | 0    | 1    | 0    |
+
+= Lecture 0504 =
+
+== Examples ==
+
+* How a program that multiplies decimal 12 and 8
+
+First, always set your decimal to hexa.
+
+| Lable   | Mnemonic   | COmment |
+|         | MVI A, 00h |         |
+|         | MVI B, 0Ch |         |
+|         | MVI C, 08h |         |
+| REPEAT: | ADD B      |         |
+|         | DCR C      |         |
+|         | JZ DONEE   |         |
+|         | JMP REPEAT |         |
+| DONEE:  | HLT        |         |
+
+* 11-13: The bits in a byte are numbered 7 to 0. Show a program that can input a 0 is a 1 or 0. If the bit is a 1, the program is to load the accumulator with an ASCII Y(yes). If the bit is a 0, the program should load the acc with an ASCII N (no). They yes or no asnwer is to be sent to out port 3.
+
+| Label | Code | Comment |
+|       |      |         |
+
+* 11-14: 
+
+= Chapter something - SAP 3 =
+
+*Lecture 05-18*
+
+= I dunno =
+
+| OPCODE | Instruction |
+| 3Eh    | MVI A, byte |
+|        |             |

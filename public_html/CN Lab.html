@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>CN Lab</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="CN Lab.html#About next exam">About next exam</a>
+
+<li>
+<a href="CN Lab.html#Class, 04-28">Class, 04-28</a>
+
+<li>
+<a href="CN Lab.html#Lecture 3">Lecture 3</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Lecture 3-Binary Calculation">Binary Calculation</a>
+
+<li>
+<a href="CN Lab.html#Lecture 3-IP Adrress">IP Adrress</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Lecture 3-IP Adrress-Network Address">Network Address</a>
+
+</ul>
+<li>
+<a href="CN Lab.html#Lecture 3-Subnet Mask(Default)">Subnet Mask(Default)</a>
+
+<li>
+<a href="CN Lab.html#Lecture 3-Network IP">Network IP</a>
+
+<li>
+<a href="CN Lab.html#Lecture 3-Broadcast IP">Broadcast IP</a>
+
+<li>
+<a href="CN Lab.html#Lecture 3-Questions">Questions</a>
+
+</ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT">Last lecture - NAT</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-Private IPv4 Address">Private IPv4 Address</a>
+
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite">NAT Pre-requisite</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING">LAN ROUTING</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno">RIP er jonno</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno-First set up routing">First set up routing</a>
+
+</ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT">Now setup NAT</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Static NAT">Static NAT</a>
+
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Dynamic NAT">Dynamic NAT</a>
+
+</ul>
+</ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-Now applu the NAT on R1">Now applu the NAT on R1</a>
+
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-Show the NAT table">Show the NAT table</a>
+
+<ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-Show the NAT table-R1 theke default routing to internet">R1 theke default routing to internet</a>
+
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-Show the NAT table-Default Routing using Dynamic Routing">Default Routing using Dynamic Routing</a>
+
+</ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-NAT Pre-requisite-ISP Routing">ISP Routing</a>
+
+</ul>
+<li>
+<a href="CN Lab.html#Last lecture - NAT-Access Control">Access Control</a>
+
+</ul>
+</ul>
+
+<p>
+CN Lab uses lab manual that can be found in lms.
+</p>
+
+<div id="About next exam"><h1 id="About next exam" class="header"><a href="#About next exam">About next exam</a></h1></div>
+
+<ol>
+<li>
+Routing
+
+<li>
+DHCP
+
+<li>
+Standard ACL
+
+<li>
+Socket
+
+<li>
+NAT
+
+</ol>
+
+<p>
+Sill pkt exam
+</p>
+<ol>
+<li>
+Routing
+
+<li>
+DHCP
+
+<li>
+Standard ACL
+
+<li>
+NAT
+
+</ol>
+
+<p>
+24th may on DHCP, ACL, NAT
+</p>
+
+<p>
+2nd June, Final Assn, on all 5 topics
+</p>
+
+<div id="Class, 04-28"><h1 id="Class, 04-28" class="header"><a href="#Class, 04-28">Class, 04-28</a></h1></div>
+
+<p>
+Socket programming er upor quiz. Questions is, amader use kora function gula ki bujhay amader code e.
+</p>
+
+<dl>
+<dt>AF_INET</dt>
+<dd>Use IPv4 with 32 bit ip address, 16 bit port.</dd>
+<dt>SOCK_STREAM</dt>
+<dd>for tcp socket</dd>
+<dt>SOCK_DGRAM</dt>
+<dd>for udp socket</dd>
+</dl>
+
+<p>
+<span id="Class, 04-28-Project"></span><strong id="Project">Project</strong> is creating a web server using Python. <span id="Class, 04-28-Submit"></span><strong id="Submit">Submit</strong> by 17th May. <span id="Class, 04-28-Exam"></span><strong id="Exam">Exam</strong> on 19th May.
+</p>
+
+<p>
+Search "Python Web Server" on the internet.
+</p>
+
+<p>
+<span id="Class, 04-28-Quiz"></span><strong id="Quiz">Quiz</strong> on next class on "Assignment?" (I don't know which).
+</p>
+
+
+
+<div id="Lecture 3"><h1 id="Lecture 3" class="header"><a href="#Lecture 3">Lecture 3</a></h1></div>
+
+<ul>
+<li>
+A PC needs 3 types of addresses: IP, MAC and Subnet Mask, Gateway.
+
+<li>
+Shudu 'IP' bolle, dui dhoroner. IP and MAC.
+
+<li>
+Ar logical bolle, IP, subnet mask, default gateway.
+
+</ul>
+
+<div id="Lecture 3-Binary Calculation"><h2 id="Binary Calculation" class="header"><a href="#Lecture 3-Binary Calculation">Binary Calculation</a></h2></div>
+
+<p>
+<span id="Lecture 3-Binary Calculation-Very important"></span><strong id="Very important">Very important</strong>
+</p>
+
+<p>
+Number System
+<table>
+<tr>
+<th>
+2⁷
+</th>
+<th>
+2⁶
+</th>
+<th>
+2⁵
+</th>
+<th>
+2⁴
+</th>
+<th>
+2³
+</th>
+<th>
+2²
+</th>
+<th>
+2¹
+</th>
+<th>
+2⁰
+</th>
+</tr>
+<tr>
+<td>
+128
+</td>
+<td>
+64
+</td>
+<td>
+32
+</td>
+<td>
+16
+</td>
+<td>
+8
+</td>
+<td>
+4
+</td>
+<td>
+2
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+128
+</td>
+<td>
+192
+</td>
+<td>
+224
+</td>
+<td>
+240
+</td>
+<td>
+248
+</td>
+<td>
+252
+</td>
+<td>
+254
+</td>
+<td>
+255
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+Using this table:
+</p>
+
+<dl>
+<dt>100d</dt>
+<dd>01100100b</dd>
+<dt>200d</dt>
+<dd>11001000b <em>(Just right shifted)</em></dd>
+<dt> 25d</dt>
+<dd>00011001b</dd>
+<dt>250d</dt>
+<dd>111111010b (Using the bottom row! \m/)</dd>
+</dl>
+
+
+<div id="Lecture 3-IP Adrress"><h2 id="IP Adrress" class="header"><a href="#Lecture 3-IP Adrress">IP Adrress</a></h2></div>
+
+<p>
+IP Address version 4 (IPv4) is of 32 bits.
+</p>
+
+<table>
+<tr>
+<th>
+Class
+</th>
+<th>
+Start IP
+</th>
+<th>
+End IP
+</th>
+<th>
+Network Part
+</th>
+<th>
+Host Part
+</th>
+<th>
+Default Subnet Mask
+</th>
+</tr>
+<tr>
+<td>
+<span id="Lecture 3-IP Adrress-A"></span><strong id="A">A</strong>
+</td>
+<td>
+0.0.0.0
+</td>
+<td>
+127.255.255.255
+</td>
+<td>
+8
+</td>
+<td>
+24
+</td>
+<td>
+255.0.0.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="Lecture 3-IP Adrress-B"></span><strong id="B">B</strong>
+</td>
+<td>
+128.0.0.0
+</td>
+<td>
+191.255.255.255
+</td>
+<td>
+16
+</td>
+<td>
+16
+</td>
+<td>
+255.255.0.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="Lecture 3-IP Adrress-C"></span><strong id="C">C</strong>
+</td>
+<td>
+192.0.0.0
+</td>
+<td>
+223.255.255.255
+</td>
+<td>
+24
+</td>
+<td>
+8
+</td>
+<td>
+255.255.255.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="Lecture 3-IP Adrress-D"></span><strong id="D">D</strong>
+</td>
+<td>
+224.0.0.0
+</td>
+<td>
+239.255.255.255
+</td>
+<td colspan="3">
+Reserved for Multicasting
+</td>
+</tr>
+<tr>
+<td>
+E
+</td>
+<td>
+240.0.0.0
+</td>
+<td>
+255.255.255.254
+</td>
+<td colspan="3">
+Experimental: Used for research
+</td>
+</tr>
+</table>
+
+<p>
+Notice from the above table that Subnet Mask is derived by using the 'Network Part' and 'Host Part'.
+</p>
+
+<p>
+For example, a class A IP <code>125.10.100.25</code>'s network part is <code>10.100.25</code> (24 bits) and host part is <code>125</code> (8 bits).
+</p>
+
+<p>
+Will (for now) consist of two parts: 
+</p>
+<ol>
+<li>
+Network part (defines the group)
+
+<li>
+Host part ()
+
+</ol>
+
+<p>
+Later we got to know, the IP has 3 parts:
+</p>
+<ol>
+<li>
+Network Address: All host bits are <code>0</code>
+
+<li>
+Subnet Mask: All host bits are <code>1</code>
+
+<li>
+Broadcast Address: All Network bits are <code>1</code> and all host bits are <code>0</code>
+
+</ol>
+
+<div id="Lecture 3-IP Adrress-Network Address"><h3 id="Network Address" class="header"><a href="#Lecture 3-IP Adrress-Network Address">Network Address</a></h3></div>
+<p>
+Gives us an idea of the device. Tells us which <em>group</em> it belongs to.
+</p>
+
+<div id="Lecture 3-Subnet Mask(Default)"><h2 id="Subnet Mask(Default)" class="header"><a href="#Lecture 3-Subnet Mask(Default)">Subnet Mask(Default)</a></h2></div>
+<p>
+Is derived from Network bits of the IP. Using Subnet Mask we derive the network IP.
+</p>
+
+<ul>
+<li>
+Subnet Mask varies depending on local IP.
+
+<li>
+Subnet Mask (for now) is also divided in to two parts. Same as IP.
+
+<li>
+
+
+</ul>
+
+<p>
+Default boltesi karon it's derived using the Class thingy.
+</p>
+
+<div id="Lecture 3-Network IP"><h2 id="Network IP" class="header"><a href="#Lecture 3-Network IP">Network IP</a></h2></div>
+<p>
+Derived by performing IP &amp;&amp; Subnet Mask.
+</p>
+
+<div id="Lecture 3-Broadcast IP"><h2 id="Broadcast IP" class="header"><a href="#Lecture 3-Broadcast IP">Broadcast IP</a></h2></div>
+<p>
+Network part pura same thakbe as Network IP, and remaining bits are all <code>1</code>.
+</p>
+
+<div id="Lecture 3-Questions"><h2 id="Questions" class="header"><a href="#Lecture 3-Questions">Questions</a></h2></div>
+
+<p>
+Lab Manual Page no. 10
+</p>
+
+<p>
+<a href="CN Lab Examples.html">CN Lab Examples</a>
+</p>
+
+<p>
+<span class="todo">TODO</span>:
+At around 1 hr, example ta likho edike vimwiki te.
+</p>
+
+<p>
+<span class="todo">DONE</span>:
+Q1. What address to set if I want to communicate to all devices under the same logical group?
+A1: Use the broadcast address.
+</p>
+
+<div id="Lecture 4 -- Subnets and IPs contd."><h1 id="Lecture 4 -- Subnets and IPs contd." class="header"><a href="#Lecture 4 -- Subnets and IPs contd.">Lecture 4 -- Subnets and IPs contd.</a></h1></div>
+
+<div id="Lecture 4 -- Subnets and IPs contd.-Examples"><h2 id="Examples" class="header"><a href="#Lecture 4 -- Subnets and IPs contd.-Examples">Examples</a></h2></div>
+
+<p>
+Lab Manual Page 10 C(ii)
+</p>
+
+<table>
+<tr>
+<td>
+Address
+</td>
+<td>
+Subnet Mask
+</td>
+</tr>
+<tr>
+<td>
+60.41.211.5
+</td>
+<td>
+255.255.255.0
+</td>
+</tr>
+</table>
+
+<p>
+*Important note: Jodi kono subnet mask, ip er class ke follow na kore, then 
+jototuk bit er difference thake, otake subnet bit bole.*
+</p>
+
+<p>
+Now we know that IP has 3 parts (not 2 as previously shown).
+</p>
+
+<p>
+IP is made up of Network Part, Subnet Part, and Host Part.
+</p>
+
+<p>
+Answer
+</p>
+
+<table>
+<tr>
+<td>
+Class
+</td>
+<td>
+Network Add.
+</td>
+<td>
+Broadcast Addr.
+</td>
+<td>
+IP range
+</td>
+<td>
+Total subnet
+</td>
+</tr>
+<tr>
+<td>
+A
+</td>
+<td>
+60.41.211.0
+</td>
+<td>
+60.41.211.255
+</td>
+<td>
+\(2^8 - 2 = 254\)
+</td>
+<td>
+\(2^16=65536\)
+</td>
+</tr>
+</table>
+
+<div id="Last lecture - NAT"><h1 id="Last lecture - NAT" class="header"><a href="#Last lecture - NAT">Last lecture - NAT</a></h1></div>
+
+<table>
+<tr>
+<td>
+Class
+</td>
+<td>
+IP Range
+</td>
+<td>
+Network Bit
+</td>
+</tr>
+<tr>
+<td>
+A
+</td>
+<td>
+0-127
+</td>
+<td>
+/8
+</td>
+</tr>
+<tr>
+<td>
+B
+</td>
+<td>
+128-191
+</td>
+<td>
+/16
+</td>
+</tr>
+<tr>
+<td>
+C
+</td>
+<td>
+192-224
+</td>
+<td>
+/24
+</td>
+</tr>
+</table>
+
+<div id="Last lecture - NAT-Private IPv4 Address"><h2 id="Private IPv4 Address" class="header"><a href="#Last lecture - NAT-Private IPv4 Address">Private IPv4 Address</a></h2></div>
+
+<p>
+10.0.0.0 extending to 10.255.255.255  /8
+</p>
+
+<p>
+this range is given to us.
+</p>
+
+<p>
+172.16.0.0 extending to 172.32.0.0  /12
+</p>
+
+<p>
+192.168.0.0 extending to 192.168.255.255  /16
+</p>
+
+<dl>
+<dt>16</dt>
+<dd>00010000</dd>
+<dt>31</dt>
+<dd>00011111</dd>
+</dl>
+
+<p>
+Private Address uses the NAT Table to
+convert to Public IP before going to the
+internet, and vice versa.
+</p>
+
+<div id="Last lecture - NAT-NAT Pre-requisite"><h2 id="NAT Pre-requisite" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite">NAT Pre-requisite</a></h2></div>
+
+<ol>
+<li>
+LAN Routing
+
+<li>
+ISP Routing
+
+</ol>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING"><h3 id="LAN ROUTING" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING">LAN ROUTING</a></h3></div>
+
+<ul>
+<li>
+Use Dynamic Routing (RIP) in LAN Router
+
+<li>
+Static Routing to ISP
+
+<li>
+Default routing using Dynamic Routing
+
+</ul>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno"><h4 id="RIP er jonno" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno">RIP er jonno</a></h4></div>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno-First set up routing"><h5 id="First set up routing" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-RIP er jonno-First set up routing">First set up routing</a></h5></div>
+
+<p>
+On R1 router
+</p>
+
+<pre>
+show ip route
+router rip
+version 2
+network 192.168.12.0  # ekhane shudhu 'C' gula nibo except ISP er ta (last e)
+network 192.168.220.0
+network 192.168.221.0
+exit
+</pre>
+
+<p>
+Same for R2 router
+</p>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT"><h4 id="Now setup NAT" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT">Now setup NAT</a></h4></div>
+
+<p>
+There are two types of NAT:
+</p>
+<ol>
+<li>
+Static NAT
+
+<li>
+Dynamic NAT
+
+</ol>
+
+<p>
+Arekta ase... PAT, but very similar to NAT, so arekta extra type bola hoy na.
+</p>
+
+<p>
+PAT te matro aktai public IP, NAT te multiple public IP.
+</p>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Static NAT"><h5 id="Static NAT" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Static NAT">Static NAT</a></h5></div>
+<p>
+Kno router ke bairer theke access dite chaile
+</p>
+
+<p>
+for r1
+</p>
+<pre>
+# For UCAM
+ip nat inside source static 192.168.12.12 209.165.200.241 
+# For Game server
+ip nat inside source static 192.168.11.11 209.165.200.242 
+</pre>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Dynamic NAT"><h5 id="Dynamic NAT" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-LAN ROUTING-Now setup NAT-Dynamic NAT">Dynamic NAT</a></h5></div>
+
+<p>
+Steps
+</p>
+<ol>
+<li>
+LAN Address List (Standard ACL)
+
+<li>
+Create a Public IP Pool
+
+<li>
+List -&gt; Pool -&gt; Internet
+
+</ol>
+
+<p>
+Access List
+</p>
+<pre>
+access-list 1 permit 192.168.10.0 0.0.0.255
+access-list 1 permit 192.168.11.0 0.0.0.255
+access-list 1 permit 192.168.12.0 0.0.0.255
+</pre>
+
+<p>
+Public IP Pool
+R1 select kore
+</p>
+<pre>
+ip nat pool NAT-POOL 209.165.200.243 209.165.200.245 netmask 255.255.255.248
+# 'NAT-POOL' is a name heere arbitrary
+</pre>
+
+<p>
+List
+</p>
+<pre>
+ip nat inside source list 1 pool NAT-POOL overload
+</pre>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-Now applu the NAT on R1"><h3 id="Now applu the NAT on R1" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-Now applu the NAT on R1">Now applu the NAT on R1</a></h3></div>
+<p>
+2 parts, inside and outside
+</p>
+<pre>
+interface 0/1/1
+ip nat outside exit
+</pre>
+<p>
+aro ki jano likse check dat
+</p>
+<pre>
+interface 0/1/1
+ip nat outside exit
+</pre>
+<pre>
+interface 0/1/1
+ip nat outside exit
+</pre>
+<div id="Last lecture - NAT-NAT Pre-requisite-Show the NAT table"><h3 id="Show the NAT table" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-Show the NAT table">Show the NAT table</a></h3></div>
+<p>
+<code>show ip nat translations</code>
+</p>
+<div id="Last lecture - NAT-NAT Pre-requisite-Show the NAT table-R1 theke default routing to internet"><h4 id="R1 theke default routing to internet" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-Show the NAT table-R1 theke default routing to internet">R1 theke default routing to internet</a></h4></div>
+
+<p>
+<code>ip route 0.0.0.0 0.0.0.0 200.165.200.193</code>
+</p>
+
+<p>
+<code>show ip route</code>
+</p>
+
+<p>
+<code>S*</code> mane static er maddhome default
+</p>
+
+<div id="Last lecture - NAT-NAT Pre-requisite-Show the NAT table-Default Routing using Dynamic Routing"><h4 id="Default Routing using Dynamic Routing" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-Show the NAT table-Default Routing using Dynamic Routing">Default Routing using Dynamic Routing</a></h4></div>
+<pre>
+router rip
+default-information originate
+</pre>
+
+
+<p>
+<code>show ip route</code>
+</p>
+
+<p>
+dekhabe <code>R*</code> (RIP er maddhome default)
+</p>
+<div id="Last lecture - NAT-NAT Pre-requisite-ISP Routing"><h3 id="ISP Routing" class="header"><a href="#Last lecture - NAT-NAT Pre-requisite-ISP Routing">ISP Routing</a></h3></div>
+
+<ul>
+<li>
+Create Static Routing using Public Network Address
+
+</ul>
+
+<p>
+host isp
+ip route 209.165.200.240 255.255.255.248 200.165.200.194
+</p>
+
+<div id="Last lecture - NAT-Access Control"><h2 id="Access Control" class="header"><a href="#Last lecture - NAT-Access Control">Access Control</a></h2></div>
+
+</body>
+</html>

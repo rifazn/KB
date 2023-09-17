@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Part 3: Integrating a Modern JavaScript Pipeline into a Django Application</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents" class="header"><a href="#Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application">#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application</a>
+
+<ul>
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#The layout">#The layout</a>
+
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Setting up webpack inside your Django project">#Setting up webpack inside your Django project</a>
+
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Connecting your webpack bundles to Django">#Connecting your webpack bundles to Django</a>
+
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Getting to the real stuff -- serving up external JS libraries">#Getting to the real stuff -- serving up external JS libraries</a>
+
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Setting up React with Babel">#Setting up React with Babel</a>
+
+<li>
+<a href="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application.html#Setting up Vue.js with Babel">#Setting up Vue.js with Babel</a>
+
+</ul>
+</ul>
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application"><h1 id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application">Part 3: Integrating a Modern JavaScript Pipeline into a Django Application</a></h1></div>
+
+<p>
+Basically building a "Hello, World" application using ReactJS and Vue with Django backend.
+</p>
+
+<p>
+We will use:
+</p>
+<ol>
+<li>
+NPM: To install packages
+
+<li>
+Babel: To compile JS-like code to actual JS
+
+<li>
+Webpack: To bundle
+
+</ol>
+<p>
+The overview (plan):
+</p>
+
+<p>
+The plan is to set up a JavaScript pipeline in our Django project and use the output files as static assets in Django's view/template system.
+</p>
+
+<p>
+<img src="https://www.saaspegasus.com/static/images/web/modern-javascript/js-pipeline-with-django.56456c10739f.png" />
+</p>
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-The layout"><h2 id="The layout" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-The layout">The layout</a></h2></div>
+
+<p>
+Suggested to <span id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-The layout-make your JavaScript project as a subfolder in the root of your larger Django project"></span><strong id="make your JavaScript project as a subfolder in the root of your larger Django project">make your JavaScript project as a subfolder in the root of your larger Django project</strong>. This guide uses a folder called <code>./assets/</code> for the front-end source files, though you could also use <code>./front-end/</code>, <code>./js/</code> or whatever you want really.
+</p>
+
+<p>
+The outputs of these source files will be placed in the <code>./static/</code> folder (which is already quite standard Django practice).
+</p>
+
+<p>
+Here's what the structure will look like (based on the official Django tutorial):
+</p>
+
+<pre>
+├── manage.py
+├── mysite
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── myapp      &lt;----- a normal Django app
+│   ├── __init__.py
+│   ├── models.py
+│   ├── urls.py
+│   └── views.py
+├── assets     &lt;----- our front-end project source
+│   ├── javascript
+│   └── styles
+├── static     &lt;----- our front-end project outputs (and other Django static files)
+│   ├── css
+│   ├── images
+│   └── js  
+└── templates  &lt;----- our Django template files
+    └── myapp
+</pre>
+
+<p>
+One note about the above layout is that it puts all Django templates in a standalone folder, as recommended by "Two Scoops of Django".
+</p>
+
+<p>
+Make sure that Django is running properly before continuing.
+</p>
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up webpack inside your Django project"><h2 id="Setting up webpack inside your Django project" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up webpack inside your Django project">Setting up webpack inside your Django project</a></h2></div>
+
+<p>
+We will set <span id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up webpack inside your Django project-webpack"></span><strong id="webpack">webpack</strong> up to build the source files that are in <code>./assets/</code> and drop the compiled bundles in <code>./static/</code>.
+</p>
+
+<p>
+We'll cover how to create page-level bundles later, but for now let's just assume that we'll bundle our entire front-end into one giant file called <code>index-bundle.js</code>.
+</p>
+
+
+<p>
+To start, we'll be following along with the basics from the Webpack getting started guide.
+</p>
+
+<p>
+If you haven't already, you'll need to install npm before continuing.
+</p>
+
+<p>
+&lt;span style="background:#458588;"&gt;First initialize a new npm project in the root of your Django project and install webpack.&lt;/span&gt;
+</p>
+
+<pre>
+npm init -y
+npm install webpack webpack-cli --save-dev
+</pre>
+
+<p>
+This will create <code>package.json</code> and <code>package-lock.json</code> files as well as a <code>node_modules</code> folder where our JavaScript library dependencies will go. The first two should be maintained by your version control system, while the latter should be ignored.
+</p>
+
+<p>
+Next create a file called <code>./assets/index.js</code> and give it these contents:
+</p>
+
+<pre javascript>
+function component() {
+  const element = document.createElement('div');
+  element.innerHTML = 'Hello webpack';
+  return element;
+}
+document.body.appendChild(component());
+</pre>
+
+<p>
+This will be our "hello world" set up to confirm that everything is working.
+</p>
+
+<p>
+Create <code>webpack.config.js</code> in the root of your Django project, and give it these contents:
+</p>
+
+<pre javascript>
+const path = require('path');
+
+module.exports = {
+  entry: './assets/index.js',  // path to our input file
+  output: {
+    filename: 'index-bundle.js',  // output bundle file name
+    path: path.resolve(__dirname, './static'),  // path to our Django static directory
+  },
+};
+</pre>
+
+
+<p>
+Finally, we'll add an npm script target to run webpack. In <code>package.json</code> add the following line to the scripts key:
+</p>
+
+<pre javascript>
+  "scripts": {
+    (other stuff here)
+    "dev": "webpack --mode development --watch"
+  },
+</pre>
+
+<p>
+Now we run <code>npm run dev</code> to execute our webpack script. If all goes well you should see an output like this and your <code>./static/index-bundle.js</code> file should be created!
+</p>
+
+<pre>
+$ npm run dev
+
+&gt; mysite@1.0.0 dev /mysite
+&gt; webpack --mode development
+
+Hash: c8fe6998ff64fdc5e0bb
+Version: webpack 4.43.0
+Time: 57ms
+Built at: 06/24/2020 11:02:15 AM
+          Asset      Size  Chunks             Chunk Names
+index-bundle.js  3.96 KiB    main  [emitted]  main
+Entrypoint main = index-bundle.js
+[./assets/index.js] 171 bytes {main} [built]
+
+</pre>
+
+<p>
+If your output looks like this everything is properly set up.
+</p>
+
+<p>
+Congrats! You now have a JavaScript pipeline!
+</p>
+
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Connecting your webpack bundles to Django"><h2 id="Connecting your webpack bundles to Django" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Connecting your webpack bundles to Django">Connecting your webpack bundles to Django</a></h2></div>
+
+<p>
+Create <code>hello_webpack.html</code> which will be a basic Django template referencing the webpack bundle.
+</p>
+
+<pre html>
+{% load static %}
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Getting Started with Django and Webpack&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="{% static 'index-bundle.js' %}"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+The <code>urls.py</code> file:
+</p>
+
+<pre python>
+urlpatterns = [
+  # other patterns here
+  path('hello-webpack/', TemplateView.as_view(template_name='hello_webpack.html'))
+]
+</pre>
+
+<p>
+This assumes <code>hello_webpack.html</code> is available from your template loader. This can be accomplished by editing the <code>settings.py</code> file:
+</p>
+
+<pre python>
+TEMPLATES = [{
+	DIRS = [os.path.join(BASE_DIR, 'templates')]
+}]
+</pre>
+
+<p>
+Also, make sure you're properly serving files out of the static directory by adding the following to <code>settings.py</code>:
+</p>
+
+<pre python>
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+</pre>
+
+<p>
+Ensuring your root <code>./static</code> directory can be found by Django's static files engine.
+</p>
+
+<p>
+Once you've gotten everything properly set up, head to <a href="http://localhost:8000/hello-webpack/">http://localhost:8000/hello-webpack/</a> and you should see the very exciting "hello webpack" message from index.js.
+</p>
+
+<p>
+Hooray! You now have a front-end pipeline embedded in your Django app!
+</p>
+
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Getting to the real stuff -- serving up external JS libraries"><h2 id="Getting to the real stuff -- serving up external JS libraries" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Getting to the real stuff -- serving up external JS libraries">Getting to the real stuff -- serving up external JS libraries</a></h2></div>
+
+<p>
+We will use the lodash utility library in our <code>index.js</code> file.
+</p>
+
+<p>
+Install lodash via npm:
+</p>
+
+<pre>
+npm install --save lodash
+</pre>
+
+
+<p>
+&lt;span style="background:#98971a;"&gt;When installing a package that will be bundled into your production bundle, you should use <em>npm install <span id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Getting to the real stuff -- serving up external JS libraries---save"></span><strong id="--save">--save</strong></em>. If you're installing a package for development purposes (e.g. a linter, testing libraries, or—in the case earlier above with webpack—a bundler) then you should use <em>npm install <span id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Getting to the real stuff -- serving up external JS libraries---save-dev"></span><strong id="--save-dev">--save-dev</strong></em>.&lt;/span&gt;
+</p>
+
+<p>
+Now we can use <code>lodash</code> in our <code>index.js</code> to generate our element:
+</p>
+
+<pre javascript>
+import _ from 'lodash';
+
+function component() {
+  const element = document.createElement('div');
+  element.innerHTML =  _.join(['Hello', 'lodash'], ' ');
+  return element;
+}
+document.body.appendChild(component());
+</pre>
+
+<p>
+Run <code>npm run dev</code> again to regenerate the bundle file and reload the page. If you did it right you should now see "Hello lodash" instead of "Hello webpack".
+</p>
+
+<p>
+And we can now work with external JavaScript libraries! You can repeat this process for any other library you want to use.
+</p>
+
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up React with Babel"><h2 id="Setting up React with Babel" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up React with Babel">Setting up React with Babel</a></h2></div>
+
+<p>
+Babel will convert our JSX into Javascript.
+</p>
+
+<p>
+Babel does this through a plugin ecosystem, and more specifically, through pre-configured setups—called presets—that work well for certain types of apps. Here we'll use the <a href="https://babeljs.io/docs/en/babel-preset-env">env-preset</a> and <a href="https://babeljs.io/docs/en/babel-preset-react">react-preset</a>, though presets also exist for TypeScript and other JavaScript flavors.
+</p>
+
+<p>
+The first thing we do is install Babel (<code>@babel/core</code>), its webpack loader <code>babel-loader</code> and our two presets, all as development dependencies:
+</p>
+
+<pre>
+npm install --save-dev babel-loader @babel/core @babel/preset-env @babel/preset-react
+</pre>
+
+<p>
+Next we have to tell webpack to use this preset to process our files. This is done via a loader. We just need to add the following section to our <code>webpack.config.js</code>.
+</p>
+
+<pre>
+  entry: ...
+  output: ...
+  ...
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: { presets: ["@babel/preset-env", "@babel/preset-react"] }
+      },
+    ]
+  }
+
+</pre>
+
+<p>
+In English, the summary is: "use Babel's <em>env</em> and react presets to compile all <em>.js</em> and <em>.jsx</em> files that aren't inside the <code>node_modules</code> directory".
+</p>
+
+<p>
+Ok, now we're ready to try our React hello world application.
+</p>
+
+<p>
+First add the <code>&lt;div id="root" /&gt;</code> line to your Django template in the <code>&lt;body&gt;</code> (and before including the bundle file) like so:
+</p>
+
+<pre html>
+  &lt;!-- rest of file here --&gt; 
+  &lt;body&gt;  
+    &lt;div id="root" /&gt;
+    &lt;script src="{% static 'index-bundle.js' %}"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+Next we need to install <code>React</code> and <code>ReactDOM</code>:
+</p>
+
+<pre>
+npm install --save react react-dom
+</pre>
+
+<p>
+Now we can update our <code>index.js</code> file to be a React version of hello world:
+</p>
+
+<pre javascript>
+import React from 'react';
+import ReactDOM from "react-dom";
+
+ReactDOM.render(
+  &lt;h1&gt;Hello, react!&lt;/h1&gt;,
+  document.getElementById('root')
+);
+</pre>
+
+<p>
+Run <code>npm run dev</code> again and refresh your page. You should now hopefully see "Hello, react!".
+</p>
+
+<p>
+Congratulations, you now have a hybrid Django-React application!
+</p>
+
+
+<div id="Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up Vue.js with Babel"><h2 id="Setting up Vue.js with Babel" class="header"><a href="#Part 3: Integrating a Modern JavaScript Pipeline into a Django Application-Setting up Vue.js with Babel">Setting up Vue.js with Babel</a></h2></div>
+
+<p>
+A <code>Hello.vue</code> example template:
+</p>
+
+<pre>
+&lt;template&gt;
+  &lt;p&gt;{{ greeting }} Vue!&lt;/p&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+module.exports = {
+  data: function() {
+    return {
+      greeting: "Hello"
+    };
+  }
+};
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+p {
+  font-size: 2em;
+  text-align: center;
+}
+&lt;/style&gt;
+</pre>
+
+<p>
+Install vue and add a vue-loader in our <code>webpack.config.js</code> file.
+</p>
+
+
+<pre>
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      // the react entry we addded above goes here
+    ] 
+</pre>
+
+<p>
+Now we can add an index.vue file like the above, recompile our front end and voila! Hello Vue!
+</p>
+
+<p>
+Try to set this up yourself following the React example and see if you can do it!
+</p>
+
+</body>
+</html>

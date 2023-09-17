@@ -1,0 +1,29 @@
+[[From the 'Pro Git' book]]
+
+
+= Notes =
+
+== Git pull a different remote branch and checkout to it ==
+
+`git switch branchname`
+
+== Push commits from `tagA` until `tagB` ==
+
+1. Make sure the remote branch is up-to-date until `tagA`
+2. Reset the branch pointer to `tagB`: `git reset tagB`
+3. Push like you do
+4. Revert back to latest tag: `git reset latest`
+
+== What does `git rm` do? ==
+
+Seems like it's the same as
+
+```bash
+rm <file>
+git add <file>
+# Stages the deletion of the file basically
+```
+
+== Squash commits into one ==
+
+https://www.internalpointers.com/post/squash-commits-into-one-git

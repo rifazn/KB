@@ -1,0 +1,40 @@
+= Intro =
+
+React is "Declarative programming". Whereas vanilla JS is "Imperative Programming."
+
+== Imperative Programming ==
+
+View
+
+	<h1>0</h1>
+	
+Logic
+
+	let num = parseInt(document.querySelector("h1").innerHTML)
+	num += 1
+	document.querySelector("h1").innerHTML = num
+	
+== Declarative Programming ==
+
+View
+	
+	<h1>{num}</h1>
+	
+Logic
+
+	num+=1
+	
+	
+== Packages to be used ==
+
+* React
+* ReactDOM
+* Babel
+
+We will write not JS, but JSX.
+
+Babel will convert JSX to JS.
+
+= Creating a Reach application =
+
+

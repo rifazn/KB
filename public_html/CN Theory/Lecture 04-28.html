@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Lecture 04-28</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Chapter 4 -- Network Layer"><h1 id="Chapter 4 -- Network Layer" class="header"><a href="#Chapter 4 -- Network Layer">Chapter 4 -- Network Layer</a></h1></div>
+
+<p>
+Difference application and transport vs network layer:
+</p>
+<ul>
+<li>
+application layer and transport layer in end systems.
+
+<li>
+network layer in routers.
+
+<li>
+Every intermediate device must also participate in network layer.
+
+</ul>
+
+<p>
+Network Layer creates the path that should be taken for communication between
+end devices. Also check out the <a href="https://en.wikipedia.org/wiki/Network_layer">wikipedia</a> page.
+</p>
+
+<p>
+Network Layer deals with the <em>routing</em> of the communication.
+</p>
+
+<p>
+Reaching a router is analogous to reaching an intersection. 
+</p>
+
+<p>
+Routing is called global.
+</p>
+
+<div id="Chapter 4 -- Network Layer-Two key network layer functions"><h2 id="Two key network layer functions" class="header"><a href="#Chapter 4 -- Network Layer-Two key network layer functions">Two key network layer functions</a></h2></div>
+
+<dl>
+<dt>Forwarding</dt>
+<dd>move packets from a router's input link to appropriate router output link.</dd>
+</dl>
+
+<dl>
+<dt>Routing</dt>
+<dd>determine route taken by packets from source to destination (Routing happens from source to destination).</dd>
+</dl>
+
+<p>
+First forwarding happens, then routing.
+</p>
+
+<div id="Chapter 4 -- Network Layer-Two planes of network layer"><h2 id="Two planes of network layer" class="header"><a href="#Chapter 4 -- Network Layer-Two planes of network layer">Two planes of network layer</a></h2></div>
+
+<div id="Chapter 4 -- Network Layer-Two planes of network layer-Data plane"><h3 id="Data plane" class="header"><a href="#Chapter 4 -- Network Layer-Two planes of network layer-Data plane">Data plane</a></h3></div>
+
+<ul>
+<li>
+It is <em>local</em>, per-router function.
+
+<li>
+determines how datagram arriving on router input port is forwarded to router output port.
+
+</ul>
+
+<div id="Chapter 4 -- Network Layer-Two planes of network layer-Control plane"><h3 id="Control plane" class="header"><a href="#Chapter 4 -- Network Layer-Two planes of network layer-Control plane">Control plane</a></h3></div>
+
+<ul>
+<li>
+It is <em>network-wide logic</em>.
+
+<li>
+determines how datagram is routed <em>among routers</em> along end-to-end path from source to destination
+
+<li>
+There are two control plane approaches:
+
+<ol>
+<li>
+Traditional routing algorithms (implemented in routers).
+
+<li>
+Software-defined networking: implemented in remote servers.
+
+</ol>
+</ul>
+
+
+<div id="Chapter 4 -- Network Layer-Forwarding"><h2 id="Forwarding" class="header"><a href="#Chapter 4 -- Network Layer-Forwarding">Forwarding</a></h2></div>
+
+<p>
+Two methods:
+</p>
+<ol>
+<li>
+destination-based forwarding: forward based on destination IP address (traditional)
+
+<li>
+generalized forwarding: forward based on any set of header field values.
+
+</ol>
+
+<div id="Chapter 4 -- Network Layer-Forwarding-Destination based forwarding"><h3 id="Destination based forwarding" class="header"><a href="#Chapter 4 -- Network Layer-Forwarding-Destination based forwarding">Destination based forwarding</a></h3></div>
+
+<p>
+Forwarding table
+<table>
+<tr>
+<th>
+Destination Address Range
+</th>
+<th>
+Link Interface
+</th>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>10000 00000000</em>
+</td>
+<td rowspan="2">
+0
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>10111 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11000 00000000</em>
+</td>
+<td rowspan="2">
+1
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11000 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11001 00000000</em>
+</td>
+<td rowspan="2">
+2
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11111 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+otherwise
+</td>
+<td>
+3
+</td>
+</tr>
+</table>
+</p>
+
+</body>
+</html>

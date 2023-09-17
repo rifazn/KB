@@ -1,0 +1,70 @@
+= Chapter 4.3 =
+== Network Address translatation ==
+
+Public IP:: Worldwide unique.
+Private IP
+
+Unique only on LAN. Can be used without registration.
+
+is introduced to preserve the ipv4 addresses.
+
+These are private IP examples:
+    Class A: 10.x.x.x
+    Class B: 172.16.x.x to 172.32.x.x
+    Class C: 
+
+Private IP must be converted to Public IP.
+
+Write the advantages of NAT here.
+
+How it works:
+
+See from lecture.
+
+=== Some examples solved ===
+
+==== Fragmentation ====
+
+Original packet size = 5000 B
+MTU of current link: 1600 B
+Assume header size = 20 B
+
+Show the fragments with required fields.
+
+data can be of 1680 B
+
+{{{
+5000
+- 20
+----
+4980
+1580 (1)
+----
+1820
+1580 (2)
+----
+ 240 (3)
+}}}
+
+| Frag # | length = 5000 | ID = A | fragflag = 0 | offset = 0                |
+|:------:|---------------|--------|--------------|---------------------------|
+| Frag 1 | Length = 1600 | Same   | fragflag = 1 | offset = 1                |
+| Frag 2 | Length = 1600 |        | flag = 1     | offset = 1580 / 8 = 197.5 |
+| Frag 3 | same          | same   | same         | offset = 395              |
+| Frag 4 | length = 260  | same   | flag = 0     | offset = 592.5            |
+
+==== Routing/Forwarding Table ====
+
+Routing Table:
+| Network Addr.     | Subnet Mask     | Next hop/Interface |
+|-------------------|-----------------|--------------------|
+| 143.89.160.192/26 | 255.255.255.192 | I2                 |
+| 143.89.160.128/25 | 255.255.255.128 | I3                 |
+| 220.32.19.0       | 255.255.255.0   | I1                 |
+
+Which interface will this ip lead to?
+i. 200.32.18.201 -> Result is discard/drop
+ii. 143.89.160.197 -> 197d = 110000101. Result is I2.
+                    26 bits matches I2.
+                    25 bits match I1.
+                    So "longest prefix matching" with 192.

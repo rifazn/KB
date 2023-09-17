@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Lecture 05-02</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="IPv4"><h1 id="IPv4" class="header"><a href="#IPv4">IPv4</a></h1></div>
+
+<p>
+IPv4 Routing table
+<table>
+<tr>
+<th>
+Class
+</th>
+<th>
+Start IP
+</th>
+<th>
+End IP
+</th>
+<th>
+Network Part
+</th>
+<th>
+Host Part
+</th>
+<th>
+Default Subnet Mask
+</th>
+</tr>
+<tr>
+<td>
+<span id="IPv4-A"></span><strong id="A">A</strong>
+</td>
+<td>
+0.0.0.0
+</td>
+<td>
+127.255.255.255
+</td>
+<td>
+8
+</td>
+<td>
+24
+</td>
+<td>
+255.0.0.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="IPv4-B"></span><strong id="B">B</strong>
+</td>
+<td>
+128.0.0.0
+</td>
+<td>
+191.255.255.255
+</td>
+<td>
+16
+</td>
+<td>
+16
+</td>
+<td>
+255.255.0.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="IPv4-C"></span><strong id="C">C</strong>
+</td>
+<td>
+192.0.0.0
+</td>
+<td>
+223.255.255.255
+</td>
+<td>
+24
+</td>
+<td>
+8
+</td>
+<td>
+255.255.255.0
+</td>
+</tr>
+<tr>
+<td>
+<span id="IPv4-D"></span><strong id="D">D</strong>
+</td>
+<td>
+224.0.0.0
+</td>
+<td>
+239.255.255.255
+</td>
+<td colspan="3">
+Reserved for Multicasting
+</td>
+</tr>
+<tr>
+<td>
+E
+</td>
+<td>
+240.0.0.0
+</td>
+<td>
+255.255.255.254
+</td>
+<td colspan="3">
+Experimental: Used for research
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+Mamun Sir 127 ta Class A te rakhen nei as it's reserved for loopback.
+</p>
+
+<p>
+Just ignore: Network address (set all host bits to 0, i.e. 192.168.10.0/24)
+</p>
+
+<p>
+Example IP: 192.168.10.0/24
+then network part: 192.168.10.0
+</p>
+<blockquote>
+host   range: 192.168.10.1 to 192.168.10.254
+</blockquote>
+
+<p>
+<img src="/home/rifazn/Documents/VimWiki/images/cntheo1.png" />
+</p>
+
+<p>
+IP Datagram Format
+<img src="/home/rifazn/Documents/VimWiki/images/cntheo2.png" />
+</p>
+
+<div id="Forwarding"><h1 id="Forwarding" class="header"><a href="#Forwarding">Forwarding</a></h1></div>
+
+<p>
+Two methods:
+</p>
+<ol>
+<li>
+destination-based forwarding: forward based on destination IP address (traditional)
+
+<li>
+generalized forwarding: forward based on any set of header field values.
+
+</ol>
+
+<div id="Forwarding-Destination based forwarding"><h2 id="Destination based forwarding" class="header"><a href="#Forwarding-Destination based forwarding">Destination based forwarding</a></h2></div>
+
+<p>
+Forwarding table
+<table>
+<tr>
+<th>
+Destination Address Range
+</th>
+<th>
+Link Interface
+</th>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>10000 00000000</em>
+</td>
+<td rowspan="2">
+0
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>10111 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11000 00000000</em>
+</td>
+<td rowspan="2">
+1
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11000 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11001 00000000</em>
+</td>
+<td rowspan="2">
+2
+</td>
+</tr>
+<tr>
+<td>
+11001000 00010111 000 <em>11111 11111111</em>
+</td>
+</tr>
+<tr>
+<td>
+otherwise
+</td>
+<td>
+3
+</td>
+</tr>
+</table>
+</p>
+
+</body>
+</html>

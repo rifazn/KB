@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>Database Design and Basic SQL in PostgreSQL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Week 1 - Introduction to SQL"><h1 id="Week 1 - Introduction to SQL" class="header"><a href="#Week 1 - Introduction to SQL">Week 1 - Introduction to SQL</a></h1></div>
+
+<div id="Week 1 - Introduction to SQL-Example"><h2 id="Example" class="header"><a href="#Week 1 - Introduction to SQL-Example">Example</a></h2></div>
+
+<p>
+psql -U username
+\l lists databases
+</p>
+
+<div id="Week 1 - Introduction to SQL-Creating a User and a Database"><h2 id="Creating a User and a Database" class="header"><a href="#Week 1 - Introduction to SQL-Creating a User and a Database">Creating a User and a Database</a></h2></div>
+
+<ol>
+<li>
+CREATE USER pg3e WITH PASSWORD 'secret';
+
+</ol>
+<p>
+&gt; CREATE ROLE
+</p>
+<ol>
+<li>
+CREATE DATABASE people WITH OWNER 'pg4e';
+
+</ol>
+<p>
+&gt; CREAATE DATABASE
+</p>
+<ol>
+<li>
+\q
+
+</ol>
+
+<div id="Week 1 - Introduction to SQL-Connecting to a Database"><h2 id="Connecting to a Database" class="header"><a href="#Week 1 - Introduction to SQL-Connecting to a Database">Connecting to a Database</a></h2></div>
+
+<p>
+psql dbname username
+=&gt; \dt
+Lists all tables
+</p>
+
+<p>
+*What is a schema? <span id="Week 1 - Introduction to SQL-Connecting to a Database-A schema is our contract with postgres that says this table has 2 columns, each column is a character column, and each column is upto a 128 characters long."></span><strong id="A schema is our contract with postgres that says this table has 2 columns, each column is a character column, and each column is upto a 128 characters long.">A schema is our contract with postgres that says this table has 2 columns, each column is a character column, and each column is upto a 128 characters long.</strong>*
+</p>
+
+<div id="Week 1 - Introduction to SQL-Creating a Table"><h2 id="Creating a Table" class="header"><a href="#Week 1 - Introduction to SQL-Creating a Table">Creating a Table</a></h2></div>
+
+<p>
+CREATE TABLE users(
+	name VARCHAR(128),
+	email VARCHAR(128)
+);
+</p>
+
+<p>
+\dt
+</p>
+
+<div id="Week 1 - Introduction to SQL-Schema of users table"><h2 id="Schema of users table" class="header"><a href="#Week 1 - Introduction to SQL-Schema of users table">Schema of users table</a></h2></div>
+<p>
+\d+ users
+</p>
+
+<div id="Week 1 - Introduction to SQL-Run SQL commands from a text file"><h2 id="Run SQL commands from a text file" class="header"><a href="#Week 1 - Introduction to SQL-Run SQL commands from a text file">Run SQL commands from a text file</a></h2></div>
+
+<p>
+<code>\i filename.txt</code>
+</p>
+
+<div id="Week 1 - Introduction to SQL-Quiz: Introductory SQL"><h2 id="Quiz: Introductory SQL" class="header"><a href="#Week 1 - Introduction to SQL-Quiz: Introductory SQL">Quiz: Introductory SQL</a></h2></div>
+
+<p>
+Couldn't take it. Is behind a paywall. <em>$41.65</em>. Will ask EDX to lower it considering me as a student.
+</p>
+
+<div id="Week 1 - Introduction to SQL-Initial Databse Setup - My user info"><h2 id="Initial Databse Setup - My user info" class="header"><a href="#Week 1 - Introduction to SQL-Initial Databse Setup - My user info">Initial Databse Setup - My user info</a></h2></div>
+
+<p>
+<code>psql -h pg.pg4e.com -p 5432 -U pg4e_96f3adc73c pg4e_96f3adc73c</code>
+</p>
+
+<p>
+password:
+</p>
+
+<p>
+pg4e_p_b4b6c990d73330e
+</p>
+
+
+<div id="Week 1 - Introduction to SQL-`Psycopg2` Python connector"><h2 id="`Psycopg2` Python connector" class="header"><a href="#Week 1 - Introduction to SQL-`Psycopg2` Python connector"><code>Psycopg2</code> Python connector</a></h2></div>
+
+<p>
+This is the connector that will be used to interface Python with Postgresql.
+</p>
+
+<p>
+<code>pip install psycopg2</code>
+</p>
+
+
+
+<div id="Week 2 - Single Tables and PostgreSQL"><h1 id="Week 2 - Single Tables and PostgreSQL" class="header"><a href="#Week 2 - Single Tables and PostgreSQL">Week 2 - Single Tables and PostgreSQL</a></h1></div>
+
+<div id="Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL"><h2 id="Working with tables in PostgreSQL" class="header"><a href="#Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL">Working with tables in PostgreSQL</a></h2></div>
+
+<div id="Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL-SQL: Insert"><h3 id="SQL: Insert" class="header"><a href="#Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL-SQL: Insert">SQL: Insert</a></h3></div>
+
+<pre sql>
+INSERT INTO users (name, email) VALUES ('Chuck', 'csev@umich.edu');
+INSERT INTO users (name, email) VALUES ('Somesh', 'somesh@umich.edu');
+INSERT INTO users (name, email) VALUES ('Caitlin', 'cait@umich.edu');
+</pre>
+
+<div id="Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL-SQL: Delete"><h3 id="SQL: Delete" class="header"><a href="#Week 2 - Single Tables and PostgreSQL-Working with tables in PostgreSQL-SQL: Delete">SQL: Delete</a></h3></div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+= IPv4 =
+
+IPv4 Routing table
+| Class | Start IP  | End IP          |          Network Part           | Host Part | Default Subnet Mask |
+|-------|-----------|-----------------|:-------------------------------:|:---------:|:-------------------:|
+| *A*   | 0.0.0.0   | 127.255.255.255 |                8                |    24     |      255.0.0.0      |
+| *B*   | 128.0.0.0 | 191.255.255.255 |               16                |    16     |     255.255.0.0     |
+| *C*   | 192.0.0.0 | 223.255.255.255 |               24                |     8     |    255.255.255.0    |
+| *D*   | 224.0.0.0 | 239.255.255.255 |    Reserved for Multicasting    |     >     |          >          |
+| E     | 240.0.0.0 | 255.255.255.254 | Experimental: Used for research |     >     |          >          |
+
+Mamun Sir 127 ta Class A te rakhen nei as it's reserved for loopback.
+
+Just ignore: Network address (set all host bits to 0, i.e. 192.168.10.0/24)
+
+Example IP: 192.168.10.0/24
+then network part: 192.168.10.0
+     host   range: 192.168.10.1 to 192.168.10.254
+
+{{file:~/Documents/VimWiki/images/cntheo1.png}}
+
+IP Datagram Format
+{{file:~/Documents/VimWiki/images/cntheo2.png}}
+
+= Forwarding =
+
+Two methods:
+1. destination-based forwarding: forward based on destination IP address (traditional)
+2. generalized forwarding: forward based on any set of header field values.
+
+== Destination based forwarding ==
+
+Forwarding table
+| Destination Address Range              | Link Interface |
+|----------------------------------------|:--------------:|
+| 11001000 00010111 000 _10000 00000000_ |       0        |
+| 11001000 00010111 000 _10111 11111111_ |       \/       |
+| 11001000 00010111 000 _11000 00000000_ |       1        |
+| 11001000 00010111 000 _11000 11111111_ |       \/       |
+| 11001000 00010111 000 _11001 00000000_ |       2        |
+| 11001000 00010111 000 _11111 11111111_ |       \/       |
+| otherwise                              |       3        |
+

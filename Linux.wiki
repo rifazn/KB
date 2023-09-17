@@ -1,0 +1,35 @@
+== List all users in system ==
+
+{{{bash
+$ sudo passwd -Sa
+}}}
+
+== List currently logged in users ==
+
+{{{bash
+$ who
+}}}
+
+== See what a font will identify as ==
+
+{{{bash
+$ fc-match "Fira Code"
+
+# Some more examples
+## Default monospace font
+fc-match monospace
+## Alternate equivalent fonts
+fc-match Calibri
+fc-match Arial
+}}}
+
+== View all monospace fonts ==
+
+{{{
+fc-list :mono
+# A nicer list
+fc-list :mono | cut -d: -f2
+
+}}}
+
+Read up for more: https://www.baeldung.com/linux/find-installed-fonts-command-line

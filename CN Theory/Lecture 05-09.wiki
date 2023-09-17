@@ -1,0 +1,51 @@
+Network Layer
+
+= Routing Protocols =
+goal: determines good paths (or routers) from sending hosts to receiving host, through network of routers
+
+path: sequence of routers packets traverse from given initial source host to final destination host.
+
+good: least "cost", "fastest", "least congested".
+
+== Algorithm ==
+*We can think of routing problem as a graph problem*
+
+graph:: $G = (N, E)$
+N:: set of routers = ${u, v, w, x, y, z}$
+E:: set of links = ${(u, v), (u, x), (v, x)), (v, w), (x, w), ...}$
+
+== Routing algorithm classification ==
+
+global:: all router have complete topology, link cost info. AKA "link state" algorithms
+
+decentralized:: iterative process of computation, exchange of info with neighbors. Routers initially only know link costs to attached neighbors. AKA "distance vector" algorithms.
+
+static::
+dynamic::
+
+=== Link State Algorithms ===
+
+==== Dijkstra's link-state routing algortihm ====
+
+centralized:: network topology, link costs are know to all nodes
+
+It computes the least cost path fro mone node to all other nodes. ive forwadgin tablel for that node.
+
+It is iterative.
+
+===== Notations =====
+
+===== Algorithm =====
+
+===== Example simulation =====
+
+Some step
+
+1. find `a` not in `N'` such that D(a) is a minimum
+2. Add `a` to `N'`
+3. update `D(b)` fpr all `b` adjacent to `a` and not in `N'`:
+    1. $D(b) = min(D(b), D(a) + c_a,b_)$
+
+Step 1: Create dijkstra's table
+| n' | u | v | w | x | y | z |
+|    |   |   |   |   |   |   |

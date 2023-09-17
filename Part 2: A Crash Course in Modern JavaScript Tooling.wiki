@@ -1,0 +1,36 @@
+= A Crash Course in Modern JavaScript Tooling = 
+
+Demystifying npm, webpack, babel, and rest of the JavaScript tooling ecosystem so we can get down to building modern web applications. 
+
+"The goal is not to get a deep understand of the entire ecosystem, but rather to gain enough knowledge to be able to put it to good use in our projects."
+
+== The problem ==
+
+Fragmentation, choices overload, right approach is not clear.
+
+No need to fully read the images below, just get an idea of the landscape. From the ReactJS Docs (for adding react to django app):
+
+{{https://www.saaspegasus.com/static/images/web/modern-javascript/react-recommended-toolchains.9d7136230129.png}}
+
+Integrating with and existing codebase:
+
+{{https://www.saaspegasus.com/static/images/web/modern-javascript/more-flexible-toolchains.0bff664b00d3.png}}
+
+== The suggested way ==
+
+Ironically it sounds the most complex:
+
+{{https://www.saaspegasus.com/static/images/web/modern-javascript/toolchain-from-scratch.b4d66f515f9f.png}}
+
+== Basically ==
+
+Let's summarize.
+
+	1. We'll manage our library imports using npm.
+	2. Webpack will bundle our code into a small number of JavaScript files we can add to our pages.
+	3. Babel — managed by webpack — will compile our code, so we can take advantage of newer features and syntaxes and make them usable by older browsers.
+
+{{https://www.saaspegasus.com/static/images/web/modern-javascript/js-pipeline.d7bbcc67ac6e.png|JavaScript Build Pipeline}}
+
+----
+[[Part 3: Integrating a Modern JavaScript Pipeline into a Django Application|Part 3]]

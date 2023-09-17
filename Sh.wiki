@@ -1,0 +1,365 @@
+= Contents =
+    - [[#Snippets|Snippets]]
+        - [[#Snippets#Variable/String expansions|Variable/String expansions]]
+        - [[#Snippets#Common functions|Common functions]]
+        - [[#Snippets#Common Snippets|Common Snippets]]
+        - [[#Snippets#Parsing LS (Or not!)|Parsing LS (Or not!)]]
+        - [[#Snippets#Exiting script upon unsuccessful run of command|Exiting script upon unsuccessful run of command]]
+        - [[#Snippets#Verifying user input|Verifying user input]]
+        - [[#Snippets#Debugging -- Tracing a script|Debugging -- Tracing a script]]
+        - [[#Snippets#Shel IO Redirections|Shel IO Redirections]]
+            - [[#Snippets#Shel IO Redirections#`2>&-`|`2>&-`]]
+            - [[#Snippets#Shel IO Redirections#`2>/dev/null`|`2>/dev/null`]]
+            - [[#Snippets#Shel IO Redirections#`2>&1`|`2>&1`]]
+            - [[#Snippets#Shel IO Redirections#`|&`|`|&`]]
+            - [[#Snippets#Shel IO Redirections#`&>/dev/null`|`&>/dev/null`]]
+            - [[#Snippets#Shel IO Redirections#`>/dev/null`|`>/dev/null`]]
+    - [[#Commands|Commands]]
+        - [[#Commands#_Prepend_ to a file (not _append_ like usually):|_Prepend_ to a file (not _append_ like usually):]]
+        - [[#Commands#Dry run a `find ... -exec ...`|Dry run a `find ... -exec ...`]]
+        - [[#Commands#List files older than date|List files older than date]]
+
+= Snippets =
+
+Shell snippets, preferably POSIX compliant.
+
+== Positional Arguments ==
+
+**`$*` or `$@`? Quoted or unquoted?
+
+Well, basically, if the args might have spaces betwn them, then use `"$@"` (note that it is quoted). If args are guaranteed to not have spaces then `"$*"` is just fine.
+
+Quoted or no? When unquoted, both the variants are the same.
+
+Read proper: https://www.grymoire.com/Unix/Sh.html#uh-41
+
+== Variable Assignments ==
+
+`var2="${var1+I got set since var1 is also set}"`
+
+Set `var2` only if `var1` is also set.
+
+== Variable/String expansions ==
+
+`"${variable:offset:length}"`
+
+Get substring of variable starting from `offset` upto `length`.
+
+`"${var#A Prefix}"`, `"${PWD#*/}"`, `"${PWD##*/}"`
+
+Remove `A Prefix` from the beginning of `var`. If `A Prefix` is not found, `var` is expanded as is. Double `#` makes the pattern match greedy (don't stop at first match, keep matching).
+
+`"${var%A Suffix}"`, `"${PWD%/*}"`, `"${PWD%%/*}"`
+
+Remove `A Suffix` from the end of `var`. If `A Suffix` is not found, `var` is expanded as is. Double `%` makes the pattern match greedy (don't stop at first match, keep matching).
+
+`"${var/pattern/replacement}"`, `"${HOME/$USER/bob}"`, `"${PATH//:/ }"`
+
+Replace `pattern` in `var` with `replacement`. Double `/` for greedy replacement.
+
+`"${var^}"`, `"${var^^}"`, `"${var^^[AC]}"`
+
+Uppercase caharacters in `var` matching a pattern. First example uppercases the first character. Second example uppercases all characters. Third example uppercases either `a` or `c`.
+
+`"${var,}"`, `"${var,,}"`, `"${var,,[AC]}"`
+
+Lowercase characters. Examples same as for uppercase example above.
+
+== Quit if Variable not defined ==
+
+`REQUIRED_VAR="${REQUIRED_VAR:?Please provide value for REQUIRED_VAR}"`
+
+== Common functions ==
+
+{{{class="brush: sh"
+strstr () {
+    # Check if $2 is strstr of $1
+    # https://www.shellscript.sh/tips/strstr/
+    [ "${1#*$2*}" = "$1" ] && return 1
+    return 0
+}
+
+# Not strstr. Use this when word needs to be checked in IFS separated string
+exists () {
+        key="$1"
+        haystack="$2"
+        for word in $haystack; do
+                [ "$key" = $word ] && return 0
+        done
+        return 1;
+}
+
+# Or, startswith
+beginswith () {
+    local needle="$1"
+    local haystack="$2"
+
+    # Empty string return true smh
+    case "$haystack" in
+        "$needle"*) echo 'is okay'; true ;;
+        *) false ;;
+    esac
+}
+
+# Check if current $USER has write permissions in dest
+check_write_perm() {
+    [ -z "$1" ] && die "Function expects one argument"
+    [ -w "$1" ]
+}
+
+trim_space () {
+    # Remove leading and trailing whitespace from a string
+    # Pipe input to this function.
+    sed --posix -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
+trim_space_zero () {
+    # Remove leading and trailing whitespace from a null-terminated string
+    # Pipe input to this function.
+    sed --posix -ze 's/^[[:space:]]*//' -ze 's/[[:space:]]*$//'
+}
+
+}}}
+
+== Common Snippets ==
+
+{{{sh
+# Parse a line of text (that is in a variable)
+read -r var1 var2 _ <<< 'text' ["$text"]
+
+# Parse lines of text
+while read -r one two _; do
+    echo "$one and a $two"
+done
+
+# Never use `for` for doing the above; But taking a whole line as words is fine for `for`
+for word in $long_text; do echo "> $word"; done
+
+# Ignore first column of every line of file and process the rest
+while read _ line; do echo "$line"; done < file 
+
+# Loop though a comma-seperated shell variable/string
+# https://stackoverflow.com/questions/27702452/loop-through-a-comma-separated-shell-variable
+# Also check out the other examples there
+variable=abc,def,ghij
+for i in ${variable//,/ }
+do
+    # call your procedure/other scripts here below
+    echo "$i"
+done
+
+}}}
+
+== Get RANDOM int within range ==
+
+Simple!
+
+`shuf -i 50-100 -n 1`
+
+{{{sh
+https://blog.eduonix.com/shell-scripting/generating-random-numbers-in-linux-shell-scripting/
+
+padding_x=100
+padding_y=50
+
+# POSIX compliant way to get two $RANDOM ints within range
+range_x="${padding_x}-$((HEIGHT-padding_x))"
+range_y="${padding_y}-$((WIDTH-padding_y))"
+rand_x=$(shuf -i ${range_x} -n 1)
+rand_y=$(shuf -i ${range_y} -n 1)
+
+# Simpler way in bash
+# rand_x=$(((RANDOM+padding_x)%(HEIGHT-padding_x)))
+# rand_y=$(((RANDOM+padding_y)%(HEIGHT-padding_y)))
+}}}
+
+== Parsing LS (Or not!) ==
+
+Iterate over all files in current directory
+{{{sh
+for f in *; do
+    [ -e $f ] || continue
+    ...
+done
+}}}
+
+== Exiting script upon unsuccessful run of command ==
+
+{{{sh
+# script: delete files in directory $dir_name
+if [[ ! -d "$dir_name" ]]; then
+    echo "No such directory: '$dir_name'" >&2
+    exit 1
+fi
+if ! cd $dir_name; then
+    echo "Cannot cd to '$dir_name'" >&2
+    exit 1
+fi
+if ! rm *; then
+    echo "File deletion failed. Check results" >&2
+    exit 1
+fi
+}}}
+
+== Verifying user input ==
+
+{{{sh
+# only return a zero exit status if the string returned by the user is
+# a numeral in the range of zero to three. Nothing else will be accepted.
+[[ $REPLY =~ ^[0-3]$ ]]
+# Bash only. See below url for POSIX friendly alt and explanation
+# https://unix.stackexchange.com/questions/340440/bash-test-what-does-do/340485
+
+# Check if argument was provided
+# Might be bashism
+[[ $1 ]] || { echo "You need to specify an argument!" >&2; exit 1; }
+}}}
+
+== Debugging -- Tracing a script ==
+
+{{{sh
+#!/bin/bash
+
+# trouble: script to demonstrate common errors
+
+number=1
+
+set -x # Turn on tracing
+if [ $number = 1 ]; then
+    echo "Number is equal to 1."
+else
+    echo "Number is not equal to 1."
+fi
+set +x # Turn off tracing
+}}}
+
+== Shel IO Redirections ==
+
+https://unix.stackexchange.com/questions/70963/difference-between-2-2-dev-null-dev-null-and-dev-null-21
+
+=== `2>&-` ===
+
+The general form of this one is `M>&-`, where "M" is a file descriptor number. This will close output for whichever file descriptor is referenced, i.e. "M".
+
+=== `2>/dev/null` ===
+
+The general form of this one is `M>/dev/null`, where "M" is a file descriptor number. This will redirect the file descriptor, "M", to /dev/null.
+
+=== `2>&1` ===
+
+The general form of this one is `M>&N`, where "M" & "N" are file descriptor numbers. It combines the output of file descriptors "M" and "N" into a single stream.
+
+=== `|&` ===
+
+This is just an abbreviation for `2>&1 |`. It was added in Bash 4.
+
+=== `&>/dev/null` ===
+
+This is just an abbreviation for `>/dev/null 2>&1`. It redirects file descriptor 2 (STDERR) and descriptor 1 (STDOUT) to `/dev/null`.
+
+=== `>/dev/null` ===
+
+This is just an abbreviation for `1>/dev/null`. It redirects file descriptor 1 (STDOUT) to `/dev/null`.
+
+= Commands =
+
+== _Prepend_ to a file (not _append_ like usually): ==
+
+{{{bash
+echo -e 'Text to prepend\n\n' | cat - filename > filename_bak
+}}}
+
+== Dry run a `find ... -exec ...` ==
+
+You can run `echo rm` instead of `rm`
+
+    find . type f -exec echo rm {} \;
+
+Also, `find` has `-delete` option to delete files it finds
+
+Source: https://unix.stackexchange.com/a/626251
+
+*Another one, maybe more POSIX friendly.*
+
+It's a bit of a mouthful, but unlike approaches using `echo`, the below outputs code you could run in your shell without any changes to have the correct result, even when your filenames contain quotes, spaces, shell metacharacters, etc.
+
+
+```
+printcmd() { printf '%q ' "$@"; printf '\n'; }
+
+find . -exec bash -c "$(declare -f printcmd); "'printcmd "$@"' _ \
+  somecommand {} \;
+```
+
+Note that the string we're prepending to our `-exec` argument is precisely `bash -c "$(declare -f printcmd); "'printcmd "$@"' _` -- the `$(declare -f printcmd)` expands to the code for the function; after that, we _actually call_ the function with arguments `$1` and onward, and put `_` as a placeholder for `$0`.
+
+You can substitute `zsh` or `ksh` instead of bash, if you want output escaped for that shell.
+
+Source: https://unix.stackexchange.com/a/626339
+
+== List files older than date ==
+
+{{{bash
+
+find ./ -not -newermt 'jan 01, 2022' -print|-ls|-delete
+
+}}}
+
+== Compare dates ==
+
+{{{bash
+date1=$(date --date="28-July-1992 03:00" +%s)
+date2=$(date --date="28-July-1995 05:00" +%s)
+# dateN=$(date --date="any date string" +%s)
+
+if [ $date1 -gt $date2 ]; then 
+  # logic if true
+fi
+}}}
+
+= Readline - Editing tricks =
+
+Works only in interactive shells (Bash, Zsh, etc.).
+
+== Paste nth argument where cursor is ==
+
+`Alt+1` + `Alt+.` to put 1st argument.
+
+Or, type `!#:n` where n is a number, then press `Ctrl+Alt+e`.
+
+Explaining: `!#` is the whole line in the prompt typed so far. `:n` to get nth word in a variable. `Ctrl+Alt+e` for calling `shell-expand-line`.
+
+== Expand a variable in place ==
+
+Type name of `$variable`. Press `Ctrl+Alt+e`.
+
+
+= Processing Text =
+
+== Match either of multiple patterns ==
+
+Grep with `-e`:
+
+`grep -e pattern1 -e pattern2 ...`
+
+Without `-e`:
+
+`grep 'pattern1\|pattern2\|pattern3'`
+
+Can also be done with `awk`. Probably:
+
+`awk /pat1/ || /pat2/ ...`
+
+== Match one pattern but exclude another ==
+
+With grep, it's simplest to use two invocations:
+
+`grep 'pattern' | grep -v 'pattern to exclude'`
+
+The other way is to use negative lookahead in the regex. It already sounds too complicated and I don't understand it either.
+
+The *best* approach is probably with `awk`:
+
+`awk '/include/ && ~/exclude/'`
+
+

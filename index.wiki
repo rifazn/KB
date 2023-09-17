@@ -1,0 +1,75 @@
+=My knowledge base =
+    * [[Tasks]] -- things to be done _yesterday_!!!
+    * [[Project Gutenberg]] -- good books are power.
+    * [[Vim]]
+    * [[C]]
+    * [[Python]]
+    * [[JavaScript]]
+    * [[Termux]]
+    * [[Linux]]
+    * [[Libre Office]]
+    * [[Markdown]]
+    * [[Sh Programming]]
+    * [[Sh]]
+    * [[Django]]
+	* [[Django + JS notes from Saas Pegasus]]
+    * [[SSH]]
+    * [[Git]]
+    * [[Git SCM Book]]
+    * [[Web Dev]]
+    * [[PostgreSQL]]
+    * [[Dota 2]]
+    * [[Windows]]
+    * [[Quotes]]
+    * [[Vocab]]
+    * [[Quotes & Phrases]]
+    * Scratchpad -- various temporary stuff.
+
+= Books =
+    * [[K&H C Programming]]
+
+= LeetCode =
+
+* Just blindly doing any and all problems I come across is a bad idea.
+* I have to set a target and track my progress towards achieving that target.
+* I am reading through this medium [[https://medium.com/interviewnoodle/how-to-leetcode-effectively-a9dbeef30363|article]]
+* I will try to follow this video series for the "Blind 75" problems: https://www.youtube.com/watch?v=KLlXCFG5TnA&list=PLot-Xpze53ldVwtstag2TL4HQhAnC8ATf&index=1
+
+Maybe also read: [[https://scribe.rip/@SantalTech/520k-offer-even-after-failing-a-coding-question-f4df11f65f52|Every resource I used to get >$500k job offers]]
+
+Also read: https://medium.com/@hnasr/how-to-become-a-good-backend-engineer-fundamentals-4dcc4a16ce55
+
+= Uni =
+    * [[CN Lab]]
+    * [[CN Theory]]
+    * [[IPE]]
+    * [[DSD Theory]]
+    * [[Microprocessor Lab]]
+
+= Courses =
+    * [[Database Design and Basic SQL in PostgreSQL]]
+    * 
+
+= _Very_ Interesting courses =
+    1. [[https://learn.macsparky.com/p/paperless|Paperless Field Guide]] -- ... takes the mystery (and fear) out of going paperless.
+
+= OS Notes =
+
+    * [[Installed as dependency for KDEConnect]]
+
+= Ideas =
+    1. Vimium-FF's hover functionality. Look for it in GH. If unavailable, implement it.
+
+= TODO =
+
+    1. [ ] 1 hr Leetcode
+    2. [ ] 1 hr Django Notes
+    3. [ ] Firefox Addon for scrolling to the next heading
+    4. [ ] Fix React Resume Font issue
+
+== Pipeline ==
+
+    1. Discuss with a GNOME Dev aobut my dark-toggle script
+    2. Show Dark Toggle to FreeCodeCamp (FCC) Community
+    3. Show React Resume to FCC
+    4. Scout for job opportunities from FCC

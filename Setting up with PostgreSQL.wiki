@@ -1,0 +1,7 @@
+Follow this article:
+
+https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-04
+
+Archived: http://web.archive.org/web/20230201000000*/https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-04
+
+Note: It _is_ important to create the database under the user who's going to use it in backend code. The user must be the owner of the db for everything to work.

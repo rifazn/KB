@@ -1,0 +1,47 @@
+= Getting Started =
+
+== Installation ==
+
+On Arch Linux install the package `openssh`. Same package on Termux too.
+
+== Usage ==
+
+=== Server (refered here as 'remote') ===
+
+On the ssh server, start and enable the service `sshd` (in order to always have an ssh server running), or just run `sshd` for one-time use only.
+
+`sshd` by default will use the port `22`. A devices trying to connect to this ssh server will still require a password to connect to this server.
+The device trying to connect should also connect as a user that already exists on this server. All the usual user permissions will take effect
+
+From this point on, we are using the term _remote_ to mean the server that the user wants to connect to.
+And _local_ to refer to the device that will connect to that ssh server.
+
+Create a user for the client in the server and set it a password.
+
+Password generation: `passwd`
+
+=== Client ===
+
+1. install `openssh`
+2. test connection to server (remote) (`ssh username@address`)
+3. Generate public key private key pair (`ssh-keygen`)
+4. To do passwordless, copy client's public key to server (`ssh-copy-id username@adress`)
+5. Login (as in step 2). Voila!
+
+= Simpler steps maybe =
+
+== On the SSH Server ==
+
+1. Install openssh
+2. Set a password with `passwd`
+3. Run `sshd`
+4. In Termux notification dropdown, tap "Acquire Wake Lock"
+
+== On the SSH Client ==
+
+1. `ssh -p <port> [username@]<IP Address>`
+2. Enter password at prompt
+3. Logout by pressing `<Ctrl+D>`
+4. `ssh-copy-id -p <port> [username@]<IP Address>`
+5. Step 1. Note that no password is required this time.
+

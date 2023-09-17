@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../style.css">
+<title>Lecture 05-05</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Chapter 4.3"><h1 id="Chapter 4.3" class="header"><a href="#Chapter 4.3">Chapter 4.3</a></h1></div>
+<div id="Chapter 4.3-Network Address translatation"><h2 id="Network Address translatation" class="header"><a href="#Chapter 4.3-Network Address translatation">Network Address translatation</a></h2></div>
+
+<dl>
+<dt>Public IP</dt>
+<dd>Worldwide unique.</dd>
+</dl>
+<p>
+Private IP
+</p>
+
+<p>
+Unique only on LAN. Can be used without registration.
+</p>
+
+<p>
+is introduced to preserve the ipv4 addresses.
+</p>
+
+<p>
+These are private IP examples:
+</p>
+<blockquote>
+Class A: 10.x.x.x
+Class B: 172.16.x.x to 172.32.x.x
+Class C: 
+</blockquote>
+
+<p>
+Private IP must be converted to Public IP.
+</p>
+
+<p>
+Write the advantages of NAT here.
+</p>
+
+<p>
+How it works:
+</p>
+
+<p>
+See from lecture.
+</p>
+
+<div id="Chapter 4.3-Network Address translatation-Some examples solved"><h3 id="Some examples solved" class="header"><a href="#Chapter 4.3-Network Address translatation-Some examples solved">Some examples solved</a></h3></div>
+
+<div id="Chapter 4.3-Network Address translatation-Some examples solved-Fragmentation"><h4 id="Fragmentation" class="header"><a href="#Chapter 4.3-Network Address translatation-Some examples solved-Fragmentation">Fragmentation</a></h4></div>
+
+<p>
+Original packet size = 5000 B
+MTU of current link: 1600 B
+Assume header size = 20 B
+</p>
+
+<p>
+Show the fragments with required fields.
+</p>
+
+<p>
+data can be of 1680 B
+</p>
+
+<pre>
+5000
+- 20
+----
+4980
+1580 (1)
+----
+1820
+1580 (2)
+----
+ 240 (3)
+</pre>
+
+<table>
+<tr>
+<th>
+Frag #
+</th>
+<th>
+length = 5000
+</th>
+<th>
+ID = A
+</th>
+<th>
+fragflag = 0
+</th>
+<th>
+offset = 0
+</th>
+</tr>
+<tr>
+<td>
+Frag 1
+</td>
+<td>
+Length = 1600
+</td>
+<td>
+Same
+</td>
+<td>
+fragflag = 1
+</td>
+<td>
+offset = 1
+</td>
+</tr>
+<tr>
+<td>
+Frag 2
+</td>
+<td>
+Length = 1600
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+flag = 1
+</td>
+<td>
+offset = 1580 / 8 = 197.5
+</td>
+</tr>
+<tr>
+<td>
+Frag 3
+</td>
+<td>
+same
+</td>
+<td>
+same
+</td>
+<td>
+same
+</td>
+<td>
+offset = 395
+</td>
+</tr>
+<tr>
+<td>
+Frag 4
+</td>
+<td>
+length = 260
+</td>
+<td>
+same
+</td>
+<td>
+flag = 0
+</td>
+<td>
+offset = 592.5
+</td>
+</tr>
+</table>
+
+<div id="Chapter 4.3-Network Address translatation-Some examples solved-Routing/Forwarding Table"><h4 id="Routing/Forwarding Table" class="header"><a href="#Chapter 4.3-Network Address translatation-Some examples solved-Routing/Forwarding Table">Routing/Forwarding Table</a></h4></div>
+
+<p>
+Routing Table:
+<table>
+<tr>
+<th>
+Network Addr.
+</th>
+<th>
+Subnet Mask
+</th>
+<th>
+Next hop/Interface
+</th>
+</tr>
+<tr>
+<td>
+143.89.160.192/26
+</td>
+<td>
+255.255.255.192
+</td>
+<td>
+I2
+</td>
+</tr>
+<tr>
+<td>
+143.89.160.128/25
+</td>
+<td>
+255.255.255.128
+</td>
+<td>
+I3
+</td>
+</tr>
+<tr>
+<td>
+220.32.19.0
+</td>
+<td>
+255.255.255.0
+</td>
+<td>
+I1
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+Which interface will this ip lead to?
+i. 200.32.18.201 -&gt; Result is discard/drop
+ii. 143.89.160.197 -&gt; 197d = 110000101. Result is I2.
+</p>
+<blockquote>
+26 bits matches I2.
+25 bits match I1.
+So "longest prefix matching" with 192.
+</blockquote>
+
+</body>
+</html>

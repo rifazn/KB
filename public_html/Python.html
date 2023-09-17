@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Python</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Initialize a Python class with arbitrary args"><h1 id="Initialize a Python class with arbitrary args" class="header"><a href="#Initialize a Python class with arbitrary args">Initialize a Python class with arbitrary args</a></h1></div>
+
+<pre class="brush: python3">
+class Model:
+	def __init__(self, **kwargs):
+		self.__dict__.update(kwargs)
+		
+	m = Model(title='hi', subtitle=False, ...)
+	print(m.title)
+</pre>
+
+<div id="Initialize a Python class with arbitrary args-Start a simple file server"><h2 id="Start a simple file server" class="header"><a href="#Initialize a Python class with arbitrary args-Start a simple file server">Start a simple file server</a></h2></div>
+
+<pre class="brush: bash">
+$ python3 -m http.server
+</pre>
+
+</body>
+</html>

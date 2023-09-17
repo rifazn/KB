@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Linux</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="List all users in system"><h2 id="List all users in system" class="header"><a href="#List all users in system">List all users in system</a></h2></div>
+
+<pre bash>
+$ sudo passwd -Sa
+</pre>
+
+<div id="List currently logged in users"><h2 id="List currently logged in users" class="header"><a href="#List currently logged in users">List currently logged in users</a></h2></div>
+
+<pre bash>
+$ who
+</pre>
+
+<div id="See what a font will identify as"><h2 id="See what a font will identify as" class="header"><a href="#See what a font will identify as">See what a font will identify as</a></h2></div>
+
+<pre bash>
+$ fc-match "Fira Code"
+
+# Some more examples
+## Default monospace font
+fc-match monospace
+## Alternate equivalent fonts
+fc-match Calibri
+fc-match Arial
+</pre>
+
+<div id="View all monospace fonts"><h2 id="View all monospace fonts" class="header"><a href="#View all monospace fonts">View all monospace fonts</a></h2></div>
+
+<pre>
+fc-list :mono
+# A nicer list
+fc-list :mono | cut -d: -f2
+
+</pre>
+
+<p>
+Read up for more: <a href="https://www.baeldung.com/linux/find-installed-fonts-command-line">https://www.baeldung.com/linux/find-installed-fonts-command-line</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+== Simple commands ("Meta commands") ==
+
+| Meta Command | Description     |
+| `\dt`        | List all tables |
+| `\du`        | List all users  |
+
+== Concatenate ==
+
+{{{sql
+SELECT 
+   first_name || ' ' || last_name,
+   email
+FROM 
+   customer;
+}}}
+
+In this example, we used the concatenation operator || to concatenate the first name, space, and last name of every customer.
+
+== SELECT with expressions (like arithmetic) ==
+
+`SELECT 5 * 8;`
+
+`SELECT 5 * 8 AS "Product"`
+
+== Disable line wrap, and allow horizontal scroll ==
+
+Assuming `less` is the pager being used, type `-S<Enter>` and this will disable wrap. Then, horizontally scroll with arrow keys.
+
+== Check privileges of user ==
+
+Ref: https://stackoverflow.com/questions/59858343/how-to-check-all-roles-user-group-role-have-what-privileges-in-postgres-database
+
+`SELECT * FROM pg_user;`
+
+To check roles:
+
+`SELECT * FROM pg_roles;`
+
+== Switch (change) current database ==
+
+`\c[onnect] DBNAME`

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Sh</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents" class="header"><a href="#Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="Sh.html#Snippets">Snippets</a>
+
+<ul>
+<li>
+<a href="Sh.html#Snippets-Variable/String expansions">Variable/String expansions</a>
+
+<li>
+<a href="Sh.html#Snippets-Common functions">Common functions</a>
+
+<li>
+<a href="Sh.html#Snippets-Common Snippets">Common Snippets</a>
+
+<li>
+<a href="Sh.html#Snippets-Parsing LS (Or not!)">Parsing LS (Or not!)</a>
+
+<li>
+<a href="Sh.html#Snippets-Exiting script upon unsuccessful run of command">Exiting script upon unsuccessful run of command</a>
+
+<li>
+<a href="Sh.html#Snippets-Verifying user input">Verifying user input</a>
+
+<li>
+<a href="Sh.html#Snippets-Debugging -- Tracing a script">Debugging -- Tracing a script</a>
+
+<li>
+<a href="Sh.html#Snippets-Shel IO Redirections">Shel IO Redirections</a>
+
+<ul>
+<li>
+[[#Snippets#Shel IO Redirections#<code>2&gt;&amp;-</code>|<code>2&gt;&amp;-</code>]]
+
+<li>
+[[#Snippets#Shel IO Redirections#<code>2&gt;/dev/null</code>|<code>2&gt;/dev/null</code>]]
+
+<li>
+[[#Snippets#Shel IO Redirections#<code>2&gt;&amp;1</code>|<code>2&gt;&amp;1</code>]]
+
+<li>
+[[#Snippets#Shel IO Redirections#<code>|&amp;</code>|<code>|&amp;</code>]]
+
+<li>
+[[#Snippets#Shel IO Redirections#<code>&amp;&gt;/dev/null</code>|<code>&amp;&gt;/dev/null</code>]]
+
+<li>
+[[#Snippets#Shel IO Redirections#<code>&gt;/dev/null</code>|<code>&gt;/dev/null</code>]]
+
+</ul>
+</ul>
+<li>
+<a href="Sh.html#Commands">Commands</a>
+
+<ul>
+<li>
+<a href="Sh.html#Commands-_Prepend_ to a file (not _append_ like usually):">_Prepend_ to a file (not _append_ like usually):</a>
+
+<li>
+[[#Commands#Dry run a <code>find ... -exec ...</code>|Dry run a <code>find ... -exec ...</code>]]
+
+<li>
+<a href="Sh.html#Commands-List files older than date">List files older than date</a>
+
+</ul>
+</ul>
+<div id="Snippets"><h1 id="Snippets" class="header"><a href="#Snippets">Snippets</a></h1></div>
+
+<p>
+Shell snippets, preferably POSIX compliant.
+</p>
+
+<div id="Snippets-Positional Arguments"><h2 id="Positional Arguments" class="header"><a href="#Snippets-Positional Arguments">Positional Arguments</a></h2></div>
+
+<p>
+**<code>\(*</code> or <code>\)@</code>? Quoted or unquoted?
+</p>
+
+<p>
+Well, basically, if the args might have spaces betwn them, then use <code>"\(@"</code> (note that it is quoted). If args are guaranteed to not have spaces then <code>"\)*"</code> is just fine.
+</p>
+
+<p>
+Quoted or no? When unquoted, both the variants are the same.
+</p>
+
+<p>
+Read proper: <a href="https://www.grymoire.com/Unix/Sh.html#uh-41">https://www.grymoire.com/Unix/Sh.html#uh-41</a>
+</p>
+
+<div id="Snippets-Variable Assignments"><h2 id="Variable Assignments" class="header"><a href="#Snippets-Variable Assignments">Variable Assignments</a></h2></div>
+
+<p>
+<code>var2="${var1+I got set since var1 is also set}"</code>
+</p>
+
+<p>
+Set <code>var2</code> only if <code>var1</code> is also set.
+</p>
+
+<div id="Snippets-Variable/String expansions"><h2 id="Variable/String expansions" class="header"><a href="#Snippets-Variable/String expansions">Variable/String expansions</a></h2></div>
+
+<p>
+<code>"${variable:offset:length}"</code>
+</p>
+
+<p>
+Get substring of variable starting from <code>offset</code> upto <code>length</code>.
+</p>
+
+<p>
+<code>"\({var#A Prefix}"</code>, <code>"\){PWD#*/}"</code>, <code>"${PWD##*/}"</code>
+</p>
+
+<p>
+Remove <code>A Prefix</code> from the beginning of <code>var</code>. If <code>A Prefix</code> is not found, <code>var</code> is expanded as is. Double <code>#</code> makes the pattern match greedy (don't stop at first match, keep matching).
+</p>
+
+<p>
+<code>"\({var%A Suffix}"</code>, <code>"\){PWD%/*}"</code>, <code>"${PWD%%/*}"</code>
+</p>
+
+<p>
+Remove <code>A Suffix</code> from the end of <code>var</code>. If <code>A Suffix</code> is not found, <code>var</code> is expanded as is. Double <code>%</code> makes the pattern match greedy (don't stop at first match, keep matching).
+</p>
+
+<p>
+<code>"\({var/pattern/replacement}"</code>, <code>"\){HOME/\(USER/bob}"</code>, <code>"\){PATH//:/ }"</code>
+</p>
+
+<p>
+Replace <code>pattern</code> in <code>var</code> with <code>replacement</code>. Double <code>/</code> for greedy replacement.
+</p>
+
+<p>
+<code>"\({var^}"</code>, <code>"\){var^^}"</code>, <code>"${var^^[AC]}"</code>
+</p>
+
+<p>
+Uppercase caharacters in <code>var</code> matching a pattern. First example uppercases the first character. Second example uppercases all characters. Third example uppercases either <code>a</code> or <code>c</code>.
+</p>
+
+<p>
+<code>"\({var,}"</code>, <code>"\){var,,}"</code>, <code>"${var,,[AC]}"</code>
+</p>
+
+<p>
+Lowercase characters. Examples same as for uppercase example above.
+</p>
+
+<div id="Snippets-Quit if Variable not defined"><h2 id="Quit if Variable not defined" class="header"><a href="#Snippets-Quit if Variable not defined">Quit if Variable not defined</a></h2></div>
+
+<p>
+<code>REQUIRED_VAR="${REQUIRED_VAR:?Please provide value for REQUIRED_VAR}"</code>
+</p>
+
+<div id="Snippets-Common functions"><h2 id="Common functions" class="header"><a href="#Snippets-Common functions">Common functions</a></h2></div>
+
+<pre class="brush: sh">
+strstr () {
+    # Check if $2 is strstr of $1
+    # https://www.shellscript.sh/tips/strstr/
+    [ "${1#*$2*}" = "$1" ] &amp;&amp; return 1
+    return 0
+}
+
+# Not strstr. Use this when word needs to be checked in IFS separated string
+exists () {
+        key="$1"
+        haystack="$2"
+        for word in $haystack; do
+                [ "$key" = $word ] &amp;&amp; return 0
+        done
+        return 1;
+}
+
+# Or, startswith
+beginswith () {
+    local needle="$1"
+    local haystack="$2"
+
+    # Empty string return true smh
+    case "$haystack" in
+        "$needle"*) echo 'is okay'; true ;;
+        *) false ;;
+    esac
+}
+
+# Check if current $USER has write permissions in dest
+check_write_perm() {
+    [ -z "$1" ] &amp;&amp; die "Function expects one argument"
+    [ -w "$1" ]
+}
+
+trim_space () {
+    # Remove leading and trailing whitespace from a string
+    # Pipe input to this function.
+    sed --posix -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
+trim_space_zero () {
+    # Remove leading and trailing whitespace from a null-terminated string
+    # Pipe input to this function.
+    sed --posix -ze 's/^[[:space:]]*//' -ze 's/[[:space:]]*$//'
+}
+
+</pre>
+
+<div id="Snippets-Common Snippets"><h2 id="Common Snippets" class="header"><a href="#Snippets-Common Snippets">Common Snippets</a></h2></div>
+
+<pre sh>
+# Parse a line of text (that is in a variable)
+read -r var1 var2 _ &lt;&lt;&lt; 'text' ["$text"]
+
+# Parse lines of text
+while read -r one two _; do
+    echo "$one and a $two"
+done
+
+# Never use `for` for doing the above; But taking a whole line as words is fine for `for`
+for word in $long_text; do echo "&gt; $word"; done
+
+# Ignore first column of every line of file and process the rest
+while read _ line; do echo "$line"; done &lt; file 
+
+# Loop though a comma-seperated shell variable/string
+# https://stackoverflow.com/questions/27702452/loop-through-a-comma-separated-shell-variable
+# Also check out the other examples there
+variable=abc,def,ghij
+for i in ${variable//,/ }
+do
+    # call your procedure/other scripts here below
+    echo "$i"
+done
+
+</pre>
+
+<div id="Snippets-Get RANDOM int within range"><h2 id="Get RANDOM int within range" class="header"><a href="#Snippets-Get RANDOM int within range">Get RANDOM int within range</a></h2></div>
+
+<p>
+Simple!
+</p>
+
+<p>
+<code>shuf -i 50-100 -n 1</code>
+</p>
+
+<pre sh>
+https://blog.eduonix.com/shell-scripting/generating-random-numbers-in-linux-shell-scripting/
+
+padding_x=100
+padding_y=50
+
+# POSIX compliant way to get two $RANDOM ints within range
+range_x="${padding_x}-$((HEIGHT-padding_x))"
+range_y="${padding_y}-$((WIDTH-padding_y))"
+rand_x=$(shuf -i ${range_x} -n 1)
+rand_y=$(shuf -i ${range_y} -n 1)
+
+# Simpler way in bash
+# rand_x=$(((RANDOM+padding_x)%(HEIGHT-padding_x)))
+# rand_y=$(((RANDOM+padding_y)%(HEIGHT-padding_y)))
+</pre>
+
+<div id="Snippets-Parsing LS (Or not!)"><h2 id="Parsing LS (Or not!)" class="header"><a href="#Snippets-Parsing LS (Or not!)">Parsing LS (Or not!)</a></h2></div>
+
+<p>
+Iterate over all files in current directory
+</p>
+<pre sh>
+for f in *; do
+    [ -e $f ] || continue
+    ...
+done
+</pre>
+
+<div id="Snippets-Exiting script upon unsuccessful run of command"><h2 id="Exiting script upon unsuccessful run of command" class="header"><a href="#Snippets-Exiting script upon unsuccessful run of command">Exiting script upon unsuccessful run of command</a></h2></div>
+
+<pre sh>
+# script: delete files in directory $dir_name
+if [[ ! -d "$dir_name" ]]; then
+    echo "No such directory: '$dir_name'" &gt;&amp;2
+    exit 1
+fi
+if ! cd $dir_name; then
+    echo "Cannot cd to '$dir_name'" &gt;&amp;2
+    exit 1
+fi
+if ! rm *; then
+    echo "File deletion failed. Check results" &gt;&amp;2
+    exit 1
+fi
+</pre>
+
+<div id="Snippets-Verifying user input"><h2 id="Verifying user input" class="header"><a href="#Snippets-Verifying user input">Verifying user input</a></h2></div>
+
+<pre sh>
+# only return a zero exit status if the string returned by the user is
+# a numeral in the range of zero to three. Nothing else will be accepted.
+[[ $REPLY =~ ^[0-3]$ ]]
+# Bash only. See below url for POSIX friendly alt and explanation
+# https://unix.stackexchange.com/questions/340440/bash-test-what-does-do/340485
+
+# Check if argument was provided
+# Might be bashism
+[[ $1 ]] || { echo "You need to specify an argument!" &gt;&amp;2; exit 1; }
+</pre>
+
+<div id="Snippets-Debugging -- Tracing a script"><h2 id="Debugging -- Tracing a script" class="header"><a href="#Snippets-Debugging -- Tracing a script">Debugging -- Tracing a script</a></h2></div>
+
+<pre sh>
+#!/bin/bash
+
+# trouble: script to demonstrate common errors
+
+number=1
+
+set -x # Turn on tracing
+if [ $number = 1 ]; then
+    echo "Number is equal to 1."
+else
+    echo "Number is not equal to 1."
+fi
+set +x # Turn off tracing
+</pre>
+
+<div id="Snippets-Shel IO Redirections"><h2 id="Shel IO Redirections" class="header"><a href="#Snippets-Shel IO Redirections">Shel IO Redirections</a></h2></div>
+
+<p>
+<a href="https://unix.stackexchange.com/questions/70963/difference-between-2-2-dev-null-dev-null-and-dev-null-21">https://unix.stackexchange.com/questions/70963/difference-between-2-2-dev-null-dev-null-and-dev-null-21</a>
+</p>
+
+<div id="Snippets-Shel IO Redirections-`2&gt;&amp;-`"><h3 id="`2&gt;&amp;-`" class="header"><a href="#Snippets-Shel IO Redirections-`2&gt;&amp;-`"><code>2&gt;&amp;-</code></a></h3></div>
+
+<p>
+The general form of this one is <code>M&gt;&amp;-</code>, where "M" is a file descriptor number. This will close output for whichever file descriptor is referenced, i.e. "M".
+</p>
+
+<div id="Snippets-Shel IO Redirections-`2&gt;/dev/null`"><h3 id="`2&gt;/dev/null`" class="header"><a href="#Snippets-Shel IO Redirections-`2&gt;/dev/null`"><code>2&gt;/dev/null</code></a></h3></div>
+
+<p>
+The general form of this one is <code>M&gt;/dev/null</code>, where "M" is a file descriptor number. This will redirect the file descriptor, "M", to /dev/null.
+</p>
+
+<div id="Snippets-Shel IO Redirections-`2&gt;&amp;1`"><h3 id="`2&gt;&amp;1`" class="header"><a href="#Snippets-Shel IO Redirections-`2&gt;&amp;1`"><code>2&gt;&amp;1</code></a></h3></div>
+
+<p>
+The general form of this one is <code>M&gt;&amp;N</code>, where "M" &amp; "N" are file descriptor numbers. It combines the output of file descriptors "M" and "N" into a single stream.
+</p>
+
+<div id="Snippets-Shel IO Redirections-`|&amp;`"><h3 id="`|&amp;`" class="header"><a href="#Snippets-Shel IO Redirections-`|&amp;`"><code>|&amp;</code></a></h3></div>
+
+<p>
+This is just an abbreviation for <code>2&gt;&amp;1 |</code>. It was added in Bash 4.
+</p>
+
+<div id="Snippets-Shel IO Redirections-`&amp;&gt;/dev/null`"><h3 id="`&amp;&gt;/dev/null`" class="header"><a href="#Snippets-Shel IO Redirections-`&amp;&gt;/dev/null`"><code>&amp;&gt;/dev/null</code></a></h3></div>
+
+<p>
+This is just an abbreviation for <code>&gt;/dev/null 2&gt;&amp;1</code>. It redirects file descriptor 2 (STDERR) and descriptor 1 (STDOUT) to <code>/dev/null</code>.
+</p>
+
+<div id="Snippets-Shel IO Redirections-`&gt;/dev/null`"><h3 id="`&gt;/dev/null`" class="header"><a href="#Snippets-Shel IO Redirections-`&gt;/dev/null`"><code>&gt;/dev/null</code></a></h3></div>
+
+<p>
+This is just an abbreviation for <code>1&gt;/dev/null</code>. It redirects file descriptor 1 (STDOUT) to <code>/dev/null</code>.
+</p>
+
+<div id="Commands"><h1 id="Commands" class="header"><a href="#Commands">Commands</a></h1></div>
+
+<div id="Commands-_Prepend_ to a file (not _append_ like usually):"><h2 id="_Prepend_ to a file (not _append_ like usually):" class="header"><a href="#Commands-_Prepend_ to a file (not _append_ like usually):"><em>Prepend</em> to a file (not <em>append</em> like usually):</a></h2></div>
+
+<pre bash>
+echo -e 'Text to prepend\n\n' | cat - filename &gt; filename_bak
+</pre>
+
+<div id="Commands-Dry run a `find ... -exec ...`"><h2 id="Dry run a `find ... -exec ...`" class="header"><a href="#Commands-Dry run a `find ... -exec ...`">Dry run a <code>find ... -exec ...</code></a></h2></div>
+
+<p>
+You can run <code>echo rm</code> instead of <code>rm</code>
+</p>
+<pre><code>find . type f -exec echo rm {} \;
+</code></pre>
+
+<p>
+Also, <code>find</code> has <code>-delete</code> option to delete files it finds
+</p>
+
+<p>
+Source: <a href="https://unix.stackexchange.com/a/626251">https://unix.stackexchange.com/a/626251</a>
+</p>
+
+<p>
+<span id="Commands-Dry run a <code>find ... -exec ...</code>-Another one, maybe more POSIX friendly."></span><strong id="Another one, maybe more POSIX friendly.">Another one, maybe more POSIX friendly.</strong>
+</p>
+
+<p>
+It's a bit of a mouthful, but unlike approaches using <code>echo</code>, the below outputs code you could run in your shell without any changes to have the correct result, even when your filenames contain quotes, spaces, shell metacharacters, etc.
+</p>
+
+
+<p>
+```
+printcmd() { printf '%q ' "$@"; printf '\n'; }
+</p>
+
+<p>
+find . -exec bash -c "\((declare -f printcmd); "'printcmd "\)@"' _ \
+  somecommand {} \;
+```
+</p>
+
+<p>
+Note that the string we're prepending to our <code>-exec</code> argument is precisely <code>bash -c "\((declare -f printcmd); "'printcmd "\)@"' _</code> -- the <code>\((declare -f printcmd)</code> expands to the code for the function; after that, we <em>actually call</em> the function with arguments <code>\)1</code> and onward, and put <code>_</code> as a placeholder for <code>$0</code>.
+</p>
+
+<p>
+You can substitute <code>zsh</code> or <code>ksh</code> instead of bash, if you want output escaped for that shell.
+</p>
+
+<p>
+Source: <a href="https://unix.stackexchange.com/a/626339">https://unix.stackexchange.com/a/626339</a>
+</p>
+
+<div id="Commands-List files older than date"><h2 id="List files older than date" class="header"><a href="#Commands-List files older than date">List files older than date</a></h2></div>
+
+<pre bash>
+
+find ./ -not -newermt 'jan 01, 2022' -print|-ls|-delete
+
+</pre>
+
+<div id="Commands-Compare dates"><h2 id="Compare dates" class="header"><a href="#Commands-Compare dates">Compare dates</a></h2></div>
+
+<pre bash>
+date1=$(date --date="28-July-1992 03:00" +%s)
+date2=$(date --date="28-July-1995 05:00" +%s)
+# dateN=$(date --date="any date string" +%s)
+
+if [ $date1 -gt $date2 ]; then 
+  # logic if true
+fi
+</pre>
+
+<div id="Readline - Editing tricks"><h1 id="Readline - Editing tricks" class="header"><a href="#Readline - Editing tricks">Readline - Editing tricks</a></h1></div>
+
+<p>
+Works only in interactive shells (Bash, Zsh, etc.).
+</p>
+
+<div id="Readline - Editing tricks-Paste nth argument where cursor is"><h2 id="Paste nth argument where cursor is" class="header"><a href="#Readline - Editing tricks-Paste nth argument where cursor is">Paste nth argument where cursor is</a></h2></div>
+
+<p>
+<code>Alt+1</code> + <code>Alt+.</code> to put 1st argument.
+</p>
+
+<p>
+Or, type <code>!#:n</code> where n is a number, then press <code>Ctrl+Alt+e</code>.
+</p>
+
+<p>
+Explaining: <code>!#</code> is the whole line in the prompt typed so far. <code>:n</code> to get nth word in a variable. <code>Ctrl+Alt+e</code> for calling <code>shell-expand-line</code>.
+</p>
+
+<div id="Readline - Editing tricks-Expand a variable in place"><h2 id="Expand a variable in place" class="header"><a href="#Readline - Editing tricks-Expand a variable in place">Expand a variable in place</a></h2></div>
+
+<p>
+Type name of <code>$variable</code>. Press <code>Ctrl+Alt+e</code>.
+</p>
+
+
+<div id="Processing Text"><h1 id="Processing Text" class="header"><a href="#Processing Text">Processing Text</a></h1></div>
+
+<div id="Processing Text-Match either of multiple patterns"><h2 id="Match either of multiple patterns" class="header"><a href="#Processing Text-Match either of multiple patterns">Match either of multiple patterns</a></h2></div>
+
+<p>
+Grep with <code>-e</code>:
+</p>
+
+<p>
+<code>grep -e pattern1 -e pattern2 ...</code>
+</p>
+
+<p>
+Without <code>-e</code>:
+</p>
+
+<p>
+<code>grep 'pattern1\|pattern2\|pattern3'</code>
+</p>
+
+<p>
+Can also be done with <code>awk</code>. Probably:
+</p>
+
+<p>
+<code>awk /pat1/ || /pat2/ ...</code>
+</p>
+
+<div id="Processing Text-Match one pattern but exclude another"><h2 id="Match one pattern but exclude another" class="header"><a href="#Processing Text-Match one pattern but exclude another">Match one pattern but exclude another</a></h2></div>
+
+<p>
+With grep, it's simplest to use two invocations:
+</p>
+
+<p>
+<code>grep 'pattern' | grep -v 'pattern to exclude'</code>
+</p>
+
+<p>
+The other way is to use negative lookahead in the regex. It already sounds too complicated and I don't understand it either.
+</p>
+
+<p>
+The <span id="Processing Text-Match one pattern but exclude another-best"></span><strong id="best">best</strong> approach is probably with <code>awk</code>:
+</p>
+
+<p>
+<code>awk '/include/ &amp;&amp; ~/exclude/'</code>
+</p>
+
+</body>
+</html>

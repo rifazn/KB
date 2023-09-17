@@ -1,0 +1,75 @@
+= Week 1 - Introduction to SQL =
+
+== Example ==
+
+psql -U username
+\l lists databases
+
+== Creating a User and a Database ==
+
+# CREATE USER pg3e WITH PASSWORD 'secret';
+> CREATE ROLE
+# CREATE DATABASE people WITH OWNER 'pg4e';
+> CREAATE DATABASE
+# \q
+
+== Connecting to a Database ==
+
+psql dbname username
+=> \dt
+Lists all tables
+
+*What is a schema? *A schema is our contract with postgres that says this table has 2 columns, each column is a character column, and each column is upto a 128 characters long.**
+
+== Creating a Table ==
+
+CREATE TABLE users(
+	name VARCHAR(128),
+	email VARCHAR(128)
+);
+
+\dt
+
+== Schema of users table ==
+\d+ users
+
+== Run SQL commands from a text file ==
+
+`\i filename.txt`
+
+== Quiz: Introductory SQL ==
+
+Couldn't take it. Is behind a paywall. _$41.65_. Will ask EDX to lower it considering me as a student.
+
+== Initial Databse Setup - My user info ==
+
+`psql -h pg.pg4e.com -p 5432 -U pg4e_96f3adc73c pg4e_96f3adc73c`
+
+password:
+
+pg4e_p_b4b6c990d73330e
+
+
+== `Psycopg2` Python connector ==
+
+This is the connector that will be used to interface Python with Postgresql.
+
+`pip install psycopg2`
+
+
+
+= Week 2 - Single Tables and PostgreSQL =
+
+== Working with tables in PostgreSQL ==
+
+=== SQL: Insert ===
+
+{{{sql
+INSERT INTO users (name, email) VALUES ('Chuck', 'csev@umich.edu');
+INSERT INTO users (name, email) VALUES ('Somesh', 'somesh@umich.edu');
+INSERT INTO users (name, email) VALUES ('Caitlin', 'cait@umich.edu');
+}}}
+
+=== SQL: Delete ===
+
+

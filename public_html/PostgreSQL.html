@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>PostgreSQL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Simple commands (&quot;Meta commands&quot;)"><h2 id="Simple commands (&quot;Meta commands&quot;)" class="header"><a href="#Simple commands (&quot;Meta commands&quot;)">Simple commands ("Meta commands")</a></h2></div>
+
+<table>
+<tr>
+<td>
+Meta Command
+</td>
+<td>
+Description
+</td>
+</tr>
+<tr>
+<td>
+<code>\dt</code>
+</td>
+<td>
+List all tables
+</td>
+</tr>
+<tr>
+<td>
+<code>\du</code>
+</td>
+<td>
+List all users
+</td>
+</tr>
+</table>
+
+<div id="Concatenate"><h2 id="Concatenate" class="header"><a href="#Concatenate">Concatenate</a></h2></div>
+
+<pre sql>
+SELECT 
+   first_name || ' ' || last_name,
+   email
+FROM 
+   customer;
+</pre>
+
+<p>
+In this example, we used the concatenation operator || to concatenate the first name, space, and last name of every customer.
+</p>
+
+<div id="SELECT with expressions (like arithmetic)"><h2 id="SELECT with expressions (like arithmetic)" class="header"><a href="#SELECT with expressions (like arithmetic)">SELECT with expressions (like arithmetic)</a></h2></div>
+
+<p>
+<code>SELECT 5 * 8;</code>
+</p>
+
+<p>
+<code>SELECT 5 * 8 AS "Product"</code>
+</p>
+
+<div id="Disable line wrap, and allow horizontal scroll"><h2 id="Disable line wrap, and allow horizontal scroll" class="header"><a href="#Disable line wrap, and allow horizontal scroll">Disable line wrap, and allow horizontal scroll</a></h2></div>
+
+<p>
+Assuming <code>less</code> is the pager being used, type <code>-S&lt;Enter&gt;</code> and this will disable wrap. Then, horizontally scroll with arrow keys.
+</p>
+
+<div id="Check privileges of user"><h2 id="Check privileges of user" class="header"><a href="#Check privileges of user">Check privileges of user</a></h2></div>
+
+<p>
+Ref: <a href="https://stackoverflow.com/questions/59858343/how-to-check-all-roles-user-group-role-have-what-privileges-in-postgres-database">https://stackoverflow.com/questions/59858343/how-to-check-all-roles-user-group-role-have-what-privileges-in-postgres-database</a>
+</p>
+
+<p>
+<code>SELECT * FROM pg_user;</code>
+</p>
+
+<p>
+To check roles:
+</p>
+
+<p>
+<code>SELECT * FROM pg_roles;</code>
+</p>
+
+<div id="Switch (change) current database"><h2 id="Switch (change) current database" class="header"><a href="#Switch (change) current database">Switch (change) current database</a></h2></div>
+
+<p>
+<code>\c[onnect] DBNAME</code>
+</p>
+
+</body>
+</html>

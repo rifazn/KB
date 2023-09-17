@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Git</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+<a href="From the 'Pro Git' book.html">From the 'Pro Git' book</a>
+</p>
+
+
+<div id="Notes"><h1 id="Notes" class="header"><a href="#Notes">Notes</a></h1></div>
+
+<div id="Notes-Git pull a different remote branch and checkout to it"><h2 id="Git pull a different remote branch and checkout to it" class="header"><a href="#Notes-Git pull a different remote branch and checkout to it">Git pull a different remote branch and checkout to it</a></h2></div>
+
+<p>
+<code>git switch branchname</code>
+</p>
+
+<div id="Notes-Push commits from `tagA` until `tagB`"><h2 id="Push commits from `tagA` until `tagB`" class="header"><a href="#Notes-Push commits from `tagA` until `tagB`">Push commits from <code>tagA</code> until <code>tagB</code></a></h2></div>
+
+<ol>
+<li>
+Make sure the remote branch is up-to-date until <code>tagA</code>
+
+<li>
+Reset the branch pointer to <code>tagB</code>: <code>git reset tagB</code>
+
+<li>
+Push like you do
+
+<li>
+Revert back to latest tag: <code>git reset latest</code>
+
+</ol>
+<div id="Notes-What does `git rm` do?"><h2 id="What does `git rm` do?" class="header"><a href="#Notes-What does `git rm` do?">What does <code>git rm</code> do?</a></h2></div>
+
+<p>
+Seems like it's the same as
+</p>
+
+<p>
+```bash
+rm &lt;file&gt;
+git add &lt;file&gt;
+</p>
+<ul>
+<li>
+Stages the deletion of the file basically
+
+</ul>
+<p>
+```
+</p>
+
+<div id="Notes-Squash commits into one"><h2 id="Squash commits into one" class="header"><a href="#Notes-Squash commits into one">Squash commits into one</a></h2></div>
+
+<p>
+<a href="https://www.internalpointers.com/post/squash-commits-into-one-git">https://www.internalpointers.com/post/squash-commits-into-one-git</a>
+</p>
+
+</body>
+</html>

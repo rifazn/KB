@@ -1,0 +1,39 @@
+The standard library is described in Chapter 7 and Appendix B.
+
+**EOF** is NOT a `char` value, but an `int`.
+
+In the test part of `if/else`, `while`, `for`, etc. any non-zero value is taken to be true.
+
+`\0` represents the character with value zero (`0`), the `null` character. `\0` is often written instead of `0` to emphasize the character nature of some expression.
+But the numeric value is just `0`.
+
+The standard library assumes text stream appears as a sequence of line, each terminated by a newline.
+
+`local` variables are also called `automatic` variables. These variables are brought into existence only when their enclosing function is called, and they disappear when the function exits.
+
+
+String constants can be concatenated at compile time. So `"hello," " world"` is the same as `"hello, world"`
+
+The `enumeration` is another type of constant. They are often better than using `#define`s as the debugger is able to print their information in their symbolic form.
+Also, `enum` types can generate their own values.
+
+```c
+enum months { Jan=1, FEB, MAR, ..., DEC };
+	/* FEB is 2, MAR is 3, etc. */
+	
+/* or, like this where NO is 0, YES is 1. */
+enum boolean { NO, YES };
+
+Arrays sizes are optional with an `extern` declaration.
+
+```
+
+The `const` modifier (aka qualifier, keyword) can also be used in function parameters to indicate that the function does not change the argument.
+
+The unary negation operator `!` converts a _non zero_ operand into `0` and a zero operand into `1`. A common use of this operator is in constructions like:
+`if (!valid)` instead of `if (valid == 0)`.
+
+
+= ?? =
+
+Were argument lists used in languages like Pascal and Fortran to communicate between functions before global variables and C was designed?

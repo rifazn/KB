@@ -1,0 +1,11 @@
+What's being covered:
+	1. User Auth
+    2. Working with data and APIs (Full CRUD)
+    3. Model Manipulation
+    4. URL-routing
+    5. More: Full blown SPA, Django Rest Framework (DRF)
+
+Other caveats and realizations:
+	1. You have to install DRF manually (`pip install djangorestframework`)
+    2. Create a superuser
+    3. In `myapp/urls.py`, `router.register` should have `basename` attribute specified.

@@ -1,0 +1,12 @@
+= My Knowledge Base (KB)
+Rifaz Nahiyan | rifazn@protonmail.com
+
+This repo contains my VimWiki files that I use to maintain a Knowledge Base (KB).  The KB mostly contains things that I need to look up more than once in a while.  Also contains things that I would like to generally just remember.
+
+The root directory consists of `.wiki` files.  The `public_html/` directory contains the transpiled html files.  Few other directories exist too; they are used to separate wiki files into topics.
+
+== Requirements
+
+The `.wiki` files are just plain text files but most of the convenience functionalities adn the required transpilation is provided by the [https://github.com/vimwiki/vimwiki|VimWiki] plugin for vim/neovim.  This plugin is basically for people who would _highly prefer_ maintaining their KB using vim/neovim than any other text editor.
+
+

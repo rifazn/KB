@@ -1,0 +1,4 @@
+= Lecture 0504 =
+
+I2C poraise. Looks like beta SPI theke I2C shob case e prefer kore.
+

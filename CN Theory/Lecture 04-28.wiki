@@ -1,0 +1,60 @@
+= Chapter 4 -- Network Layer =
+
+Difference application and transport vs network layer:
+    * application layer and transport layer in end systems.
+    * network layer in routers.
+    * Every intermediate device must also participate in network layer.
+
+Network Layer creates the path that should be taken for communication between
+end devices. Also check out the [[https://en.wikipedia.org/wiki/Network_layer|wikipedia]] page.
+
+Network Layer deals with the _routing_ of the communication.
+
+Reaching a router is analogous to reaching an intersection. 
+
+Routing is called global.
+
+== Two key network layer functions ==
+
+Forwarding:: move packets from a router's input link to appropriate router output link.
+
+Routing:: determine route taken by packets from source to destination (Routing happens from source to destination).
+
+First forwarding happens, then routing.
+
+== Two planes of network layer ==
+
+=== Data plane ===
+
+* It is _local_, per-router function.
+* determines how datagram arriving on router input port is forwarded to router output port.
+
+=== Control plane ===
+
+* It is _network-wide logic_.
+* determines how datagram is routed _among routers_ along end-to-end path from source to destination
+* There are two control plane approaches:
+    1. Traditional routing algorithms (implemented in routers).
+    2. Software-defined networking: implemented in remote servers.
+
+
+== Forwarding ==
+
+Two methods:
+1. destination-based forwarding: forward based on destination IP address (traditional)
+2. generalized forwarding: forward based on any set of header field values.
+
+=== Destination based forwarding ===
+
+Forwarding table
+| Destination Address Range              | Link Interface |
+|----------------------------------------|:--------------:|
+| 11001000 00010111 000 _10000 00000000_ |       0        |
+| 11001000 00010111 000 _10111 11111111_ |       \/       |
+| 11001000 00010111 000 _11000 00000000_ |       1        |
+| 11001000 00010111 000 _11000 11111111_ |       \/       |
+| 11001000 00010111 000 _11001 00000000_ |       2        |
+| 11001000 00010111 000 _11111 11111111_ |       \/       |
+| otherwise                              |       3        |
+
+

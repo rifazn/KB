@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>Django User Authentication</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Django User Authentication"><h1 id="Django User Authentication" class="header"><a href="#Django User Authentication">Django User Authentication</a></h1></div>
+
+<p>
+Django Authentication System manages both authentication and authorization.
+</p>
+
+<dl>
+<dt>Authentication</dt>
+<dd>Verify user is who they claim to be.</dd>
+</dl>
+
+<dl>
+<dt>Authorization</dt>
+<dd>Verify if the authenticated user is authorized to perform an action.</dd>
+</dl>
+
+<p>
+The authentication system consists of:
+</p>
+
+<ol>
+<li>
+User
+
+<li>
+Permissions: Binary (yes/no) flags designating whether a user may perform a certain task.
+
+<li>
+Groups: a generic way of applying labels and permissions to more than one user.
+
+<li>
+A configurable password hashing system.
+
+<li>
+Forms and view tools for logging in users, or restricting content.
+
+<li>
+A pluggable backend system.
+
+</ol>
+<p>
+<span id="Django User Authentication-Note: Make sure you know 1, 2, 3, and 4 properly.<br><br>And a basic concept of 6."></span><strong id="Note: Make sure you know 1, 2, 3, and 4 properly.<br><br>And a basic concept of 6.">Note: Make sure you know 1, 2, 3, and 4 properly.<br><br>And a basic concept of 6.</strong>
+</p>
+
+
+<div id="Django User Authentication-Installation"><h2 id="Installation" class="header"><a href="#Django User Authentication-Installation">Installation</a></h2></div>
+
+<p>
+It gets pre-installed when <code>django-admin startproject</code> is used. These are listed (by default) under the <code>INSTALLED_APPS</code> list in <code>settings.py</code>.
+</p>
+
+<ol>
+<li>
+<code>django.contrib.auth</code>: core of the authentication framework and its models.
+
+<li>
+<code>django.contrib.contenttypes</code>: allows permissions to be associated with models you create (among other things).
+
+</ol>
+<p>
+Also relevant are these items in the <code>MIDDLEWARE</code> settings: 
+</p>
+
+<ol>
+<li>
+<code>SessionMiddleware</code>
+
+<li>
+<code>AuthenticationMiddleware</code>
+
+</ol>
+<p>
+Now, running <code>manage.py migrate</code> will create necessary models for the authentication system.
+</p>
+
+
+<div id="Django User Authentication-Usage"><h2 id="Usage" class="header"><a href="#Django User Authentication-Usage">Usage</a></h2></div>
+
+<p>
+Covers the basic use cases <span id="Django User Authentication-Usage-excellently"></span><strong id="excellently">excellently</strong>. For more custom use cases, view later section (or maybe chapter). <span class="todo">TODO</span>:
+</p>
+
+<div id="Django User Authentication-Usage-Creating users"><h3 id="Creating users" class="header"><a href="#Django User Authentication-Usage-Creating users">Creating users</a></h3></div>
+
+<p>
+Just use <code>create_user()</code> helper function.
+</p>
+
+<pre>
+&gt;&gt;&gt; from django.contrib.auth.models import User
+&gt;&gt;&gt; user = User.objects.create_user(
+        'john', 'email@domain.com', 'password')
+    )
+&gt;&gt;&gt; # A user instance is already created. Only need to save if any value changed
+&gt;&gt;&gt; user.last_name = 'Lennon'
+&gt;&gt;&gt; user.save()
+</pre>
+
+<p>
+The primary (<span class="todo">TODO</span>: what does <em>primary</em> mean here?) attributes of the default user are:
+</p>
+
+<ul>
+<li>
+<code>username</code>
+
+<li>
+<code>password</code>
+
+<li>
+<code>email</code>
+
+<li>
+<code>last_name</code>
+
+<li>
+<code>first_name</code>
+
+</ul>
+<p>
+If Django Admin is set up, users can be created interactively. At least one superuser is required for using the Admin page.
+</p>
+
+<div id="Django User Authentication-Usage-Creating superusers"><h3 id="Creating superusers" class="header"><a href="#Django User Authentication-Usage-Creating superusers">Creating superusers</a></h3></div>
+<pre><code><code>&gt;&gt;&gt; python manage.py createsuperuser [--username=johnd] [--email=johnd@lostfound.com]</code>
+</code></pre>
+<p>
+Becomes interactive if the options are not passed.
+</p>
+
+<div id="Django User Authentication-Usage-Passwords"><h3 id="Passwords" class="header"><a href="#Django User Authentication-Usage-Passwords">Passwords</a></h3></div>
+
+<p>
+<span id="Django User Authentication-Usage-Passwords-DO NOT SET IT DIRECTLY"></span><strong id="DO NOT SET IT DIRECTLY">DO NOT SET IT DIRECTLY</strong>
+</p>
+
+<p>
+To change it, use:
+</p>
+
+<p>
+<code>&gt;&gt;&gt; python manage.py changepassword &lt;username&gt;</code>
+</p>
+
+<div id="Django User Authentication-Usage-Passwords-Programmatically"><h4 id="Programmatically" class="header"><a href="#Django User Authentication-Usage-Passwords-Programmatically">Programmatically</a></h4></div>
+
+<pre>
+&gt;&gt;&gt; from django.auth.contrib.auth.models import User
+&gt;&gt;&gt; user = User.objects.get(username=&lt;username&gt;)
+&gt;&gt;&gt; user.set_password('drunkenMonologuesConfused?')
+&gt;&gt;&gt; user.save()
+</pre>
+
+<p>
+Passwords can also be set (or changed) from the admin page.
+</p>
+
+<p>
+Also, check <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-views">authentication Views</a> and <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-forms">forms</a> that Django provides.
+</p>
+
+<p>
+The user will be auto-logged-out from the sessions after the password change.
+</p>
+
+<div id="Django User Authentication-Usage-Authenticating users"><h3 id="Authenticating users" class="header"><a href="#Django User Authentication-Usage-Authenticating users">Authenticating users</a></h3></div>
+
+<pre>
+&gt;&gt;&gt; from django.contrib.auth import authenticate
+&gt;&gt;&gt; user = authenticate(username='chicane', password='spiritOfTheHeart')
+&gt;&gt;&gt; if user is not None:
+...     # successful authentication
+... else
+...     # Auth failed, or no auth backend set
+</pre>
+
+
+<p>
+<code>request</code> is an optional <a href="https://docs.djangoproject.com/en/4.1/ref/request-response/#django.http.HttpRequest">HttpRequest</a> which is passed on the <code>authenticate()</code> method of the authentication backends.
+</p>
+
+<p>
+<div style="background:#98971a;">
+<span id="Django User Authentication-Usage-Authenticating users-Note"></span><strong id="Note">Note</strong>
+</p>
+
+<p>
+This is a low level way to authenticate a set of credentials; for example, it’s used by the <code>RemoteUserMiddleware</code>. Unless you are writing your own authentication system, you probably won’t use this. Rather if you’re looking for a way to login a user, use the <code>LoginView</code>.
+</div>
+</p>
+
+<p>
+<span class="todo">TODO</span>:
+</p>
+
+<p>
+Find akta user by default kon kon group e thake ar oi group gular permissions ki ki thakee
+</p>
+
+<p>
+Seems... akt auser by default belongs to no groups... And by default kono groups o exist kore na.
+</p>
+
+<pre>
+&gt;&gt;&gt; from django.contrib.auth import Group, User
+&gt;&gt;&gt; user = # ... create user
+&gt;&gt;&gt; user.groups.all()
+&gt;&gt;&gt; &lt;QuerySet []&gt; # ... is empty
+&gt;&gt;&gt; Group.objects.all()
+&gt;&gt;&gt; # is empty too
+</pre>
+
+<p>
+Seems like, by default, superuser o kno group e belong kore na.
+</p>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests"><h3 id="Authenticating users in web requests" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests">Authenticating users in web requests</a></h3></div>
+
+<p>
+The <code>request.user</code> is set to the current logged in user or an instance of <code>AnonymousUser</code> if the user is not logged in.
+</p>
+
+<p>
+You can tell them apart using:
+</p>
+
+<pre python>
+if request.user.is_authenticated:
+    # user is logged in
+else:
+    # Anonymous User
+</pre>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Logging in a user"><h4 id="Logging in a user" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Logging in a user">Logging in a user</a></h4></div>
+
+<p>
+This is basically setting the user value of the current session. This should be done with the <code>login</code> function.
+</p>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Logging in a user-`login(request, user, backend=None)`"><h5 id="`login(request, user, backend=None)`" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Logging in a user-`login(request, user, backend=None)`"><code>login(request, user, backend=None)</code></a></h5></div>
+
+<p>
+Note that any data set during the anonymous session is retained in the session after the user logs in.
+</p>
+
+<p>
+Using <code>authenticate</code> then <code>login</code>:
+</p>
+
+<pre>
+from django.contrib.auth import authenticate, login
+
+def my_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    
+    user = authenticate(request, username=username, password=password)
+    
+    if user is not None:
+        login(request, user)
+        # Redirect to success page
+    else:
+        # Return 'invalid login' error message
+</pre>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Logging in a user-Selecting an authentication backend"><h5 id="Selecting an authentication backend" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Logging in a user-Selecting an authentication backend">Selecting an authentication backend</a></h5></div>
+
+<p>
+Read this from the docs: <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#selecting-the-authentication-backend">https://docs.djangoproject.com/en/4.1/topics/auth/default/#selecting-the-authentication-backend</a>
+</p>
+
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-How to log a user out"><h4 id="How to log a user out" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-How to log a user out">How to log a user out</a></h4></div>
+
+<pre python>
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+</pre>
+
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users"><h4 id="Limiting access to logged in users" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users">Limiting access to logged in users</a></h4></div>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The raw way"><h5 id="The raw way" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The raw way">The raw way</a></h5></div>
+
+<p>
+Just check <code>request.user.is_authenticated</code>. Redirect to a login page maybe:
+</p>
+
+<pre python>
+from django.conf import settings
+from django.shortcuts import redirect
+
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.login_URL, request.path))
+        
+        # Or display an error message
+        return render(request, 'myapp/login_error.html')
+</pre>
+
+<p>
+Below however, are more "appropriate" ways (my opinion).
+</p>
+
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The `login_required` decorator"><h5 id="The `login_required` decorator" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The `login_required` decorator">The <code>login_required</code> decorator</a></h5></div>
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The `login_required` decorator-`login_required(redirect_field_name='next', login_url=None)`"><h6 id="`login_required(redirect_field_name='next', login_url=None)`" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The `login_required` decorator-`login_required(redirect_field_name='next', login_url=None)`"><code>login_required(redirect_field_name='next', login_url=None)</code></a></h6></div>
+
+<p>
+It's a really nice shorcut. Example:
+</p>
+
+<pre python>
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def my_view(request):
+    ...
+</pre>
+
+
+<div id="Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The LoginRequiredMixin mixin"><h5 id="The LoginRequiredMixin mixin" class="header"><a href="#Django User Authentication-Usage-Authenticating users in web requests-Limiting access to logged in users-The LoginRequiredMixin mixin">The LoginRequiredMixin mixin</a></h5></div>
+
+<p>
+There's also this mixin for Class based views:
+</p>
+
+<pre python>
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class MyView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+</pre>
+
+<p>
+<code>LoginRequiredMixin</code> needs to be on the leftmost side in the inheritance list.
+</p>
+
+
+<p>
+More examples and documentation: <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#limiting-access-to-logged-in-users">https://docs.djangoproject.com/en/4.1/topics/auth/default/#limiting-access-to-logged-in-users</a>
+</p>
+
+
+<div id="Django User Authentication-Usage-Authentication Views"><h3 id="Authentication Views" class="header"><a href="#Django User Authentication-Usage-Authentication Views">Authentication Views</a></h3></div>
+
+<p>
+Django's built-in views make it super easy to handle authentication pages. The simplest way is just to include the <code>urlconf</code>.
+</p>
+
+<pre python>
+urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls'))
+]
+</pre>
+
+<p>
+The name of the included urls are: <code>login</code>, <code>logout</code>, etc. So each of these url request will call the associated views automatically.
+</p>
+
+<p>
+The default views will use the <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#built-in-auth-forms">stock auth forms</a>. These views also look for predefined template names and pass the respective form context.
+</p>
+
+<p>
+The context passed to these templates are:
+</p>
+
+<ol>
+<li>
+<code>form</code>
+
+<li>
+<code>next</code>
+
+<li>
+<code>site</code>
+
+<li>
+<code>site_name</code>
+
+</ol>
+<p>
+To override the url (and also the template name), this example can be followed:
+</p>
+
+<pre python>
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    path('change-password', auth_views.PasswordChageView.as_view(
+        template_name='...',
+    ))
+    ]
+</pre>
+
+
+<p>
+<a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#all-authentication-views">All authentication views</a> also shows the attributes each view can take along with the url they are assigned to.
+</p>
+
+<div id="Django User Authentication-Usage-Authentication Views-Using the authentication form in templates"><h4 id="Using the authentication form in templates" class="header"><a href="#Django User Authentication-Usage-Authentication Views-Using the authentication form in templates">Using the authentication form in templates</a></h4></div>
+
+<p>
+Built-in Forms
+</p>
+
+<p>
+Works best with default <code>User</code> model for <a href="https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#auth-custom-user">custom user model</a>, see <a href="https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#custom-users-and-the-built-in-auth-forms">using the built-in auth forms with custom user models.</a>
+</p>
+
+<p>
+Ref: <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#module-django.contrib.auth.views">https://docs.djangoproject.com/en/4.1/topics/auth/default/#module-django.contrib.auth.views</a>
+</p>
+
+
+<div id="Django User Authentication-Permissions and Authorization"><h2 id="Permissions and Authorization" class="header"><a href="#Django User Authentication-Permissions and Authorization">Permissions and Authorization</a></h2></div>
+
+<div id="Django User Authentication-Permissions and Authorization-Modify permissions of a user"><h3 id="Modify permissions of a user" class="header"><a href="#Django User Authentication-Permissions and Authorization-Modify permissions of a user">Modify permissions of a user</a></h3></div>
+
+<pre python>
+user.user_permissions.set([permissions])
+user.user_permissions.add(perm)
+user.user_permissions.remove(perm, ...)
+user.user_permissions.clear()
+</pre>
+
+<p>
+Where <code>permission</code> is (probly):
+</p>
+<pre><code><code>foo.add_bar, foo.delete_bar, etc</code>
+</code></pre>
+<p>
+Where <code>foo</code> is <code>app_label</code> and <code>bar</code> is model named <code>Bar</code>.
+</p>
+
+<div id="Django User Authentication-Permissions and Authorization-Modify permissions on a group"><h3 id="Modify permissions on a group" class="header"><a href="#Django User Authentication-Permissions and Authorization-Modify permissions on a group">Modify permissions on a group</a></h3></div>
+
+<p>
+Add a Group instance ust like any other model creation, like:
+</p>
+
+<pre python>
+special_users = Group.objects.create('Special Users')
+</pre>
+
+<div id="Django User Authentication-Permissions and Authorization-Changing permissions on whole group"><h3 id="Changing permissions on whole group" class="header"><a href="#Django User Authentication-Permissions and Authorization-Changing permissions on whole group">Changing permissions on whole group</a></h3></div>
+
+
+<pre python>
+group.permissions.set([...])
+group.permissions.add(...)
+group.permissions.remove(...)
+group.permissions.clear()
+</pre>
+
+<div id="Django User Authentication-Permissions and Authorization-Add/remove user to/from group"><h3 id="Add/remove user to/from group" class="header"><a href="#Django User Authentication-Permissions and Authorization-Add/remove user to/from group">Add/remove user to/from group</a></h3></div>
+
+<pre python>
+user.groups.set([group_list])
+user.groups.add(g1, g2, ...)
+user.groups.remove(g1, g2, ...)
+user.groups.clear()
+</pre>
+
+
+<div id="Django User Authentication-Permissions and Authorization-Check for permissions"><h3 id="Check for permissions" class="header"><a href="#Django User Authentication-Permissions and Authorization-Check for permissions">Check for permissions</a></h3></div>
+
+<p>
+On a user:
+</p>
+
+<pre python>
+user.has_perm('foo.add_bar')
+</pre>
+
+<p>
+On a group:
+</p>
+
+<p>
+<span class="todo">TODO</span>: Got to find out.
+</p>
+
+<p>
+Inside a template for the current logged in user:
+</p>
+
+<p>
+The currently logged-in user’s permissions are stored in the template variable <code>{{ perms }}</code>. This is an instance of <code>django.contrib.auth.context_processors.PermWrapper</code>, which is a template-friendly proxy of permissions.
+</p>
+
+<p>
+Evaluating a single-attribute lookup of <code>{{ perms }}</code> as a boolean is a proxy to <code>User.has_module_perms()</code>. For example, to check if the logged-in user has any permissions in the <code>foo</code> app:
+</p>
+
+<p>
+<code>{% if perms.foo %}</code>
+</p>
+
+<p>
+Evaluating a two-level-attribute lookup as a boolean is a proxy to <code>User.has_perm()</code>. For example, to check if the logged-in user has the permission <code>foo.add_vote</code>:
+</p>
+
+<p>
+<code>{% if perms.foo.add_vote %}</code>
+</p>
+
+<p>
+Here’s a more complete example of checking permissions in a template:
+</p>
+
+<pre>
+{% if perms.foo %}
+    &lt;p&gt;You have permission to do something in the foo app.&lt;/p&gt;
+    {% if perms.foo.add_vote %}
+        &lt;p&gt;You can vote!&lt;/p&gt;
+    {% endif %}
+    {% if perms.foo.add_driving %}
+        &lt;p&gt;You can drive!&lt;/p&gt;
+    {% endif %}
+{% else %}
+    &lt;p&gt;You don't have permission to do anything in the foo app.&lt;/p&gt;
+{% endif %}
+</pre>
+
+<p>
+It is possible to also look permissions up by <code>{% if in %}</code> statements. For example:
+</p>
+
+<pre>
+{% if 'foo' in perms %}
+    {% if 'foo.add_vote' in perms %}
+        &lt;p&gt;In lookup works, too.&lt;/p&gt;
+    {% endif %}
+{% endif %}
+</pre>
+
+
+<div id="Django User Authentication-Permissions and Authorization-Programmatically creating permissions"><h3 id="Programmatically creating permissions" class="header"><a href="#Django User Authentication-Permissions and Authorization-Programmatically creating permissions">Programmatically creating permissions</a></h3></div>
+
+<p>
+While custom permissions can be defined within a model’s <code>Meta</code> class (as shown below), you can also create permissions directly. For example, you can create the <code>can_publish</code> permission for a <code>BlogPost</code> model in <code>myapp</code>:
+</p>
+
+<pre python>
+from myapp.models import BlogPost
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+content_type = ContentType.objects.get_for_model(BlogPost)
+permission = Permission.objects.create(
+    codename='can_publish',
+    name='Can Publish Posts',
+    content_type=content_type,
+)
+</pre>
+
+<p>
+The permission can then be assigned to a <code>User</code> via its <code>user_permissions</code> attribute or to a <code>Group</code> via its permissions attribute.
+</p>
+
+<p>
+<div style="background-color: #F1FFF7">
+<span id="Django User Authentication-Permissions and Authorization-Programmatically creating permissions-Proxy models need their own content type"></span><strong id="Proxy models need their own content type">Proxy models need their own content type</strong>
+</p>
+
+<p>
+If you want to <a href="https://docs.djangoproject.com/en/4.1/topics/auth/default/#proxy-models-permissions-topic">create permissions for a proxy model</a>, pass <code>for_concrete_model=False</code> to <code>ContentTypeManager.get_for_model()</code> to get the appropriate <code>ContentType</code>:
+</p>
+
+<pre python>
+content_type = ContentType.objects.get_for_model(
+    BlogPostProxy, for_concrete_model=False,
+)
+</pre>
+<p>
+</div>
+</p>
+
+
+<div id="Django User Authentication-Permissions and Authorization-Permission caching"><h3 id="Permission caching" class="header"><a href="#Django User Authentication-Permissions and Authorization-Permission caching">Permission caching</a></h3></div>
+
+<p>
+The <code>ModelBackend</code> caches permissions on the user object after the first time they need to be fetched for a permissions check. This is typically fine for the request-response cycle since permissions aren’t typically checked immediately after they are added (in the admin, for example). If you are adding permissions and checking them immediately afterward, in a test or view for example, the easiest solution is to re-fetch the user from the database. For example:
+</p>
+
+<pre python>
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
+
+from myapp.models import BlogPost
+
+def user_gains_perms(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    # any permission check will cache the current set of permissions
+    user.has_perm('myapp.change_blogpost')
+
+    content_type = ContentType.objects.get_for_model(BlogPost)
+    permission = Permission.objects.get(
+        codename='change_blogpost',
+        content_type=content_type,
+    )
+    user.user_permissions.add(permission)
+
+    # Checking the cached permission set
+    user.has_perm('myapp.change_blogpost')  # False
+
+    # Request new instance of User
+    # Be aware that user.refresh_from_db() won't clear the cache.
+    user = get_object_or_404(User, pk=user_id)
+
+    # Permission cache is repopulated from the database
+    user.has_perm('myapp.change_blogpost')  # True
+
+    ...
+</pre>
+
+
+<div id="Django User Authentication-Permissions and Authorization-Proxy models"><h3 id="Proxy models" class="header"><a href="#Django User Authentication-Permissions and Authorization-Proxy models">Proxy models</a></h3></div>
+
+<p>
+Proxy models work exactly the same way as concrete models. Permissions are created using the own content type of the proxy model. Proxy models don’t inherit the permissions of the concrete model they subclass:
+</p>
+
+<pre python>
+class Person(models.Model):
+    class Meta:
+        permissions = [('can_eat_pizzas', 'Can eat pizzas')]
+
+class Student(Person):
+    class Meta:
+        proxy = True
+        permissions = [('can_deliver_pizzas', 'Can deliver pizzas')]
+
+&gt;&gt;&gt; # Fetch the content type for the proxy model.
+&gt;&gt;&gt; content_type = ContentType.objects.get_for_model(Student, for_concrete_model=False)
+&gt;&gt;&gt; student_permissions = Permission.objects.filter(content_type=content_type)
+&gt;&gt;&gt; [p.codename for p in student_permissions]
+['add_student', 'change_student', 'delete_student', 'view_student',
+'can_deliver_pizzas']
+&gt;&gt;&gt; for permission in student_permissions:
+...     user.user_permissions.add(permission)
+&gt;&gt;&gt; user.has_perm('app.add_person')
+False
+&gt;&gt;&gt; user.has_perm('app.can_eat_pizzas')
+False
+&gt;&gt;&gt; user.has_perms(('app.add_student', 'app.can_deliver_pizzas'))
+True
+</pre>
+
+<div id="Django User Authentication-Permissions and Authorization-Custom permissions using `Meta` class"><h3 id="Custom permissions using `Meta` class" class="header"><a href="#Django User Authentication-Permissions and Authorization-Custom permissions using `Meta` class">Custom permissions using <code>Meta</code> class</a></h3></div>
+
+<p>
+To create custom permissions for a given model object, use the <code>permissions</code> <a href="https://docs.djangoproject.com/en/4.1/topics/db/models/#meta-options">model Meta attribute</a>.
+</p>
+
+<p>
+This example <code>Task</code> model creates two custom permissions, i.e., actions users can or cannot do with <code>Task</code> instances, specific to your application:
+</p>
+
+<pre python>
+class Task(models.Model):
+    ...
+    class Meta:
+        permissions = [
+            ("change_task_status", "Can change the status of tasks"),
+            ("close_task", "Can remove a task by setting its status as closed"),
+        ]
+</pre>
+
+<p>
+The only thing this does is create those extra permissions when you run <code>manage.py migrate</code> (the function that creates permissions is connected to the <code>post_migrate</code> signal). Your code is in charge of checking the value of these permissions when a user is trying to access the functionality provided by the application (changing the status of tasks or closing tasks.) Continuing the above example, the following checks if a user may close tasks:
+</p>
+
+<pre python>
+user.has_perm('app.close_task')
+</pre>
+
+<p>
+While a nice run-down of permissions is written here, an also nice quick read can be found here: <a href="https://medium.com/djangotube/django-roles-groups-and-permissions-introduction-a54d1070544">https://medium.com/djangotube/django-roles-groups-and-permissions-introduction-a54d1070544</a>
+</p>
+
+</body>
+</html>

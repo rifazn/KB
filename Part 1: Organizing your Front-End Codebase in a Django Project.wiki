@@ -1,0 +1,13 @@
+So, in this chapter, the differences betwn "Server-first" and "Client-first" architecture is discussed.
+
+Benefits and drawbacks on both these methods is described.
+
+Then, a "hybrid" approach is presented. In this approach, some pages will be rendered entirely by Django, and some others will be offloaded to React.
+
+Rendering happens on a page by page basis so this approach is actually called _*Hybrid-pages*_ approach.
+
+Have read of the article (~30 mins read): https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/client-server-architectures/
+
+Archived: http://web.archive.org/*/https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/client-server-architectures/
+
+[[Part%202:%20A%20Crash%20Course%20in%20Modern%20JavaScript%20Tooling|Part 2]]

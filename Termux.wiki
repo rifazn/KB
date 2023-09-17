@@ -1,0 +1,14 @@
+= Apache server on Termux =
+
+1. Install `apache2` and `termux-services`.
+2. Start the apache server: `sv up httpd`
+3. Browse to the device's localhost. Voila!
+
+To _stop_ the server: `sv down httpd`. To auto-start the server upon login: `sv-enable httpd`. More on _termux-services_: https://wiki.termux.com/wiki/Termux-services.
+
+== Apache configs ==
+
+Config directory: `$PREFIX/etc/apache2`.
+
+Directory that gets served by default: `$PREFIX/share/apache2/default-site/htdocs`
+

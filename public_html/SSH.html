@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>SSH</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Getting Started"><h1 id="Getting Started" class="header"><a href="#Getting Started">Getting Started</a></h1></div>
+
+<div id="Getting Started-Installation"><h2 id="Installation" class="header"><a href="#Getting Started-Installation">Installation</a></h2></div>
+
+<p>
+On Arch Linux install the package <code>openssh</code>. Same package on Termux too.
+</p>
+
+<div id="Getting Started-Usage"><h2 id="Usage" class="header"><a href="#Getting Started-Usage">Usage</a></h2></div>
+
+<div id="Getting Started-Usage-Server (refered here as 'remote')"><h3 id="Server (refered here as 'remote')" class="header"><a href="#Getting Started-Usage-Server (refered here as 'remote')">Server (refered here as 'remote')</a></h3></div>
+
+<p>
+On the ssh server, start and enable the service <code>sshd</code> (in order to always have an ssh server running), or just run <code>sshd</code> for one-time use only.
+</p>
+
+<p>
+<code>sshd</code> by default will use the port <code>22</code>. A devices trying to connect to this ssh server will still require a password to connect to this server.
+The device trying to connect should also connect as a user that already exists on this server. All the usual user permissions will take effect
+</p>
+
+<p>
+From this point on, we are using the term <em>remote</em> to mean the server that the user wants to connect to.
+And <em>local</em> to refer to the device that will connect to that ssh server.
+</p>
+
+<p>
+Create a user for the client in the server and set it a password.
+</p>
+
+<p>
+Password generation: <code>passwd</code>
+</p>
+
+<div id="Getting Started-Usage-Client"><h3 id="Client" class="header"><a href="#Getting Started-Usage-Client">Client</a></h3></div>
+
+<ol>
+<li>
+install <code>openssh</code>
+
+<li>
+test connection to server (remote) (<code>ssh username@address</code>)
+
+<li>
+Generate public key private key pair (<code>ssh-keygen</code>)
+
+<li>
+To do passwordless, copy client's public key to server (<code>ssh-copy-id username@adress</code>)
+
+<li>
+Login (as in step 2). Voila!
+
+</ol>
+
+<div id="Simpler steps maybe"><h1 id="Simpler steps maybe" class="header"><a href="#Simpler steps maybe">Simpler steps maybe</a></h1></div>
+
+<div id="Simpler steps maybe-On the SSH Server"><h2 id="On the SSH Server" class="header"><a href="#Simpler steps maybe-On the SSH Server">On the SSH Server</a></h2></div>
+
+<ol>
+<li>
+Install openssh
+
+<li>
+Set a password with <code>passwd</code>
+
+<li>
+Run <code>sshd</code>
+
+<li>
+In Termux notification dropdown, tap "Acquire Wake Lock"
+
+</ol>
+
+<div id="Simpler steps maybe-On the SSH Client"><h2 id="On the SSH Client" class="header"><a href="#Simpler steps maybe-On the SSH Client">On the SSH Client</a></h2></div>
+
+<ol>
+<li>
+<code>ssh -p &lt;port&gt; [username@]&lt;IP Address&gt;</code>
+
+<li>
+Enter password at prompt
+
+<li>
+Logout by pressing <code>&lt;Ctrl+D&gt;</code>
+
+<li>
+<code>ssh-copy-id -p &lt;port&gt; [username@]&lt;IP Address&gt;</code>
+
+<li>
+Step 1. Note that no password is required this time.
+
+</ol>
+
+</body>
+</html>

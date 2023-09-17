@@ -1,0 +1,50 @@
+== Common Questions ==
+
+1. What happens when you zoom a web page?
+
+If the user zooms in, an element with width: 300px takes up more and more of the screen, and thus becomes wider and wider when measured in device (physical) pixels. In CSS pixels, however, the width remains 300px, and the zooming effect is created by expanding CSS pixels as much as is needed.
+
+2. What is "Webpack"? And why is it used?
+
+Webpack is a _packer_ of _web_ files and modules. A project will make use of many internal (local, self-written) and external (from the Internet, that others wrote) files and modules and these will need to be loaded in the right order and with the write dependecies met. Sometimes, these files may also require some pre-processing before being deployed. Webpack will do all that processing and bundle (or, pack) all the files into a single file so that it becomes much more easier to deploy.
+
+This perhaps, doese make the deployed source harder to read.
+
+https://scribe.rip/js-imaginea/webpack-why-and-what-4948433cc2d3
+
+== Other stuff to get reminded of ==
+
+<dl>
+<dt>`rel="next"`</dt>
+<dd>
+When used in `<link>`, `<a>`, etc., indicates what page (or, resource) is next in the stream of the current resource.
+
+Example: `<a rel="next" href="first.html">More</a>`
+
+**Also**, works in Vimium's next and prev shortcuts!!
+</dd>
+</dl>
+
+=== How to spread elements horizontally ===
+
+Use flex:
+
+{{{html
+<section>
+    <div class="elem"></div>
+    <div class="elem"></div>
+</section>
+
+<style>
+    section {
+        display: flex;
+        justify-content: space-between;
+        /* you also want verically centered probably */
+        align-items: center;
+    }
+</style>
+}}}
+
+=== How to style list count markers ===
+
+https://css-tricks.com/css-counters-custom-list-number-styling/
