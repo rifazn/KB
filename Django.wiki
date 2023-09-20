@@ -9,6 +9,12 @@
 
 == Other short stuff that are easy to forget ==
 
+=== Are the `django.contrib.admin` model and the User model as they are generally used the same? And related? ===
+
+Not the same. And not related as well.
+
+The default admin Model comes from the `contrib.admin` app. The User models generally used come from the user defined models. So definitely not the same. Not strictly, nor implicitly related as well. Unless, they are made related explicitly.
+
 === How to load templates from the root dir ===
 
 Also known as the "Project-Level Templates". Just change this line in `project_name/settings.py`.

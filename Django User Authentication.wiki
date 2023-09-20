@@ -18,6 +18,40 @@ The authentication system consists of:
 *Note: Make sure you know 1, 2, 3, and 4 properly.<br><br>And a basic concept of 6.*
 
 
+== Before Starting ==
+
+It's a good practice to use a custom `User` model by entending `AbstractUser`. This will make customizing the User model in the future much easier. Do it like so:
+
+{{{
+# appname/models.py or <root>/users_app/models.py
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    pass
+}}}
+
+Any other model can reference this user model like so:
+
+{{{
+# somename/models.py
+from django.db import models
+from appname.models import User
+
+class Post(models):
+    Title = models.CharField(...)
+    Content = ...
+    Author = models.ForeignKey(User, on_delete=models.CASCADE) # <1>
+    # or, also...
+    Author = models.ForeignKey(settings.AUTH_USER_MODEL, ...) # <2>
+}}}
+
+If you go with `<2>`, you also need to include the `AUTH_USER_MODEL` in your project's settings module. Right above `AUTH_PASSWORD_VALIDATORS` seems a good place to put it.
+
+{{{
+# <project_name>/settings.py
+AUTH_USER_MODEL = "<appname>.User"
+}}}
+
 == Installation ==
 
 It gets pre-installed when `django-admin startproject` is used. These are listed (by default) under the `INSTALLED_APPS` list in `settings.py`.
