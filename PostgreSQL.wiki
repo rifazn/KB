@@ -45,3 +45,9 @@ To check roles:
 `\conninfo` to get information about current connection, displaying user and daatabase.
 
 To change the current user, and more see Ref: https://stackoverflow.com/questions/39735141/how-to-check-connected-user-on-psql
+
+== Change a user's password ==
+
+Login as `postgres` user: `sudo -u postgres psql`
+
+Change password: `\password <username>`
