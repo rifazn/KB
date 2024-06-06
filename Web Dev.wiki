@@ -48,3 +48,14 @@ Use flex:
 === How to style list count markers ===
 
 https://css-tricks.com/css-counters-custom-list-number-styling/
+
+
+== JavaScript Stuff ==
+
+=== What is the difference betwn `element.clientWidth` and `element.getBoundingClientRect().width`? Also compare betwn `document.documentElement.clientWidth` and `window.innerWidth`.
+
+`element.clientWidth` gives the **net** width. That is, subtracting any border width, and space taken by visible scrollbar. It might also deduct padding if `box-sizing: border-box`, but experiment on that on your own discretion. `element.getBoundingClientRect().width` does not take into account the border and the scroll bar. Though do experiment when `box-sizing: border-box` over here too.
+
+`document.documentElement.clientWidth` is the definitive actual net width that the document (web page) has (as it deducts width of scrollbar). `window.innerWidth` includes the scrollbar.
+
+Source: https://id.javascript.info/size-and-scroll-window
